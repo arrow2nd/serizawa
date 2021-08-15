@@ -1,0 +1,82 @@
+{
+  "name": "electron-ts-react-template",
+  "version": "1.0.0",
+  "main": "./build/main.js",
+  "private": true,
+  "scripts": {
+    "start": "run-s clean build serve",
+    "start:dev": "run-s clean build:dev serve",
+    "clean": "rimraf ./build",
+    "clean:dist": "rimraf \"./dist/!(*.exe|*.deb|*.AppImage|*.dmg)\"",
+    "build": "webpack",
+    "build:dev": "cross-env NODE_ENV=\"development\" webpack",
+    "serve": "electron .",
+    "pack:win": "electron-builder --win --x64",
+    "pack:mac": "electron-builder --mac --x64",
+    "pack:linux": "electron-builder --linux"
+  },
+  "build": {
+    "appId": "",
+    "productName": "",
+    "artifactName": "${name}-${version}.${ext}",
+    "files": [
+      "./build/**/*"
+    ],
+    "directories": {
+      "output": "./dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": ""
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "",
+      "category": ""
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "",
+      "category": ""
+    },
+    "publish": null
+  },
+  "devDependencies": {
+    "@types/mini-css-extract-plugin": "^2.2.0",
+    "@types/node": "^16.6.1",
+    "@types/react": "^17.0.18",
+    "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.2.0",
+    "electron": "^13.1.9",
+    "electron-builder": "^22.11.7",
+    "electron-reload": "^2.0.0-alpha.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.2.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^9.2.5",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
