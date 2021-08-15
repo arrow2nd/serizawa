@@ -73,7 +73,7 @@ ipcMain.on('win-minimize', () => win.minimize())
 
 // ウィンドウの最大化状態を変更
 ipcMain.on('win-change-maximize', () => {
-  const isMaximized = !win.isMaximized()
+  const isMaximized = !win.isFullScreen()
 
   win.setFullScreen(isMaximized)
 })
