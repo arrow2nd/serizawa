@@ -7,10 +7,13 @@ contextBridge.exposeInMainWorld('api', {
   windowMinimize: () => {
     ipcRenderer.send('win-minimize')
   },
+  windowChangeMaximize: () => {
+    ipcRenderer.send('win-change-maximize')
+  },
   windowChangePinned: () => {
     ipcRenderer.send('win-change-pinned')
   },
-  getPinnedStatus: async (): Promise<boolean> => {
-    return await ipcRenderer.invoke('get-pinned-status')
+  windowReload: () => {
+    ipcRenderer.send('win-reload')
   }
 })

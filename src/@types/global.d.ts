@@ -7,6 +7,7 @@ declare global {
 export type API = {
   windowClose: () => void
   windowMinimize: () => void
+  windowChangeMaximize: () => void
   windowChangePinned: () => void
-  getPinnedStatus: () => Proimse<Bool>
+  windowReload: () => void
 }

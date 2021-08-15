@@ -1,4 +1,13 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 iframe {
+  flex: 1 1 0%;
+  display: block;
+  width: 100vw;
   border: none;
   padding: 0;
   vertical-align: bottom;
@@ -27,6 +36,10 @@ iframe {
   -webkit-app-region: no-drag;
 }
 
+.header button:focus {
+  outline: none;
+}
+
 .header button:hover {
   background-color: #749bd6;
   transition: background-color 0.5s;
@@ -39,4 +52,5 @@ iframe {
 .buttons {
   display: flex;
   align-items: center;
+  overflow: hidden;
 }

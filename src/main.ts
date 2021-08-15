@@ -1,7 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 import path from 'path'
 
-let isPinned = false
 let win: BrowserWindow
 
 const createWindow = (): void => {
@@ -30,6 +29,7 @@ const createWindow = (): void => {
   win.once('ready-to-show', () => win.show())
 
   Menu.setApplicationMenu(null)
+
   win.webContents.openDevTools()
 }
 
@@ -58,7 +58,7 @@ app.on('window-all-closed', () => {
 
 // フォーカスを失わないようにする
 app.on('browser-window-blur', () => {
-  if (isPinned) {
+  if (win.isAlwaysOnTop()) {
     app.focus({ steal: true })
   }
 })
@@ -71,9 +71,16 @@ ipcMain.on('win-close', () => win.close())
 // ウィンドウを最小化
 ipcMain.on('win-minimize', () => win.minimize())
 
+// ウィンドウの最大化状態を変更
+ipcMain.on('win-change-maximize', () => {
+  const isMaximized = !win.isMaximized()
+
+  win.setFullScreen(isMaximized)
+})
+
 // ウィンドウのピン留めを変更
 ipcMain.on('win-change-pinned', () => {
-  isPinned = !isPinned
+  const isPinned = !win.isAlwaysOnTop()
 
   // 最前面に固定
   if (isPinned) {
@@ -83,5 +90,8 @@ ipcMain.on('win-change-pinned', () => {
   }
 })
 
+// 再読み込み
+ipcMain.on('win-reload', () => win.reload())
+
 // ピン止めの状態を取得
-ipcMain.handle('get-pinned-status', () => isPinned)
+// ipcMain.handle('get-pinned-status', () => win.isAlwaysOnTop())
