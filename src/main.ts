@@ -12,6 +12,7 @@ const createWindow = (): void => {
     useContentSize: true,
     frame: false,
     resizable: false,
+    show: false,
     webPreferences: {
       // https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions
       worldSafeExecuteJavaScript: true,
@@ -24,6 +25,9 @@ const createWindow = (): void => {
   })
 
   win.loadFile('./build/index.html')
+
+  // 表示可能になったら表示する
+  win.once('ready-to-show', () => win.show())
 
   Menu.setApplicationMenu(null)
   win.webContents.openDevTools()
@@ -74,3 +78,6 @@ ipcMain.on('win-change-pinned', () => {
   // 最前面に固定
   win.setAlwaysOnTop(isPinned, 'screen-saver')
 })
+
+// ピン止めの状態を取得
+ipcMain.handle('get-pinned-status', () => isPinned)

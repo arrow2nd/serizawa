@@ -9,5 +9,8 @@ contextBridge.exposeInMainWorld('api', {
   },
   windowChangePinned: () => {
     ipcRenderer.send('win-change-pinned')
+  },
+  getPinnedStatus: async (): Promise<boolean> => {
+    return await ipcRenderer.invoke('get-pinned-status')
   }
 })
