@@ -1,12 +1,17 @@
 import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 import path from 'path'
 
+let isPinned = false
 let win: BrowserWindow
 
 const createWindow = (): void => {
   win = new BrowserWindow({
-    width: 600,
-    height: 400,
+    title: 'serizawa',
+    width: 1136,
+    height: 664,
+    useContentSize: true,
+    frame: false,
+    resizable: false,
     webPreferences: {
       // https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions
       worldSafeExecuteJavaScript: true,
@@ -20,8 +25,8 @@ const createWindow = (): void => {
 
   win.loadFile('./build/index.html')
 
-  // メニューを無効化
   Menu.setApplicationMenu(null)
+  win.webContents.openDevTools()
 }
 
 // 多重起動を防止
@@ -47,10 +52,25 @@ app.on('window-all-closed', () => {
   }
 })
 
+// フォーカスを失わないようにする
+app.on('browser-window-blur', () => {
+  if (isPinned) {
+    app.focus()
+  }
+})
+
 //---------------------------------------------------
 
 // アプリケーションを終了
-ipcMain.on('ipc-app-exit', () => app.quit())
+ipcMain.on('app-exit', () => app.quit())
 
 // ウィンドウを最小化
-ipcMain.on('ipc-win-minimize', () => win.minimize())
+ipcMain.on('win-minimize', () => win.minimize())
+
+// ウィンドウのピン留めを変更
+ipcMain.on('win-change-pinned', () => {
+  isPinned = !isPinned
+
+  // 最前面に固定
+  win.setAlwaysOnTop(isPinned, 'screen-saver')
+})

@@ -1,9 +1,12 @@
 import React from 'react'
+import Asahi from './asahi'
+import Header from './header'
 import '../styles/App.css'
 
 const App = (): JSX.Element => (
   <div className="App">
-    <h1>Hello, Electron!</h1>
+    <Header />
+    <Asahi />
   </div>
 )
 
