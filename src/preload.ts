@@ -1,8 +1,8 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('api', {
-  appExit: () => {
-    ipcRenderer.send('app-exit')
+  windowClose: () => {
+    ipcRenderer.send('win-close')
   },
   windowMinimize: () => {
     ipcRenderer.send('win-minimize')

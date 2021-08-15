@@ -5,7 +5,7 @@ declare global {
 }
 
 export type API = {
-  appExit: () => void
+  windowClose: () => void
   windowMinimize: () => void
   windowChangePinned: () => void
   getPinnedStatus: () => Proimse<Bool>

@@ -66,7 +66,7 @@ app.on('browser-window-blur', () => {
 //---------------------------------------------------
 
 // アプリケーションを終了
-ipcMain.on('app-exit', () => app.quit())
+ipcMain.on('win-close', () => win.close())
 
 // ウィンドウを最小化
 ipcMain.on('win-minimize', () => win.minimize())
@@ -76,7 +76,11 @@ ipcMain.on('win-change-pinned', () => {
   isPinned = !isPinned
 
   // 最前面に固定
-  win.setAlwaysOnTop(isPinned, 'screen-saver')
+  if (isPinned) {
+    win.setAlwaysOnTop(true, 'screen-saver')
+  } else {
+    win.setAlwaysOnTop(false)
+  }
 })
 
 // ピン止めの状態を取得

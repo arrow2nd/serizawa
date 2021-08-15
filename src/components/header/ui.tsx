@@ -16,7 +16,7 @@ const UI = (): JSX.Element => {
   const [isPinned, setIsPinned] = useState(false)
 
   const handleCloseClick = () => {
-    window.api.appExit()
+    window.api.windowClose()
   }
 
   const handleMinClick = () => {
