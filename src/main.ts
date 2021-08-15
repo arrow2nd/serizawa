@@ -59,7 +59,7 @@ app.on('window-all-closed', () => {
 // フォーカスを失わないようにする
 app.on('browser-window-blur', () => {
   if (isPinned) {
-    app.focus()
+    app.focus({ steal: true })
   }
 })
 
