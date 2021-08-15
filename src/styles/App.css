@@ -23,10 +23,6 @@ iframe {
   -webkit-app-region: drag;
 }
 
-.title {
-  margin: 0 0.5rem;
-}
-
 .header button {
   padding: 100% 0.7rem;
   border: 0;
