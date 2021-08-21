@@ -1,5 +1,7 @@
 import { Configuration } from 'webpack'
 import path from 'path'
+import TailwindCss from 'tailwindcss'
+import Autoprefixer from 'autoprefixer'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
@@ -32,6 +34,14 @@ const base: Configuration = {
             loader: 'css-loader',
             options: {
               sourceMap: isDevelop
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [TailwindCss, Autoprefixer]
+              }
             }
           }
         ]

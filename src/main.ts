@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu, desktopCapturer } from 'electron'
 import path from 'path'
 
 let win: BrowserWindow
@@ -93,5 +93,5 @@ ipcMain.on('win-change-pinned', () => {
 // 再読み込み
 ipcMain.on('win-reload', () => win.reload())
 
-// ピン止めの状態を取得
-// ipcMain.handle('get-pinned-status', () => win.isAlwaysOnTop())
+// スクリーンショット撮影
+// ipcMain.on()

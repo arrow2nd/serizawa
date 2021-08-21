@@ -42,7 +42,7 @@ const RightUI = (): JSX.Element => {
   }
 
   return (
-    <div className="buttons">
+    <div className="flex items-center overflow-hidden">
       <Button onClick={handleReloadClick}>
         <AiOutlineCamera />
       </Button>

@@ -9,7 +9,7 @@ const LeftUI = (): JSX.Element => {
   }
 
   return (
-    <div className="buttons">
+    <div className="flex items-center overflow-hidden">
       <Button onClick={handleConfugClick}>
         <RiSettings3Line />
       </Button>
