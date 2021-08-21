@@ -1,13 +1,25 @@
+import { createRef } from 'react'
 import React from 'react'
-import Asahi from './asahi'
-import Header from './header'
-// import '../styles/App.css'
+import TitleBar from './titlebar'
 
-const App = (): JSX.Element => (
-  <div className="App flex flex-col min-h-screen">
-    <Header />
-    <Asahi />
-  </div>
-)
+const App = (): JSX.Element => {
+  const iframeRef = createRef<HTMLIFrameElement>()
+
+  const focusIframe = () => {
+    iframeRef.current?.focus()
+  }
+
+  return (
+    <div className="App flex flex-col min-h-screen">
+      <TitleBar focusIframe={focusIframe} />
+      <iframe
+        className="flex-1 block w-screen border-none p-0 align-bottom"
+        src="https://shinycolors.enza.fun"
+        ref={iframeRef}
+        frameBorder="0"
+      />
+    </div>
+  )
+}
 
 export default App
