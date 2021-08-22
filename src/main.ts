@@ -1,6 +1,17 @@
-import { app, BrowserWindow, ipcMain, Menu, desktopCapturer } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Menu,
+  dialog,
+  desktopCapturer
+} from 'electron'
 import * as Splashscreen from '@trodi/electron-splashscreen'
+import Store from 'electron-store'
 import path from 'path'
+
+const store = new Store()
+let win: BrowserWindow
 
 const mainOpts: Electron.BrowserWindowConstructorOptions = {
   title: 'serizawa',
@@ -22,8 +33,6 @@ const mainOpts: Electron.BrowserWindowConstructorOptions = {
   }
 }
 
-let win: BrowserWindow
-
 const createWindow = (): void => {
   win = Splashscreen.initSplashScreen({
     windowOpts: mainOpts,
@@ -40,6 +49,10 @@ const createWindow = (): void => {
 
   Menu.setApplicationMenu(null)
   win.webContents.openDevTools()
+}
+
+const getPicDir = () => {
+  return String(store.get('picDir', app.getPath('pictures')))
 }
 
 // 多重起動を防止
@@ -105,3 +118,19 @@ ipcMain.on('win-reload', () => win.reload())
 
 // スクリーンショット撮影
 // ipcMain.on()
+
+//---------------------------------------------------
+
+// スクリーンショット保存先選択
+ipcMain.on('select-pic-dir', () => {
+  const result = dialog.showOpenDialogSync(win, {
+    properties: ['openDirectory']
+  })
+
+  if (result && result[0]) {
+    store.set('picDir', result[0])
+  }
+})
+
+// 保存先のパスを取得
+ipcMain.handle('get-pic-dir', (): string => getPicDir())

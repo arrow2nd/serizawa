@@ -10,4 +10,6 @@ export type API = {
   windowChangeMaximize: () => void
   windowChangePinned: () => void
   windowReload: () => void
+  selectPicDir: () => void
+  getPicDir: () => Promise<string>
 }
