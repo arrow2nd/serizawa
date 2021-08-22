@@ -1,36 +1,44 @@
 import { app, BrowserWindow, ipcMain, Menu, desktopCapturer } from 'electron'
+import * as Splashscreen from '@trodi/electron-splashscreen'
 import path from 'path'
+
+const mainOpts: Electron.BrowserWindowConstructorOptions = {
+  title: 'serizawa',
+  width: 1136,
+  height: 664,
+  center: true,
+  useContentSize: true,
+  frame: false,
+  resizable: false,
+  show: false,
+  webPreferences: {
+    // https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions
+    worldSafeExecuteJavaScript: true,
+    // nodeモジュールをレンダラープロセスで使用不可に（XSS対策）
+    nodeIntegration: false,
+    // 実行コンテキストを分離
+    contextIsolation: true,
+    preload: path.join(__dirname, 'preload.js')
+  }
+}
 
 let win: BrowserWindow
 
 const createWindow = (): void => {
-  win = new BrowserWindow({
-    title: 'serizawa',
-    width: 1136,
-    height: 664,
-    useContentSize: true,
-    frame: false,
-    resizable: false,
-    show: false,
-    webPreferences: {
-      // https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions
-      worldSafeExecuteJavaScript: true,
-      // nodeモジュールをレンダラープロセスで使用不可に（XSS対策）
-      nodeIntegration: false,
-      // 実行コンテキストを分離
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
+  win = Splashscreen.initSplashScreen({
+    windowOpts: mainOpts,
+    templateUrl: `${__dirname}/images/splash.svg`,
+    splashScreenOpts: {
+      width: 512,
+      height: 256,
+      center: true,
+      transparent: true
     }
   })
 
   win.loadFile('./build/index.html')
 
-  // 表示可能になったら表示する
-  win.once('ready-to-show', () => win.show())
-
-  // メニュー
   Menu.setApplicationMenu(null)
-
   win.webContents.openDevTools()
 }
 
@@ -77,7 +85,6 @@ ipcMain.on('win-minimize', () => win.minimize())
 // ウィンドウの最大化状態を変更
 ipcMain.on('win-change-maximize', () => {
   const isMaximized = !win.isFullScreen()
-
   win.setFullScreen(isMaximized)
 })
 

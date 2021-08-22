@@ -1,5 +1,5 @@
 {
-  "name": "electron-ts-react-template",
+  "name": "serizawa",
   "version": "1.0.0",
   "main": "./build/main.js",
   "private": true,
@@ -49,6 +49,7 @@
     "publish": null
   },
   "devDependencies": {
+    "@types/copy-webpack-plugin": "^8.0.1",
     "@types/mini-css-extract-plugin": "^2.2.0",
     "@types/node": "^16.6.1",
     "@types/react": "^17.0.18",
@@ -57,6 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "autoprefixer": "^10.3.1",
+    "copy-webpack-plugin": "^9.0.1",
     "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
     "electron": "^13.1.9",
@@ -80,6 +82,7 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
+    "@trodi/electron-splashscreen": "^1.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0"

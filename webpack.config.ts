@@ -2,7 +2,7 @@ import { Configuration } from 'webpack'
 import path from 'path'
 import TailwindCss from 'tailwindcss'
 import Autoprefixer from 'autoprefixer'
-// import CopyPlugin from 'copy-webpack-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
@@ -92,14 +92,10 @@ const renderer = {
       scriptLoading: 'blocking',
       minify: !isDevelop
     }),
-    new MiniCssExtractPlugin()
-    // new CopyPlugin({
-    //   patterns: [
-    //     { from: 'package.json', to: './' },
-    //     { from: 'src/images/logo.png', to: './' },
-    //     { from: 'node_modules/about-window/about.html', to: './' }
-    //   ]
-    // })
+    new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: 'src/images/splash.svg', to: 'images' }]
+    })
   ]
 }
 
