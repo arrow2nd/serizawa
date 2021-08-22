@@ -2,6 +2,7 @@ import { Configuration } from 'webpack'
 import path from 'path'
 import TailwindCss from 'tailwindcss'
 import Autoprefixer from 'autoprefixer'
+import CopyPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
@@ -47,7 +48,7 @@ const base: Configuration = {
         ]
       },
       {
-        test: /\.svg$/,
+        test: /\.png$/,
         type: 'asset/resource'
       }
     ]
@@ -77,7 +78,7 @@ const preload: Configuration = {
 }
 
 // renderer.ts
-const renderer: Configuration = {
+const renderer = {
   ...base,
   target: 'web',
   entry: {
@@ -91,7 +92,14 @@ const renderer: Configuration = {
       scriptLoading: 'blocking',
       minify: !isDevelop
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: 'package.json', to: './' },
+        { from: 'src/images/logo.png', to: './' },
+        { from: 'node_modules/about-window/about.html', to: './' }
+      ]
+    })
   ]
 }
 

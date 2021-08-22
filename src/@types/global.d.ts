@@ -5,6 +5,7 @@ declare global {
 }
 
 export type API = {
+  openAbout: () => void
   windowClose: () => void
   windowMinimize: () => void
   windowChangeMaximize: () => void

@@ -1,7 +1,19 @@
 import { app, BrowserWindow, ipcMain, Menu, desktopCapturer } from 'electron'
 import path from 'path'
+import openAboutWindow from 'about-window'
 
 let win: BrowserWindow
+
+const openAbout = () => {
+  openAboutWindow({
+    icon_path: path.join(__dirname, 'logo.png'),
+    copyright: 'Copyright (c) 2021 arrow2nd',
+    homepage: 'https://github.com/arrow2nd/serizawa',
+    package_json_dir: app.getAppPath(),
+    about_page_dir: __dirname,
+    open_devtools: true
+  })
+}
 
 const createWindow = (): void => {
   win = new BrowserWindow({
@@ -28,7 +40,20 @@ const createWindow = (): void => {
   // 表示可能になったら表示する
   win.once('ready-to-show', () => win.show())
 
-  Menu.setApplicationMenu(null)
+  // メニュー
+  const menu = Menu.buildFromTemplate([
+    {
+      label: app.name,
+      submenu: [
+        {
+          label: 'about',
+          click: () => openAbout()
+        }
+      ]
+    }
+  ])
+
+  Menu.setApplicationMenu(menu)
 
   win.webContents.openDevTools()
 }
@@ -38,6 +63,8 @@ const doubleboot = app.requestSingleInstanceLock()
 if (!doubleboot) {
   app.quit()
 }
+
+//---------------------------------------------------
 
 // 初期化できたらウィンドウを作成
 app.whenReady().then(() => {
@@ -64,6 +91,9 @@ app.on('browser-window-blur', () => {
 })
 
 //---------------------------------------------------
+
+// aboutウィンドウを開く
+ipcMain.on('open-about', () => openAbout())
 
 // アプリケーションを終了
 ipcMain.on('win-close', () => win.close())
