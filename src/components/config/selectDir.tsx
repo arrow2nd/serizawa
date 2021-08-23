@@ -26,8 +26,8 @@ const SelectDir = ({ onClick }: Props): JSX.Element => {
   }
 
   return (
-    <div className="w-full text-sm">
-      <span className="text-left">スクリーンショットの保存先</span>
+    <div className="text-sm">
+      <span className="block text-left">スクリーンショットの保存先</span>
       <div
         className={`flex items-center justify-between w-full mt-2 px-4 py-1 text-center text-black border rounded-2xl shadow-md`}
       >
