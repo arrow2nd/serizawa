@@ -44,28 +44,33 @@ const Config = ({ focusIframe, onClickClose }: Props): JSX.Element => {
         <RiCloseLine />
       </button>
       <img className="w-64 drag-none" src={LogoImg} alt="serizawa" />
-      <SelectDir onClick={handleClickSelectDir} />
-      <Section
-        title="キャッシュを削除"
-        btnText="削除"
-        btnBg="bg-red-400"
-        btnHoverBg="bg-red-600"
-        onClick={handleClickRemoveCache}
-      />
-      <Section
-        title="初期化（ログアウト）"
-        btnText="初期化"
-        btnBg="bg-red-400"
-        btnHoverBg="bg-red-600"
-        onClick={handleClickRemoveCookie}
-      />
-      <Section
-        title="更新を確認"
-        btnText="GitHubを開く"
-        btnBg="bg-gray-600"
-        btnHoverBg="bg-gray-800"
-        onClick={handleClickOpenGitHub}
-      />
+      <div className="mt-6">
+        <SelectDir onClick={handleClickSelectDir} />
+        <Section
+          title="キャッシュを削除"
+          btnText="削除"
+          btnBg="bg-red-400"
+          btnHoverBg="bg-red-600"
+          onClick={handleClickRemoveCache}
+        />
+        <Section
+          title="初期化（ログアウト）"
+          btnText="初期化"
+          btnBg="bg-red-400"
+          btnHoverBg="bg-red-600"
+          onClick={handleClickRemoveCookie}
+        />
+        <Section
+          title="更新を確認"
+          btnText="GitHubを開く"
+          btnBg="bg-gray-600"
+          btnHoverBg="bg-gray-800"
+          onClick={handleClickOpenGitHub}
+        />
+      </div>
+      <span className="block mt-8 text-xs text-gray-700">
+        {`Developed by arrow2nd - v${process.env.VERSION}`}
+      </span>
     </div>
   )
 }
