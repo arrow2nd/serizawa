@@ -1,5 +1,5 @@
-import { createRef } from 'react'
-import React, { useState } from 'react'
+import { Rectangle } from 'electron/renderer'
+import React, { useState, createRef } from 'react'
 import TitleBar from './titlebar'
 import Config from './config'
 
@@ -11,13 +11,28 @@ const App = (): JSX.Element => {
   const closeConfigWindow = () => setShowConfig(false)
 
   const focusIframe = () => iframeRef.current?.focus()
+  const getIframeRect = (): Rectangle => {
+    const width = Number(iframeRef.current?.width || '0')
+    const height = Number(iframeRef.current?.height || '0')
+
+    return {
+      width: width,
+      height: height,
+      x: 0,
+      y: 24
+    }
+  }
 
   return (
     <div className="App flex flex-col min-h-screen">
       {isShowConfig && (
         <Config focusIframe={focusIframe} onClickClose={closeConfigWindow} />
       )}
-      <TitleBar focusIframe={focusIframe} onClickSetting={openConfigWindow} />
+      <TitleBar
+        focusIframe={focusIframe}
+        getIframeRect={getIframeRect}
+        onClickSetting={openConfigWindow}
+      />
       <iframe
         className="flex-1 block w-screen border-none p-0 align-bottom"
         src="https://shinycolors.enza.fun"

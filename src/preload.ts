@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { Rectangle } from 'electron/main'
 
 contextBridge.exposeInMainWorld('api', {
   windowClose: () => {
@@ -15,6 +16,9 @@ contextBridge.exposeInMainWorld('api', {
   },
   windowReload: () => {
     ipcRenderer.send('win-reload')
+  },
+  captureScreen: (rect: Rectangle) => {
+    ipcRenderer.send('capture-screen', rect)
   },
   openSelectDir: () => {
     ipcRenderer.send('open-select-dir')

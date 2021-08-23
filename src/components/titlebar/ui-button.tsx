@@ -5,7 +5,7 @@ type Props = {
   onClick: () => void
 }
 
-const Button = ({ children, onClick }: Props): JSX.Element => (
+const UIButton = ({ children, onClick }: Props): JSX.Element => (
   <button
     className="inline-flex px-3 p-6 border-0 rounded-none bg-transparent drag-none focus:outline-none hover:bg-shiny-dark transition-colors"
     onClick={onClick}
@@ -14,4 +14,4 @@ const Button = ({ children, onClick }: Props): JSX.Element => (
   </button>
 )
 
-export default Button
+export default UIButton

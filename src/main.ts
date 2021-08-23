@@ -4,10 +4,12 @@ import {
   ipcMain,
   Menu,
   dialog,
-  desktopCapturer,
   shell,
-  session
+  session,
+  clipboard
 } from 'electron'
+import { existsSync, mkdirSync, writeFileSync } from 'fs'
+import { Rectangle } from 'electron/main'
 import * as Splashscreen from '@trodi/electron-splashscreen'
 import Store from 'electron-store'
 import path from 'path'
@@ -15,7 +17,7 @@ import path from 'path'
 const store = new Store()
 let win: BrowserWindow
 
-const createWindow = (): void => {
+const createWindow = () => {
   const mainOpts: Electron.BrowserWindowConstructorOptions = {
     title: 'serizawa',
     width: 1136,
@@ -61,7 +63,19 @@ const createWindow = (): void => {
 }
 
 const getPicDir = () => {
-  return String(store.get('picDir', app.getPath('pictures')))
+  const defaultPath = path.join(app.getPath('pictures'), 'serizawa')
+  return String(store.get('picDir', defaultPath))
+}
+
+const date2String = (date: Date): string => {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+
+  return `${year}${month}${day}_${hours}${minutes}${seconds}`
 }
 
 //---------------------------------------------------
@@ -120,7 +134,25 @@ ipcMain.on('win-change-pinned', () => {
 ipcMain.on('win-reload', () => win.reload())
 
 // スクリーンショット撮影
-// ipcMain.on()
+ipcMain.on(
+  'capture-screen',
+  async (_ev: Electron.IpcMainEvent, rect: Rectangle) => {
+    const saveDir = getPicDir()
+
+    // ディレクトリが無い場合作成
+    if (!existsSync(saveDir)) {
+      mkdirSync(saveDir)
+    }
+
+    const pic = await win.webContents.capturePage(rect)
+    const dateStr = date2String(new Date())
+    const savePath = path.join(saveDir, `ScreenShot_${dateStr}.png`)
+
+    // 保存
+    clipboard.writeImage(pic)
+    writeFileSync(savePath, pic.toPNG())
+  }
+)
 
 //---------------------------------------------------
 
@@ -172,6 +204,7 @@ ipcMain.on('remove-cookie', async () => {
 
   if (result !== 0) return
 
+  // 全てのCookieを削除
   const cookies = await session.defaultSession.cookies.get({})
   cookies.forEach((cookie) => {
     let url = cookie.secure ? 'https://' : 'http://'
@@ -180,6 +213,9 @@ ipcMain.on('remove-cookie', async () => {
 
     session.defaultSession.cookies.remove(url, cookie.name)
   })
+
+  // 設定を削除
+  store.clear()
 
   dialog.showMessageBoxSync(win, {
     type: 'info',

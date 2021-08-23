@@ -10,6 +10,7 @@ export type API = {
   windowChangeMaximize: () => void
   windowChangePinned: () => void
   windowReload: () => void
+  captureScreen: (rect: Rectangle) => void
   openSelectDir: () => void
   getPicDir: () => Promise<string>
   removeCache: () => void

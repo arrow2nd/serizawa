@@ -1,7 +1,8 @@
 import {
   AiOutlineMinus,
   AiOutlineCamera,
-  AiOutlineReload
+  AiOutlineReload,
+  AiOutlineCheck
 } from 'react-icons/ai'
 
 import {
@@ -12,62 +13,68 @@ import {
   RiCloseLine
 } from 'react-icons/ri'
 
+import { Rectangle } from 'electron/renderer'
 import React, { useState } from 'react'
-import Button from './button'
+import UIButton from './ui-button'
 
 type Props = {
   focusIframe: () => void
+  getIframeRect: () => Rectangle
 }
 
-const RightUI = ({ focusIframe }: Props): JSX.Element => {
-  const [isPinned, setIsPinned] = useState(false)
-  const [isMaximized, setIsMaximized] = useState(false)
+const RightUI = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
+  const [isCaptured, setCaptured] = useState(false)
+  const [isPinned, setPinned] = useState(false)
+  const [isMaximized, setMaximized] = useState(false)
 
-  const handleReloadClick = () => {
+  const handleClickCapture = () => {
+    const rect = getIframeRect()
+    window.api.captureScreen(rect)
+
+    setCaptured(true)
+    setInterval(() => setCaptured(false), 1500)
+  }
+
+  const handleClickReload = () => {
     window.api.windowReload()
     focusIframe()
   }
 
-  const handlePinClick = async () => {
+  const handleClickPin = async () => {
     window.api.windowChangePinned()
-    setIsPinned(!isPinned)
+    setPinned(!isPinned)
     focusIframe()
   }
 
-  const handleMaximizeClick = async () => {
+  const handleClickMaximize = async () => {
     window.api.windowChangeMaximize()
-    setIsMaximized(!isMaximized)
+    setMaximized(!isMaximized)
     focusIframe()
   }
 
-  const handleMinimizeClick = () => {
-    window.api.windowMinimize()
-  }
-
-  const handleCloseClick = () => {
-    window.api.windowClose()
-  }
+  const handleClickMinimize = () => window.api.windowMinimize()
+  const handleClickClose = () => window.api.windowClose()
 
   return (
     <div className="flex items-center overflow-hidden">
-      <Button onClick={handleReloadClick}>
-        <AiOutlineCamera />
-      </Button>
-      <Button onClick={handleReloadClick}>
+      <UIButton onClick={handleClickCapture}>
+        {isCaptured ? <AiOutlineCheck /> : <AiOutlineCamera />}
+      </UIButton>
+      <UIButton onClick={handleClickReload}>
         <AiOutlineReload />
-      </Button>
-      <Button onClick={handlePinClick}>
+      </UIButton>
+      <UIButton onClick={handleClickPin}>
         {isPinned ? <RiPushpin2Fill /> : <RiPushpin2Line />}
-      </Button>
-      <Button onClick={handleMinimizeClick}>
+      </UIButton>
+      <UIButton onClick={handleClickMinimize}>
         <AiOutlineMinus />
-      </Button>
-      <Button onClick={handleMaximizeClick}>
+      </UIButton>
+      <UIButton onClick={handleClickMaximize}>
         {isMaximized ? <RiFullscreenExitLine /> : <RiFullscreenLine />}
-      </Button>
-      <Button onClick={handleCloseClick}>
+      </UIButton>
+      <UIButton onClick={handleClickClose}>
         <RiCloseLine />
-      </Button>
+      </UIButton>
     </div>
   )
 }
