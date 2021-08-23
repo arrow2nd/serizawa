@@ -6,7 +6,11 @@ import SelectDir from './selectDir'
 
 const Config = (): JSX.Element => {
   const handleClickChangeDir = () => {
-    window.api.selectPicDir()
+    window.api.openSelectDir()
+  }
+
+  const handleClickOpenGH = () => {
+    window.api.openGitHub()
   }
 
   return (
@@ -39,9 +43,7 @@ const Config = (): JSX.Element => {
         btnText="GitHubを開く"
         btnBg="bg-gray-600"
         btnHoverBg="bg-gray-800"
-        onClick={() => {
-          console.log('ok')
-        }}
+        onClick={handleClickOpenGH}
       />
     </div>
   )

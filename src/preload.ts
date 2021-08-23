@@ -16,10 +16,13 @@ contextBridge.exposeInMainWorld('api', {
   windowReload: () => {
     ipcRenderer.send('win-reload')
   },
-  selectPicDir: () => {
-    ipcRenderer.send('select-pic-dir')
+  openSelectDir: () => {
+    ipcRenderer.send('open-select-dir')
   },
   getPicDir: (): Promise<string> => {
     return ipcRenderer.invoke('get-pic-dir')
+  },
+  openGitHub: () => {
+    ipcRenderer.send('open-github')
   }
 })

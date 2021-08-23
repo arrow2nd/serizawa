@@ -4,7 +4,8 @@ import {
   ipcMain,
   Menu,
   dialog,
-  desktopCapturer
+  desktopCapturer,
+  shell
 } from 'electron'
 import * as Splashscreen from '@trodi/electron-splashscreen'
 import Store from 'electron-store'
@@ -123,7 +124,7 @@ ipcMain.on('win-reload', () => win.reload())
 //---------------------------------------------------
 
 // スクリーンショット保存先選択
-ipcMain.on('select-pic-dir', () => {
+ipcMain.on('open-select-dir', () => {
   const result = dialog.showOpenDialogSync(win, {
     properties: ['openDirectory']
   })
@@ -135,3 +136,18 @@ ipcMain.on('select-pic-dir', () => {
 
 // 保存先のパスを取得
 ipcMain.handle('get-pic-dir', (): string => getPicDir())
+
+// GitHubのページを開く
+ipcMain.on('open-github', () => {
+  const result = dialog.showMessageBoxSync(win, {
+    type: 'info',
+    buttons: ['はい', 'いいえ'],
+    title: '確認',
+    message: 'ブラウザを開きますか？',
+    detail: 'GitHubのページを開いて更新を確認します。'
+  })
+
+  if (result === 0) {
+    shell.openExternal('https://github.com/arrow2nd/serizawa/releases')
+  }
+})
