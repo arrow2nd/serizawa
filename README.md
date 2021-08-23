@@ -1,15 +1,30 @@
-## electron-ts-react-template
+## serizawa
 
-(自分用) Electron + TypeScript + React
+![logo](https://user-images.githubusercontent.com/44780846/130418590-8fd986e9-ac86-4baa-b784-289e796c531b.png)
 
-### Usege
+> [アイドルマスターシャイニーカラーズ](https://shinycolors.idolmaster.jp/)の非公式専用ブラウザ
 
-```sh
-yarn install
+## 機能
 
-# start
-yarn start:dev
+- 最小限でシンプルなインターフェース
+- スクリーンショットの保存・クリップボードへのコピー
+- 非アクティブ状態での音声再生
+- 最前面に固定
+- アカウントのログアウト（Cookie の削除）
 
-# build package
-yarn pack:(win|mac|linux)
-```
+## スクリーンショット
+
+![スクリーンショット](https://user-images.githubusercontent.com/44780846/130420125-eb430928-9263-45d3-96d3-37c8b8a4efb9.png)
+
+## 免責事項
+
+当ソフトウェアはファンメイドの **非公式** ソフトウェアです。
+
+株式会社バンダイナムコナムコエンターテインメント様、株式会社バンダイナムコネクサス様、及び、
+その他関連企業様とは **一切関係ございません。**
+お問い合わせ等はお控えください。
+
+また、当ソフトウェアを使用したことによって発生したいかなる損害について、
+製作者は **一切の責任を負いません。**
+
+予め、ご了承ください。
