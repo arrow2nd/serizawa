@@ -92,7 +92,7 @@ const renderer = {
       scriptLoading: 'blocking',
       minify: !isDevelop
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({ filename: 'style.css' }),
     new CopyPlugin({
       patterns: [{ from: 'src/images/splash.svg', to: 'images' }]
     })

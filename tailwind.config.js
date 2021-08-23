@@ -3,7 +3,8 @@ const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   purge: {
-    content: './src/**/*.{ts,tsx}'
+    content: ['./src/components/**/*.{ts,tsx}'],
+    safelist: ['bg-red-600', 'bg-gray-800']
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
