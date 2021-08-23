@@ -1,5 +1,7 @@
 ## serizawa
 
+[![release](https://github.com/arrow2nd/serizawa/actions/workflows/build.yaml/badge.svg)](https://github.com/arrow2nd/serizawa/actions/workflows/build.yaml)
+
 ![logo](https://user-images.githubusercontent.com/44780846/130418590-8fd986e9-ac86-4baa-b784-289e796c531b.png)
 
 > [アイドルマスターシャイニーカラーズ](https://shinycolors.idolmaster.jp/)の非公式専用ブラウザ
