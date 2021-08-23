@@ -139,8 +139,24 @@ ipcMain.on('open-select-dir', () => {
 ipcMain.handle('get-pic-dir', (): string => getPicDir())
 
 // キャッシュを削除
-ipcMain.on('remove-cache', () => {
-  console.log('ok')
+ipcMain.on('remove-cache', async () => {
+  const result = dialog.showMessageBoxSync(win, {
+    type: 'question',
+    buttons: ['はい', 'いいえ'],
+    defaultId: 0,
+    title: '確認',
+    message: 'キャッシュを削除しますか？'
+  })
+
+  if (result !== 0) return
+
+  await session.defaultSession.clearCache()
+
+  dialog.showMessageBoxSync(win, {
+    type: 'info',
+    title: '完了',
+    message: '削除が完了しました'
+  })
 })
 
 // Cookieを削除
