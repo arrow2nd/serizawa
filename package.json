@@ -1,5 +1,11 @@
 {
   "name": "serizawa",
+  "description": "アイドルマスターシャイニーカラーズの非公式専用ブラウザ",
+  "author": {
+    "name": "arrow2nd",
+    "email": "arrow2nd_workspace@zohomail.com"
+  },
+  "license": "MIT",
   "version": "1.0.0",
   "main": "./build/main.js",
   "private": true,
@@ -8,7 +14,7 @@
     "start:dev": "run-s clean build:dev serve",
     "clean": "rimraf ./build",
     "clean:dist": "rimraf \"./dist/!(*.exe|*.deb|*.AppImage|*.dmg)\"",
-    "build": "webpack",
+    "build": "cross-env NODE_ENV=\"production\" webpack",
     "build:dev": "cross-env NODE_ENV=\"development\" webpack",
     "serve": "electron .",
     "pack:win": "electron-builder --win --x64",
@@ -16,8 +22,8 @@
     "pack:linux": "electron-builder --linux"
   },
   "build": {
-    "appId": "",
-    "productName": "",
+    "appId": "com.arrow2nd.serizawa",
+    "productName": "serizawa",
     "artifactName": "${name}-${version}.${ext}",
     "files": [
       "./build/**/*"
@@ -27,7 +33,7 @@
     },
     "win": {
       "target": "nsis",
-      "icon": ""
+      "icon": "./src/images/win-icon.png"
     },
     "nsis": {
       "oneClick": false,
@@ -35,16 +41,16 @@
     },
     "mac": {
       "target": "dmg",
-      "icon": "",
-      "category": ""
+      "icon": "./src/images/mac-icon.png",
+      "category": "public.app-category.games"
     },
     "linux": {
       "target": [
         "AppImage",
         "deb"
       ],
-      "icon": "",
-      "category": ""
+      "icon": "./src/images/win-icon.png",
+      "category": "Game"
     },
     "publish": null
   },

@@ -34,6 +34,7 @@ const createWindow = () => {
       nodeIntegration: false,
       // 実行コンテキストを分離
       contextIsolation: true,
+      devTools: false,
       preload: path.join(__dirname, 'preload.js')
     }
   }
@@ -59,7 +60,7 @@ const createWindow = () => {
     app.quit()
   }
 
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 }
 
 const getPicDir = () => {
