@@ -13,27 +13,27 @@ import path from 'path'
 const store = new Store()
 let win: BrowserWindow
 
-const mainOpts: Electron.BrowserWindowConstructorOptions = {
-  title: 'serizawa',
-  width: 1136,
-  height: 664,
-  center: true,
-  useContentSize: true,
-  frame: false,
-  resizable: false,
-  show: false,
-  webPreferences: {
-    // https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions
-    worldSafeExecuteJavaScript: true,
-    // nodeモジュールをレンダラープロセスで使用不可に（XSS対策）
-    nodeIntegration: false,
-    // 実行コンテキストを分離
-    contextIsolation: true,
-    preload: path.join(__dirname, 'preload.js')
-  }
-}
-
 const createWindow = (): void => {
+  const mainOpts: Electron.BrowserWindowConstructorOptions = {
+    title: 'serizawa',
+    width: 1136,
+    height: 664,
+    center: true,
+    useContentSize: true,
+    frame: false,
+    resizable: false,
+    show: false,
+    webPreferences: {
+      // https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions
+      worldSafeExecuteJavaScript: true,
+      // nodeモジュールをレンダラープロセスで使用不可に（XSS対策）
+      nodeIntegration: false,
+      // 実行コンテキストを分離
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
+    }
+  }
+
   win = Splashscreen.initSplashScreen({
     windowOpts: mainOpts,
     templateUrl: `${__dirname}/images/splash.svg`,
@@ -48,17 +48,18 @@ const createWindow = (): void => {
   win.loadFile('./build/index.html')
 
   Menu.setApplicationMenu(null)
+
+  // 多重起動を防止
+  const doubleboot = app.requestSingleInstanceLock()
+  if (!doubleboot) {
+    app.quit()
+  }
+
   win.webContents.openDevTools()
 }
 
 const getPicDir = () => {
   return String(store.get('picDir', app.getPath('pictures')))
-}
-
-// 多重起動を防止
-const doubleboot = app.requestSingleInstanceLock()
-if (!doubleboot) {
-  app.quit()
 }
 
 //---------------------------------------------------

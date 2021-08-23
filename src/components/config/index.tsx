@@ -14,7 +14,7 @@ const Config = (): JSX.Element => {
       <button className="fixed top-3 right-3 text-xl text-gray-800">
         <RiCloseLine />
       </button>
-      <img className="w-64" src={LogoImg} alt="serizawa" />
+      <img className="w-64 drag-none" src={LogoImg} alt="serizawa" />
       <SelectDir onChangeDir={handleClickChangeDir} />
       <Section
         title="キャッシュを削除"
