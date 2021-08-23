@@ -4,7 +4,12 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   purge: {
     content: ['./src/components/**/*.{ts,tsx}'],
-    safelist: ['bg-red-600', 'bg-gray-800']
+    safelist: [
+      'bg-red-400',
+      'bg-gray-600',
+      'hover:bg-red-600',
+      'hover:bg-gray-800'
+    ]
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
