@@ -42,8 +42,8 @@ const createWindow = () => {
     windowOpts: mainOpts,
     templateUrl: `${__dirname}/images/splash.svg`,
     splashScreenOpts: {
-      width: 512,
-      height: 256,
+      width: 520,
+      height: 264,
       center: true,
       transparent: true
     }
