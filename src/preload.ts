@@ -22,6 +22,12 @@ contextBridge.exposeInMainWorld('api', {
   getPicDir: (): Promise<string> => {
     return ipcRenderer.invoke('get-pic-dir')
   },
+  removeCache: () => {
+    ipcRenderer.send('remove-cache')
+  },
+  removeCookie: () => {
+    ipcRenderer.send('remove-cookie')
+  },
   openGitHub: () => {
     ipcRenderer.send('open-github')
   }

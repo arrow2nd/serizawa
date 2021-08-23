@@ -5,7 +5,8 @@ import {
   Menu,
   dialog,
   desktopCapturer,
-  shell
+  shell,
+  session
 } from 'electron'
 import * as Splashscreen from '@trodi/electron-splashscreen'
 import Store from 'electron-store'
@@ -137,11 +138,49 @@ ipcMain.on('open-select-dir', () => {
 // 保存先のパスを取得
 ipcMain.handle('get-pic-dir', (): string => getPicDir())
 
+// キャッシュを削除
+ipcMain.on('remove-cache', () => {
+  console.log('ok')
+})
+
+// Cookieを削除
+ipcMain.on('remove-cookie', async () => {
+  const result = dialog.showMessageBoxSync(win, {
+    type: 'question',
+    buttons: ['はい', 'いいえ'],
+    defaultId: 1,
+    title: '危険！',
+    message: '初期化（ログアウト）しますか？',
+    detail: 'アカウントが削除されることはありません。'
+  })
+
+  if (result !== 0) return
+
+  const cookies = await session.defaultSession.cookies.get({})
+  cookies.forEach((cookie) => {
+    let url = cookie.secure ? 'https://' : 'http://'
+    url += cookie.domain?.charAt(0) === '.' ? 'www' : ''
+    url += `${cookie.domain || ''}${cookie.path || ''}`
+
+    session.defaultSession.cookies.remove(url, cookie.name)
+  })
+
+  dialog.showMessageBoxSync(win, {
+    type: 'info',
+    title: '完了',
+    message: '初期化が完了しました',
+    detail: 'アプリケーションを終了します。'
+  })
+
+  app.quit()
+})
+
 // GitHubのページを開く
 ipcMain.on('open-github', () => {
   const result = dialog.showMessageBoxSync(win, {
-    type: 'info',
+    type: 'question',
     buttons: ['はい', 'いいえ'],
+    defaultId: 0,
     title: '確認',
     message: 'ブラウザを開きますか？',
     detail: 'GitHubのページを開いて更新を確認します。'
