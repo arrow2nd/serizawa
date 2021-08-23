@@ -2,18 +2,19 @@ import { AiOutlineFolderOpen } from 'react-icons/ai'
 import React, { useState, useEffect } from 'react'
 
 type Props = {
-  onChangeDir: () => void
+  onClick: () => void
 }
 
-const SelectDir = ({ onChangeDir }: Props): JSX.Element => {
+const SelectDir = ({ onClick }: Props): JSX.Element => {
   const [picDir, setPicDir] = useState('')
 
+  // 初回のみ取得
   useEffect(() => {
     window.api.getPicDir().then((dir) => setPicDir(dir))
   }, [])
 
   const handleClick = async () => {
-    onChangeDir()
+    onClick()
     setPicDir(await window.api.getPicDir())
   }
 

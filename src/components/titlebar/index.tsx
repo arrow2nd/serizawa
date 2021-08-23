@@ -4,14 +4,15 @@ import RightUI from './right-ui'
 
 type Props = {
   focusIframe: () => void
+  onClickSetting: () => void
 }
 
-const TitleBar = ({ focusIframe }: Props): JSX.Element => (
+const TitleBar = ({ focusIframe, onClickSetting }: Props): JSX.Element => (
   <div
     className="flex justify-between min-w-full h-6 bg-shiny text-black drag"
     onClick={focusIframe}
   >
-    <LeftUI />
+    <LeftUI onClick={onClickSetting} />
     <RightUI focusIframe={focusIframe} />
   </div>
 )
