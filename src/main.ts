@@ -34,7 +34,7 @@ const createWindow = () => {
       nodeIntegration: false,
       // 実行コンテキストを分離
       contextIsolation: true,
-      devTools: false,
+      // devTools: false,
       preload: path.join(__dirname, 'preload.js')
     }
   }

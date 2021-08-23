@@ -1,4 +1,4 @@
-import { Configuration } from 'webpack'
+import { Configuration, DefinePlugin } from 'webpack'
 import path from 'path'
 import TailwindCss from 'tailwindcss'
 import Autoprefixer from 'autoprefixer'
@@ -85,6 +85,9 @@ const renderer = {
     renderer: path.resolve(__dirname, 'src', 'renderer.tsx')
   },
   plugins: [
+    new DefinePlugin({
+      'process.env.VERSION': JSON.stringify(process.env.npm_package_version)
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src', 'index.html'),
