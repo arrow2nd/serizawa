@@ -28,8 +28,6 @@ const createWindow = () => {
     resizable: false,
     show: false,
     webPreferences: {
-      // https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions
-      worldSafeExecuteJavaScript: true,
       // nodeモジュールをレンダラープロセスで使用不可に（XSS対策）
       nodeIntegration: false,
       // 実行コンテキストを分離
