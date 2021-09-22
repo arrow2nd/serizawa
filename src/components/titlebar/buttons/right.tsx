@@ -14,26 +14,25 @@ import {
 } from 'react-icons/ri'
 
 import { Rectangle } from 'electron/renderer'
-import React, { useState } from 'react'
-import UIButton from './ui-button'
+import React, { useCallback, useState } from 'react'
+import UIButton from '../button'
 
 type Props = {
   focusIframe: () => void
   getIframeRect: () => Rectangle
 }
 
-const RightUI = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
+const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
   const [isCaptured, setCaptured] = useState(false)
   const [isPinned, setPinned] = useState(false)
   const [isMaximized, setMaximized] = useState(false)
 
-  const handleClickCapture = () => {
+  const handleClickCapture = useCallback(() => {
     const rect = getIframeRect()
     window.api.captureScreen(rect)
-
     setCaptured(true)
     setInterval(() => setCaptured(false), 1500)
-  }
+  }, [getIframeRect])
 
   const handleClickReload = () => {
     window.api.windowReload()
@@ -79,4 +78,4 @@ const RightUI = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
   )
 }
 
-export default RightUI
+export default RightButtons
