@@ -38,6 +38,7 @@ const createWindow = () => {
       nodeIntegration: false,
       // 実行コンテキストを分離
       contextIsolation: true,
+      nativeWindowOpen: true,
       devTools: false,
       preload: path.join(__dirname, 'preload.js')
     }
@@ -54,17 +55,16 @@ const createWindow = () => {
     }
   })
 
-  win.loadFile('./build/index.html')
-
   Menu.setApplicationMenu(null)
+
+  win.loadFile('./build/index.html')
+  // win.webContents.openDevTools()
 
   // 多重起動を防止
   const doubleboot = app.requestSingleInstanceLock()
   if (!doubleboot) {
     app.quit()
   }
-
-  // win.webContents.openDevTools()
 }
 
 const getPicDir = () => {
