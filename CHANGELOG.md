@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Changed
+
+- dependencies を更新
+- ウィンドウをリザイズ可能に変更
+
 ## [1.0.3] - 2021-08-31
 
 ### Changed
