@@ -14,19 +14,25 @@ import * as Splashscreen from '@trodi/electron-splashscreen'
 import Store from 'electron-store'
 import path from 'path'
 
+const defaultSize = {
+  width: 1136,
+  height: 664
+}
+
 const store = new Store()
 let win: BrowserWindow
 
 const createWindow = () => {
   const mainOpts: Electron.BrowserWindowConstructorOptions = {
     title: 'serizawa',
-    width: 1136,
-    height: 664,
+    ...defaultSize,
+    minWidth: defaultSize.width,
+    minHeight: defaultSize.height,
     center: true,
     useContentSize: true,
     frame: false,
-    resizable: false,
     show: false,
+    resizable: true, // electron #30788
     webPreferences: {
       // nodeモジュールをレンダラープロセスで使用不可に（XSS対策）
       nodeIntegration: false,
