@@ -1,12 +1,12 @@
 import { RiSettings3Line } from 'react-icons/ri'
 import React from 'react'
-import UIButton from './ui-button'
+import UIButton from '../button'
 
 type Props = {
   onClick: () => void
 }
 
-const LeftUI = ({ onClick }: Props): JSX.Element => (
+const LeftButtons = ({ onClick }: Props): JSX.Element => (
   <div className="flex items-center overflow-hidden">
     <UIButton onClick={onClick}>
       <RiSettings3Line />
@@ -14,4 +14,4 @@ const LeftUI = ({ onClick }: Props): JSX.Element => (
   </div>
 )
 
-export default LeftUI
+export default LeftButtons

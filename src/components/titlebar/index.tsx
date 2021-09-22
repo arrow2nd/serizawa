@@ -1,7 +1,7 @@
 import { Rectangle } from 'electron/renderer'
 import React from 'react'
-import LeftUI from './left-ui'
-import RightUI from './right-ui'
+import LeftButtons from './buttons/left'
+import RightButtons from './buttons/right'
 
 type Props = {
   focusIframe: () => void
@@ -18,8 +18,8 @@ const TitleBar = ({
     className="flex justify-between min-w-full h-6 bg-shiny text-black drag"
     onClick={focusIframe}
   >
-    <LeftUI onClick={onClickSetting} />
-    <RightUI focusIframe={focusIframe} getIframeRect={getIframeRect} />
+    <LeftButtons onClick={onClickSetting} />
+    <RightButtons focusIframe={focusIframe} getIframeRect={getIframeRect} />
   </div>
 )
 

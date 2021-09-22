@@ -11,17 +11,12 @@ const App = (): JSX.Element => {
   const closeConfigWindow = () => setShowConfig(false)
 
   const focusIframe = () => iframeRef.current?.focus()
-  const getIframeRect = (): Rectangle => {
-    const width = Number(iframeRef.current?.width || '0')
-    const height = Number(iframeRef.current?.height || '0')
-
-    return {
-      width: width,
-      height: height,
-      x: 0,
-      y: 24
-    }
-  }
+  const getIframeRect = (): Rectangle => ({
+    width: parseInt(iframeRef.current?.width || '0'),
+    height: parseInt(iframeRef.current?.height || '0'),
+    x: 0,
+    y: 24
+  })
 
   return (
     <div className="App flex flex-col min-h-screen">
