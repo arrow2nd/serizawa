@@ -10,6 +10,7 @@ import {
 } from 'electron'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import { Rectangle } from 'electron/main'
+import { checkUpdate } from './scripts/checkUpdate'
 import * as Splashscreen from '@trodi/electron-splashscreen'
 import Store from 'electron-store'
 import path from 'path'
@@ -34,9 +35,7 @@ const createWindow = () => {
     show: false,
     resizable: true, // electron #30788
     webPreferences: {
-      // nodeモジュールをレンダラープロセスで使用不可に（XSS対策）
       nodeIntegration: false,
-      // 実行コンテキストを分離
       contextIsolation: true,
       nativeWindowOpen: true,
       devTools: false,
@@ -67,6 +66,8 @@ const createWindow = () => {
   }
 }
 
+//---------------------------------------------------
+
 const getPicDir = () => {
   const defaultPath = path.join(app.getPath('pictures'), 'serizawa')
   return String(store.get('picDir', defaultPath))
@@ -83,11 +84,31 @@ const date2String = (date: Date): string => {
   return `${year}${month}${day}_${hours}${minutes}${seconds}`
 }
 
+const openDownloadPage = (url: string | undefined) => {
+  if (!url || !/^https:\/\/github\.com/.test(url)) return
+
+  const result = dialog.showMessageBoxSync(win, {
+    type: 'question',
+    buttons: ['はい', 'いいえ'],
+    defaultId: 0,
+    title: '更新通知',
+    message: '新しいバージョンが利用可能です',
+    detail: 'ブラウザを開いてファイルをダウンロードしますか？'
+  })
+
+  if (result === 0) {
+    shell.openExternal(url)
+  }
+}
+
 //---------------------------------------------------
 
 // 初期化できたらウィンドウを作成
 app.whenReady().then(() => {
   createWindow()
+
+  // 更新を確認
+  checkUpdate().then((url) => openDownloadPage(url))
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -232,18 +253,18 @@ ipcMain.on('remove-cookie', async () => {
   app.quit()
 })
 
-// GitHubのページを開く
-ipcMain.on('open-github', () => {
-  const result = dialog.showMessageBoxSync(win, {
-    type: 'question',
-    buttons: ['はい', 'いいえ'],
-    defaultId: 0,
-    title: '確認',
-    message: 'ブラウザを開きますか？',
-    detail: 'GitHubのページを開いて更新を確認します。'
-  })
+// 更新確認
+ipcMain.on('check-update', async () => {
+  const url = await checkUpdate()
 
-  if (result === 0) {
-    shell.openExternal('https://github.com/arrow2nd/serizawa/releases')
+  if (!url) {
+    dialog.showMessageBoxSync(win, {
+      type: 'info',
+      title: '通知',
+      message: '現在のバージョンは最新版です！'
+    })
+    return
   }
+
+  openDownloadPage(url)
 })

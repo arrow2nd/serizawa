@@ -15,5 +15,5 @@ export type API = {
   getPicDir: () => Promise<string>
   removeCache: () => void
   removeCookie: () => void
-  openGitHub: () => void
+  checkUpdate: () => void
 }

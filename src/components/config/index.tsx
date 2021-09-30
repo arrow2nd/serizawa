@@ -30,8 +30,8 @@ const Config = ({ focusIframe, onClickClose }: Props): JSX.Element => {
     focusIframe()
   }
 
-  const handleClickOpenGitHub = () => {
-    window.api.openGitHub()
+  const handleClickCheckUpdate = () => {
+    window.api.checkUpdate()
     focusIframe()
   }
 
@@ -62,10 +62,10 @@ const Config = ({ focusIframe, onClickClose }: Props): JSX.Element => {
         />
         <Section
           title="更新を確認"
-          btnText="GitHubを開く"
+          btnText="確認"
           btnBg="bg-gray-600"
           btnHoverBg="bg-gray-800"
-          onClick={handleClickOpenGitHub}
+          onClick={handleClickCheckUpdate}
         />
       </div>
       <span className="block mt-8 text-xs text-gray-700">

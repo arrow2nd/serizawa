@@ -32,7 +32,7 @@ contextBridge.exposeInMainWorld('api', {
   removeCookie: () => {
     ipcRenderer.send('remove-cookie')
   },
-  openGitHub: () => {
-    ipcRenderer.send('open-github')
+  checkUpdate: () => {
+    ipcRenderer.send('check-update')
   }
 })

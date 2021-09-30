@@ -51,5 +51,16 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: dist/**
+          body: |
+            ## 注意！
+            ダウンロードされる前に **必ず** [README](https://github.com/arrow2nd/serizawa/blob/main/README.md) をお読みください。
+
+            ## ファイル
+            |OS|ファイル名|
+            |-|-|
+            |Windows (インストーラー)|serizawa-x.x.x.exe|
+            |macOS|serizawa-x.x.x.dmg|
+            |Liunx|serizawa-x.x.x.AppImage|
+            |Linux (Debian)|serizawa-x.x.x.deb|
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
