@@ -1,3 +1,4 @@
+import { app } from 'electron'
 import os from 'os'
 import axios from 'axios'
 
@@ -16,7 +17,7 @@ export async function checkUpdate(): Promise<string | undefined> {
   }
 
   // 更新が無い
-  if (res.data.tag_name === `v${process.env.npm_package_version}`) {
+  if (res.data.tag_name === `v${app.getVersion()}`) {
     return undefined
   }
 
