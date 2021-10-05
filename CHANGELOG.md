@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+## [1.0.5] - 2021-10-06
+
+## Changed
+
+- dependencies を更新
+
+## Removed
+
+- deb パッケージを廃止
+
 ## [1.0.4] - 2021-09-30
 
 ### Added

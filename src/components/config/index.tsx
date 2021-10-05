@@ -1,8 +1,8 @@
-import { RiCloseLine } from 'react-icons/ri'
 import React from 'react'
 import Section from './section'
 import SelectDir from './selectDir'
 import LogoImg from '../../images/logo.png'
+import { RiCloseLine } from 'react-icons/ri'
 
 type Props = {
   focusIframe: () => void

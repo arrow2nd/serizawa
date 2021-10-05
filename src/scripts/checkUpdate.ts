@@ -1,6 +1,17 @@
-import { app } from 'electron'
 import os from 'os'
 import axios from 'axios'
+import { app } from 'electron'
+
+interface IGitHubAPIResponse {
+  tag_name: string
+  html_url: string
+  assets: {
+    name: string
+    browser_download_url: string
+  }[]
+}
+
+const url = 'https://api.github.com/repos/arrow2nd/serizawa/releases/latest'
 
 /**
  * 更新チェック
@@ -8,9 +19,7 @@ import axios from 'axios'
  * @returns ダウンロードページのURL
  */
 export async function checkUpdate(): Promise<string | undefined> {
-  const url = 'https://api.github.com/repos/arrow2nd/serizawa/releases/latest'
-
-  const res = await axios.get(url)
+  const res = await axios.get<IGitHubAPIResponse>(url)
   if (res.status !== 200) {
     console.error(res.statusText)
     return undefined

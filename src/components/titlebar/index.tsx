@@ -1,7 +1,7 @@
-import { Rectangle } from 'electron/renderer'
 import React from 'react'
 import LeftButtons from './buttons/left'
 import RightButtons from './buttons/right'
+import { Rectangle } from 'electron/renderer'
 
 type Props = {
   focusIframe: () => void

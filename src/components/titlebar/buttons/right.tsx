@@ -1,10 +1,12 @@
+import React, { useCallback, useState } from 'react'
+import UIButton from '../button'
+import { Rectangle } from 'electron/renderer'
 import {
   AiOutlineMinus,
   AiOutlineCamera,
   AiOutlineReload,
   AiOutlineCheck
 } from 'react-icons/ai'
-
 import {
   RiPushpin2Line,
   RiPushpin2Fill,
@@ -12,10 +14,6 @@ import {
   RiFullscreenExitLine,
   RiCloseLine
 } from 'react-icons/ri'
-
-import { Rectangle } from 'electron/renderer'
-import React, { useCallback, useState } from 'react'
-import UIButton from '../button'
 
 type Props = {
   focusIframe: () => void
