@@ -61,6 +61,5 @@ jobs:
             |Windows (インストーラー)|serizawa-x.x.x.exe|
             |macOS|serizawa-x.x.x.dmg|
             |Liunx|serizawa-x.x.x.AppImage|
-            |Linux (Debian)|serizawa-x.x.x.deb|
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
