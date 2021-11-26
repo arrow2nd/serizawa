@@ -11,9 +11,6 @@ const isDevelop = process.env.NODE_ENV === 'development'
 // 共通設定
 const base: Configuration = {
   mode: isDevelop ? 'development' : 'production',
-  experiments: {
-    asset: true
-  },
   output: {
     path: path.resolve(__dirname, 'build'),
     publicPath: './',
