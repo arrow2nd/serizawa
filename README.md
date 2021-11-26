@@ -1,4 +1,4 @@
-# ![serizawa](https://user-images.githubusercontent.com/44780846/143524556-6a9cf2c4-2d89-4119-8065-a8ff517c6fd5.png)
+# ![serizawa](https://user-images.githubusercontent.com/44780846/143525542-500a4511-4bdd-4339-a951-6f41bb87749e.png)
 
 [アイドルマスターシャイニーカラーズ](https://shinycolors.idolmaster.jp/) の非公式専用ブラウザ
 
