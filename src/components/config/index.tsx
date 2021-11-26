@@ -36,7 +36,7 @@ const Config = ({ focusIframe, onClickClose }: Props): JSX.Element => {
   }
 
   return (
-    <div className="flex flex-col items-center px-7 py-8 fixed top-1/2 left-1/2 -transform-50 w-96 bg-white rounded-xl shadow-2xl">
+    <div className="flex flex-col items-center px-7 py-8 fixed top-1/2 left-1/2 -transform-50 w-96 bg-white border border-gray-400 rounded-xl shadow-2xl">
       <button
         className="fixed top-3 right-3 text-xl text-gray-800"
         onClick={handleClickClose}

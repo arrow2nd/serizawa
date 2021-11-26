@@ -1,22 +1,20 @@
-## serizawa
+# ![serizawa](https://user-images.githubusercontent.com/44780846/143524556-6a9cf2c4-2d89-4119-8065-a8ff517c6fd5.png)
 
+[アイドルマスターシャイニーカラーズ](https://shinycolors.idolmaster.jp/) の非公式専用ブラウザ
+
+[![芹沢あさひ](https://img.shields.io/badge/SHINY%20COLORS-%E8%8A%B9%E6%B2%A2%E3%81%82%E3%81%95%E3%81%B2-F30100)](https://idollist.idolmaster-official.jp/detail/50013)
 [![release](https://github.com/arrow2nd/serizawa/actions/workflows/build.yaml/badge.svg)](https://github.com/arrow2nd/serizawa/actions/workflows/build.yaml)
-
-![logo](https://user-images.githubusercontent.com/44780846/130418590-8fd986e9-ac86-4baa-b784-289e796c531b.png)
-
-> [アイドルマスターシャイニーカラーズ](https://shinycolors.idolmaster.jp/) の非公式専用ブラウザ
-
-## 機能
-
-- 最小限でシンプルなインターフェース
-- 1 クリックでスクリーンショットを保存・クリップボードへコピー
-- 非アクティブ状態での音声再生
-- 最前面に固定
-- アカウントのログアウト（Cookie の削除）
-
-## スクリーンショット
+![GitHub all releases](https://img.shields.io/github/downloads/arrow2nd/serizawa/total)
+[![GitHub license](https://img.shields.io/github/license/arrow2nd/serizawa)](https://github.com/arrow2nd/serizawa/blob/main/LICENSE)
 
 ![スクリーンショット](https://user-images.githubusercontent.com/44780846/130420125-eb430928-9263-45d3-96d3-37c8b8a4efb9.png)
+
+## できること
+
+- 1 クリックでスクリーンショットを保存・クリップボードへコピー
+- 非アクティブ状態での音声再生
+- ウィンドウを最前面で固定
+- アカウントのログアウト（Cookie の削除）
 
 ## 注意事項
 
