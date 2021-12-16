@@ -2,15 +2,13 @@
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
-  content: {
-    content: ['./src/components/**/*.{ts,tsx}'],
-    safelist: [
-      'bg-red-400',
-      'bg-gray-600',
-      'hover:bg-red-600',
-      'hover:bg-gray-800'
-    ]
-  },
+  content: ['./src/components/**/*.{ts,tsx}'],
+  safelist: [
+    'bg-red-400',
+    'bg-gray-600',
+    'hover:bg-red-600',
+    'hover:bg-gray-800'
+  ],
   theme: {
     extend: {
       colors: {
