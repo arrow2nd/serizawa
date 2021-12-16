@@ -30,10 +30,9 @@ const App = (): JSX.Element => {
         onClickSetting={openConfigWindow}
       />
       <iframe
-        className="flex-1 block w-screen border-none p-0 align-bottom"
+        className="flex-1 block w-screen p-0 border-0 border-none align-bottom"
         src="https://shinycolors.enza.fun"
         ref={iframeRef}
-        frameBorder="0"
       />
     </div>
   )
