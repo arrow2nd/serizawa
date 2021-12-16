@@ -1,6 +1,6 @@
-import os from 'os'
 import axios from 'axios'
 import { app } from 'electron'
+import os from 'os'
 
 interface IGitHubAPIResponse {
   tag_name: string

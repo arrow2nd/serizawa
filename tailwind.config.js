@@ -2,16 +2,13 @@
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
-  purge: {
-    content: ['./src/components/**/*.{ts,tsx}'],
-    safelist: [
-      'bg-red-400',
-      'bg-gray-600',
-      'hover:bg-red-600',
-      'hover:bg-gray-800'
-    ]
-  },
-  darkMode: false, // or 'media' or 'class'
+  content: ['./src/components/**/*.{ts,tsx}'],
+  safelist: [
+    'bg-red-400',
+    'bg-gray-600',
+    'hover:bg-red-600',
+    'hover:bg-gray-800'
+  ],
   theme: {
     extend: {
       colors: {
@@ -19,9 +16,6 @@ module.exports = {
         'shiny-dark': '#749bd6'
       }
     }
-  },
-  variants: {
-    extend: {}
   },
   plugins: [
     plugin(function ({ addUtilities }) {
