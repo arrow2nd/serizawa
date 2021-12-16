@@ -19,7 +19,8 @@
     "serve": "electron .",
     "pack:win": "electron-builder --win --x64",
     "pack:mac": "electron-builder --mac --x64",
-    "pack:linux": "electron-builder --linux"
+    "pack:linux": "electron-builder --linux",
+    "fmt": "prettier --write ."
   },
   "build": {
     "appId": "com.arrow2nd.serizawa",
@@ -52,6 +53,7 @@
     "publish": null
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
     "@types/copy-webpack-plugin": "^10.1.0",
     "@types/mini-css-extract-plugin": "^2.4.0",
     "@types/node": "^16.11.10",
