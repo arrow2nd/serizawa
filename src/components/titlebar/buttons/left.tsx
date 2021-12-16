@@ -1,6 +1,7 @@
 import React from 'react'
-import UIButton from '../button'
 import { RiSettings3Line } from 'react-icons/ri'
+
+import UIButton from '../button'
 
 type Props = {
   onClick: () => void

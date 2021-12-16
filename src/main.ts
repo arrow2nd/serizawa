@@ -1,19 +1,20 @@
-import {
-  app,
-  BrowserWindow,
-  ipcMain,
-  Menu,
-  dialog,
-  shell,
-  session,
-  clipboard
-} from 'electron'
-import { existsSync, mkdirSync, writeFileSync } from 'fs'
-import { Rectangle } from 'electron/main'
-import { checkUpdate } from './scripts/checkUpdate'
 import * as Splashscreen from '@trodi/electron-splashscreen'
+import {
+  BrowserWindow,
+  Menu,
+  app,
+  clipboard,
+  dialog,
+  ipcMain,
+  session,
+  shell
+} from 'electron'
 import Store from 'electron-store'
+import { Rectangle } from 'electron/main'
+import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import path from 'path'
+
+import { checkUpdate } from './scripts/checkUpdate'
 
 const defaultSize = {
   width: 1136,

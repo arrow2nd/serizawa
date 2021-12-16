@@ -1,7 +1,8 @@
-import React, { useState, createRef } from 'react'
-import TitleBar from './titlebar'
-import Config from './config'
 import { Rectangle } from 'electron/renderer'
+import React, { createRef, useState } from 'react'
+
+import Config from './config'
+import TitleBar from './titlebar'
 
 const App = (): JSX.Element => {
   const [isShowConfig, setShowConfig] = useState(false)
