@@ -6,7 +6,7 @@
     "email": "arrow2nd_workspace@zohomail.com"
   },
   "license": "MIT",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "main": "./build/main.js",
   "private": true,
   "scripts": {
