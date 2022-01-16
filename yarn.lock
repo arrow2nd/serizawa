@@ -2573,7 +2573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder@npm:^22.14.5":
+"electron-builder@npm:^22.14.13":
   version: 22.14.13
   resolution: "electron-builder@npm:22.14.13"
   dependencies:
@@ -2645,16 +2645,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:14.2.3":
-  version: 14.2.3
-  resolution: "electron@npm:14.2.3"
+"electron@npm:14.2.4":
+  version: 14.2.4
+  resolution: "electron@npm:14.2.4"
   dependencies:
     "@electron/get": ^1.0.1
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: ee83974c95e7978201ad067013e4e6b118ffed5cf29793a018071b3d3d579a2c8ebb0c3e66831db236889621c6760c2faf2b1d9ac8278a4bdcb3d60d0a9773a7
+  checksum: fcae758150022181e6b9ac147460736c0e546b2141a4905b6fbe94c6bf5c1eb9e99aac31e98777937442767ddae5aaee10bd74889491d425b4b70643ae156577
   languageName: node
   linkType: hard
 
@@ -2909,7 +2909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.6.0":
+"eslint@npm:^8.7.0":
   version: 8.7.0
   resolution: "eslint@npm:8.7.0"
   dependencies:
@@ -4580,7 +4580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mini-css-extract-plugin@npm:^2.4.6":
+"mini-css-extract-plugin@npm:^2.5.0":
   version: 2.5.0
   resolution: "mini-css-extract-plugin@npm:2.5.0"
   dependencies:
@@ -5979,15 +5979,15 @@ __metadata:
     copy-webpack-plugin: ^10.2.0
     cross-env: ^7.0.3
     css-loader: ^6.5.1
-    electron: 14.2.3
-    electron-builder: ^22.14.5
+    electron: 14.2.4
+    electron-builder: ^22.14.13
     electron-store: ^8.0.1
-    eslint: ^8.6.0
+    eslint: ^8.7.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-react: ^7.28.0
     eslint-plugin-react-hooks: ^4.3.0
     html-webpack-plugin: ^5.5.0
-    mini-css-extract-plugin: ^2.4.6
+    mini-css-extract-plugin: ^2.5.0
     npm-run-all: ^4.1.5
     postcss: ^8.4.5
     postcss-loader: ^6.2.1
@@ -5996,11 +5996,11 @@ __metadata:
     react-dom: ^17.0.2
     react-icons: ^4.3.1
     rimraf: ^3.0.2
-    tailwindcss: ^3.0.13
+    tailwindcss: ^3.0.15
     ts-loader: ^9.2.6
     ts-node: ^10.4.0
     typescript: ^4.5.4
-    webpack: ^5.65.0
+    webpack: ^5.66.0
     webpack-cli: ^4.9.1
   languageName: unknown
   linkType: soft
@@ -6382,7 +6382,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.0.13":
+"tailwindcss@npm:^3.0.15":
   version: 3.0.15
   resolution: "tailwindcss@npm:3.0.15"
   dependencies:
@@ -6895,7 +6895,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5, webpack@npm:^5.65.0":
+"webpack@npm:^5, webpack@npm:^5.66.0":
   version: 5.66.0
   resolution: "webpack@npm:5.66.0"
   dependencies:
