@@ -14,8 +14,8 @@ import { Rectangle } from 'electron/main'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import path from 'path'
 
-import { checkUpdate } from './scripts/checkUpdate'
-import { date2String } from './scripts/util'
+import { checkUpdate } from './libs/checkUpdate'
+import { date2String } from './libs/util'
 
 const defaultSize = {
   width: 1136,
