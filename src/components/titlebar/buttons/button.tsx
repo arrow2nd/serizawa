@@ -1,16 +1,17 @@
 import React from 'react'
 
-type Props = {
+export type Button = {
+  title: string
   children: React.ReactNode
   onClick: () => void
 }
 
-const UIButton = ({ children, onClick }: Props): JSX.Element => (
+const UIButton = (props: Button): JSX.Element => (
   <button
     className="inline-flex px-3 p-6 border-0 rounded-none bg-transparent drag-none focus:outline-none hover:bg-shiny-dark transition-colors"
-    onClick={onClick}
+    {...props}
   >
-    {children}
+    {props.children}
   </button>
 )
 

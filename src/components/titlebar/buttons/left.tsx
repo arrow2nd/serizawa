@@ -9,7 +9,7 @@ type Props = {
 
 const LeftButtons = ({ onClick }: Props): JSX.Element => (
   <div className="flex items-center overflow-hidden">
-    <UIButton onClick={onClick}>
+    <UIButton title="設定" onClick={onClick}>
       <RiSettings3Line />
     </UIButton>
   </div>

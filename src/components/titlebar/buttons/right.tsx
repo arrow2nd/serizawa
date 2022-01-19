@@ -1,5 +1,5 @@
 import { Rectangle } from 'electron/renderer'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import {
   AiOutlineCamera,
   AiOutlineCheck,
@@ -14,7 +14,7 @@ import {
   RiPushpin2Line
 } from 'react-icons/ri'
 
-import UIButton from './button'
+import UIButton, { Button } from './button'
 
 type Props = {
   focusIframe: () => void
@@ -26,52 +26,61 @@ const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
   const [isPinned, setPinned] = useState(false)
   const [isMaximized, setMaximized] = useState(false)
 
-  const handleClickCapture = useCallback(() => {
-    window.api.captureScreen(getIframeRect())
-    setCaptured(true)
-    setInterval(() => setCaptured(false), 1500)
-  }, [getIframeRect])
-
-  const handleClickReload = () => {
-    window.api.windowReload()
-    focusIframe()
-  }
-
-  const handleClickPin = async () => {
-    window.api.windowChangePinned()
-    setPinned(!isPinned)
-    focusIframe()
-  }
-
-  const handleClickMaximize = async () => {
-    window.api.windowChangeMaximize()
-    setMaximized(!isMaximized)
-    focusIframe()
-  }
-
-  const handleClickMinimize = () => window.api.windowMinimize()
-  const handleClickClose = () => window.api.windowClose()
+  const buttons: Button[] = [
+    {
+      title: 'スクリーンショットを撮影',
+      children: isCaptured ? <AiOutlineCheck /> : <AiOutlineCamera />,
+      onClick: () => {
+        window.api.captureScreen(getIframeRect())
+        setCaptured(true)
+        setInterval(() => setCaptured(false), 1500)
+      }
+    },
+    {
+      title: '再読み込み',
+      children: <AiOutlineReload />,
+      onClick: () => {
+        window.api.windowReload()
+        focusIframe()
+      }
+    },
+    {
+      title: '最前面に固定',
+      children: isPinned ? <RiPushpin2Fill /> : <RiPushpin2Line />,
+      onClick: async () => {
+        window.api.windowChangePinned()
+        setPinned(!isPinned)
+        focusIframe()
+      }
+    },
+    {
+      title: '最小化',
+      children: <AiOutlineMinus />,
+      onClick: () => window.api.windowMinimize()
+    },
+    {
+      title: '最大化',
+      children: isMaximized ? <RiFullscreenExitLine /> : <RiFullscreenLine />,
+      onClick: async () => {
+        window.api.windowChangeMaximize()
+        setMaximized(!isMaximized)
+        focusIframe()
+      }
+    },
+    {
+      title: '終了',
+      children: <RiCloseLine />,
+      onClick: () => window.api.windowClose()
+    }
+  ]
 
   return (
     <div className="flex items-center overflow-hidden">
-      <UIButton onClick={handleClickCapture}>
-        {isCaptured ? <AiOutlineCheck /> : <AiOutlineCamera />}
-      </UIButton>
-      <UIButton onClick={handleClickReload}>
-        <AiOutlineReload />
-      </UIButton>
-      <UIButton onClick={handleClickPin}>
-        {isPinned ? <RiPushpin2Fill /> : <RiPushpin2Line />}
-      </UIButton>
-      <UIButton onClick={handleClickMinimize}>
-        <AiOutlineMinus />
-      </UIButton>
-      <UIButton onClick={handleClickMaximize}>
-        {isMaximized ? <RiFullscreenExitLine /> : <RiFullscreenLine />}
-      </UIButton>
-      <UIButton onClick={handleClickClose}>
-        <RiCloseLine />
-      </UIButton>
+      {buttons.map((e) => (
+        <UIButton key={e.title} {...e}>
+          {e.children}
+        </UIButton>
+      ))}
     </div>
   )
 }
