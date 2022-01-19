@@ -62,7 +62,10 @@ const createWindow = () => {
 
   const handleUrlOpen = (e: Electron.Event, url: string) => {
     e.preventDefault()
-    shell.openExternal(url)
+
+    if (/^http/.test(url)) {
+      shell.openExternal(url)
+    }
   }
 
   // 外部リンクを標準ブラウザで開く
@@ -109,8 +112,6 @@ const openDownloadPage = (url: string | undefined) => {
 
 // 初期化できたらウィンドウを作成
 app.whenReady().then(() => {
-  createWindow()
-
   // 更新を確認
   checkUpdate().then((url) => openDownloadPage(url))
 
