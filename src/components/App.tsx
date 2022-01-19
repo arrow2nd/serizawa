@@ -20,7 +20,7 @@ const App = (): JSX.Element => {
   })
 
   return (
-    <div className="App flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       {isShowConfig && (
         <Config focusIframe={focusIframe} onClickClose={closeConfigWindow} />
       )}
