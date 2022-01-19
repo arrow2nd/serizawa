@@ -19,23 +19,22 @@ import { date2String } from './libs/util'
 
 const defaultSize = {
   width: 1136,
-  height: 664
+  height: 640 + 24 // タイトルバー込み
 }
 
 const store = new Store()
+
 let win: BrowserWindow
 
+// ウィンドウ作成
 const createWindow = () => {
   const mainOpts: Electron.BrowserWindowConstructorOptions = {
     title: 'serizawa',
     ...defaultSize,
-    // minWidth: defaultSize.width,
-    // minHeight: defaultSize.height,
+    resizable: false,
     center: true,
-    useContentSize: true,
     frame: false,
     show: false,
-    resizable: false, // electron #30788
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -56,10 +55,12 @@ const createWindow = () => {
     }
   })
 
-  Menu.setApplicationMenu(null)
-
   win.loadFile('./build/index.html')
-  win.webContents.openDevTools()
+  win.setAspectRatio(142 / 83) // 142:83
+  // win.webContents.openDevTools()
+
+  // メニューバーを無効
+  // Menu.setApplicationMenu(null)
 
   // 多重起動を防止
   const doubleboot = app.requestSingleInstanceLock()
@@ -68,13 +69,13 @@ const createWindow = () => {
   }
 }
 
-//---------------------------------------------------
-
+// スクショの保存ディレクトリを取得
 const getPicDir = () => {
   const defaultPath = path.join(app.getPath('pictures'), 'serizawa')
   return String(store.get('picDir', defaultPath))
 }
 
+// 更新通知ダイアログ
 const openDownloadPage = (url: string | undefined) => {
   if (!url || !/^https:\/\/github\.com/.test(url)) return
 
@@ -108,6 +109,7 @@ app.whenReady().then(() => {
   })
 })
 
+// ウィンドウを閉じたら終了
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
@@ -148,7 +150,11 @@ ipcMain.on('win-change-pinned', () => {
 })
 
 // 再読み込み
-ipcMain.on('win-reload', () => win.reload())
+ipcMain.on('win-reload', () => {
+  win.setFullScreen(false)
+  win.setAlwaysOnTop(false)
+  win.reload()
+})
 
 // スクリーンショット撮影
 ipcMain.on(
@@ -223,13 +229,14 @@ ipcMain.on('remove-cookie', async () => {
 
   // 全てのCookieを削除
   const cookies = await session.defaultSession.cookies.get({})
-  cookies.forEach((cookie) => {
+  for (const cookie of cookies) {
     let url = cookie.secure ? 'https://' : 'http://'
+
     url += cookie.domain?.charAt(0) === '.' ? 'www' : ''
     url += `${cookie.domain || ''}${cookie.path || ''}`
 
     session.defaultSession.cookies.remove(url, cookie.name)
-  })
+  }
 
   // 設定を削除
   store.clear()

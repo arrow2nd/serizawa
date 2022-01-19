@@ -27,8 +27,7 @@ const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
   const [isMaximized, setMaximized] = useState(false)
 
   const handleClickCapture = useCallback(() => {
-    const rect = getIframeRect()
-    window.api.captureScreen(rect)
+    window.api.captureScreen(getIframeRect())
     setCaptured(true)
     setInterval(() => setCaptured(false), 1500)
   }, [getIframeRect])
