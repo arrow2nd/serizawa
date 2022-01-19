@@ -14,7 +14,7 @@ import {
   RiPushpin2Line
 } from 'react-icons/ri'
 
-import UIButton from '../button'
+import UIButton from './button'
 
 type Props = {
   focusIframe: () => void

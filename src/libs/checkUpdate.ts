@@ -15,11 +15,11 @@ const url = 'https://api.github.com/repos/arrow2nd/serizawa/releases/latest'
 
 /**
  * 更新チェック
- *
  * @returns ダウンロードページのURL
  */
 export async function checkUpdate(): Promise<string | undefined> {
   const res = await axios.get<IGitHubAPIResponse>(url)
+
   if (res.status !== 200) {
     console.error(res.statusText)
     return undefined
