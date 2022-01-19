@@ -11,6 +11,7 @@ export type API = {
   windowChangePinned: () => void
   windowReload: () => void
   captureScreen: (rect: Rectangle) => void
+  windowChangeMute: () => void
   openSelectDir: () => void
   getPicDir: () => Promise<string>
   removeCache: () => void

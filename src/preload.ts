@@ -20,6 +20,9 @@ contextBridge.exposeInMainWorld('api', {
   captureScreen: (rect: Rectangle) => {
     ipcRenderer.send('capture-screen', rect)
   },
+  windowChangeMute: () => {
+    ipcRenderer.send('win-change-mute')
+  },
   openSelectDir: () => {
     ipcRenderer.send('open-select-dir')
   },

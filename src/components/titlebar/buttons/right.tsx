@@ -1,17 +1,19 @@
 import { Rectangle } from 'electron/renderer'
-import React, { useState } from 'react'
+import React, { useReducer } from 'react'
 import {
   AiOutlineCamera,
-  AiOutlineCheck,
   AiOutlineMinus,
   AiOutlineReload
 } from 'react-icons/ai'
 import {
+  RiCheckboxCircleFill,
   RiCloseLine,
   RiFullscreenExitLine,
   RiFullscreenLine,
   RiPushpin2Fill,
-  RiPushpin2Line
+  RiPushpin2Line,
+  RiVolumeMuteFill,
+  RiVolumeUpLine
 } from 'react-icons/ri'
 
 import UIButton, { Button } from './button'
@@ -22,18 +24,28 @@ type Props = {
 }
 
 const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
-  const [isCaptured, setCaptured] = useState(false)
-  const [isPinned, setPinned] = useState(false)
-  const [isMaximized, setMaximized] = useState(false)
+  const [isCaptured, toggleCaptured] = useReducer((prev) => !prev, false)
+  const [isPinned, togglePinned] = useReducer((prev) => !prev, false)
+  const [isMaximized, toggleMaximized] = useReducer((prev) => !prev, false)
+  const [isMuted, toggleMuted] = useReducer((prev) => !prev, false)
 
   const buttons: Button[] = [
     {
       title: 'スクリーンショットを撮影',
-      children: isCaptured ? <AiOutlineCheck /> : <AiOutlineCamera />,
+      children: isCaptured ? <RiCheckboxCircleFill /> : <AiOutlineCamera />,
       onClick: () => {
         window.api.captureScreen(getIframeRect())
-        setCaptured(true)
-        setInterval(() => setCaptured(false), 1500)
+        toggleCaptured()
+        setTimeout(() => toggleCaptured(), 1500)
+      }
+    },
+    {
+      title: isMuted ? 'ミュート解除' : 'ミュート',
+      children: isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpLine />,
+      onClick: () => {
+        window.api.windowChangeMute()
+        toggleMuted()
+        focusIframe()
       }
     },
     {
@@ -45,11 +57,11 @@ const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
       }
     },
     {
-      title: '最前面に固定',
+      title: isPinned ? '固定を解除' : '最前面に固定',
       children: isPinned ? <RiPushpin2Fill /> : <RiPushpin2Line />,
       onClick: async () => {
         window.api.windowChangePinned()
-        setPinned(!isPinned)
+        togglePinned()
         focusIframe()
       }
     },
@@ -59,11 +71,11 @@ const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
       onClick: () => window.api.windowMinimize()
     },
     {
-      title: '最大化',
+      title: isMaximized ? '最大化を解除' : '最大化',
       children: isMaximized ? <RiFullscreenExitLine /> : <RiFullscreenLine />,
       onClick: async () => {
         window.api.windowChangeMaximize()
-        setMaximized(!isMaximized)
+        toggleMaximized()
         focusIframe()
       }
     },

@@ -58,7 +58,7 @@ const createWindow = () => {
 
   // 画面の設定
   win.loadFile('./build/index.html')
-  win.setAspectRatio(142 / 83) // 142:83
+  // win.setAspectRatio(142 / 83) // 142:83
 
   const handleUrlOpen = (e: Electron.Event, url: string) => {
     e.preventDefault()
@@ -146,19 +146,17 @@ ipcMain.on('win-minimize', () => win.minimize())
 
 // ウィンドウの最大化状態を変更
 ipcMain.on('win-change-maximize', () => {
-  const isMaximized = !win.isFullScreen()
-  win.setFullScreen(isMaximized)
+  win.setFullScreen(!win.isFullScreen())
 })
 
 // ウィンドウのピン留めを変更
 ipcMain.on('win-change-pinned', () => {
-  const isPinned = !win.isAlwaysOnTop()
-
-  // 最前面に固定
-  if (isPinned) {
-    win.setAlwaysOnTop(true, 'screen-saver')
-  } else {
+  if (win.isAlwaysOnTop()) {
+    // 解除
     win.setAlwaysOnTop(false)
+  } else {
+    // ピン留め
+    win.setAlwaysOnTop(true, 'screen-saver')
   }
 })
 
@@ -189,6 +187,11 @@ ipcMain.on(
     writeFileSync(savePath, pic.toPNG())
   }
 )
+
+// ミュート状態の変更
+ipcMain.on('win-change-mute', () => {
+  win.webContents.setAudioMuted(!win.webContents.isAudioMuted())
+})
 
 //---------------------------------------------------
 
