@@ -1,11 +1,9 @@
 import React from 'react'
 import { RiCloseLine } from 'react-icons/ri'
 
-import { ConfigSection } from '../../types/config'
-
 import LogoImg from '../../images/logo.png'
 
-import Section from './section'
+import Section, { ConfigSection } from './section'
 import SelectDir from './selectDir'
 
 type Props = {

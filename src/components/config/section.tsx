@@ -1,6 +1,12 @@
 import React from 'react'
 
-import { ConfigSection } from '../../types/config'
+export type ConfigSection = {
+  title: string
+  btnText: string
+  btnBg: string
+  btnHoverBg: string
+  onClick: () => void
+}
 
 const Section = ({
   title,
