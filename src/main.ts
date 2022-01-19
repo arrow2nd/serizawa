@@ -44,6 +44,7 @@ const createWindow = () => {
     }
   }
 
+  // スプラッシュ画面
   win = Splashscreen.initSplashScreen({
     windowOpts: mainOpts,
     templateUrl: `${__dirname}/images/splash.svg`,
@@ -55,16 +56,26 @@ const createWindow = () => {
     }
   })
 
+  // 画面の設定
   win.loadFile('./build/index.html')
   win.setAspectRatio(142 / 83) // 142:83
+
+  const handleUrlOpen = (e: Electron.Event, url: string) => {
+    e.preventDefault()
+    shell.openExternal(url)
+  }
+
+  // 外部リンクを標準ブラウザで開く
+  win.webContents.on('will-navigate', handleUrlOpen)
+  win.webContents.on('new-window', handleUrlOpen)
+
   // win.webContents.openDevTools()
 
   // メニューバーを無効
-  // Menu.setApplicationMenu(null)
+  Menu.setApplicationMenu(null)
 
   // 多重起動を防止
-  const doubleboot = app.requestSingleInstanceLock()
-  if (!doubleboot) {
+  if (!app.requestSingleInstanceLock()) {
     app.quit()
   }
 }
@@ -90,6 +101,7 @@ const openDownloadPage = (url: string | undefined) => {
 
   if (result === 0) {
     shell.openExternal(url)
+    app.quit() // 終了
   }
 }
 
