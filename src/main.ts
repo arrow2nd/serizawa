@@ -17,20 +17,25 @@ import path from 'path'
 import { checkUpdate } from './libs/checkUpdate'
 import { date2String } from './libs/util'
 
-const defaultSize = {
-  width: 1136,
-  height: 640 + 24 // タイトルバー込み
-}
-
 const store = new Store()
 
 let win: BrowserWindow
 
 // ウィンドウ作成
 const createWindow = () => {
+  const size = {
+    width: 1136,
+    height: 640 + 24 // タイトルバー込み
+  }
+
+  // Windowsだと高さが2px伸びるので修正
+  if (process.platform === 'win32') {
+    size.height -= 2
+  }
+
   const mainOpts: Electron.BrowserWindowConstructorOptions = {
     title: 'serizawa',
-    ...defaultSize,
+    ...size,
     resizable: false,
     center: true,
     frame: false,
@@ -58,7 +63,6 @@ const createWindow = () => {
 
   // 画面の設定
   win.loadFile('./build/index.html')
-  // win.setAspectRatio(142 / 83) // 142:83
 
   const handleUrlOpen = (e: Electron.Event, url: string) => {
     e.preventDefault()
