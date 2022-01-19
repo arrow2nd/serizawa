@@ -29,13 +29,13 @@ const createWindow = () => {
   const mainOpts: Electron.BrowserWindowConstructorOptions = {
     title: 'serizawa',
     ...defaultSize,
-    minWidth: defaultSize.width,
-    minHeight: defaultSize.height,
+    // minWidth: defaultSize.width,
+    // minHeight: defaultSize.height,
     center: true,
     useContentSize: true,
     frame: false,
     show: false,
-    resizable: true, // electron #30788
+    resizable: false, // electron #30788
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -59,7 +59,7 @@ const createWindow = () => {
   Menu.setApplicationMenu(null)
 
   win.loadFile('./build/index.html')
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   // 多重起動を防止
   const doubleboot = app.requestSingleInstanceLock()
