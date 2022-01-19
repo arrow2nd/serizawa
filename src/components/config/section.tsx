@@ -1,12 +1,6 @@
 import React from 'react'
 
-type Props = {
-  title: string
-  btnText: string
-  btnBg: string
-  btnHoverBg: string
-  onClick: () => void
-}
+import { ConfigSection } from '../../types/config'
 
 const Section = ({
   title,
@@ -14,7 +8,7 @@ const Section = ({
   btnBg,
   btnHoverBg,
   onClick
-}: Props): JSX.Element => (
+}: ConfigSection): JSX.Element => (
   <div className="mt-4 text-sm">
     <span className="block text-left">{title}</span>
     <button

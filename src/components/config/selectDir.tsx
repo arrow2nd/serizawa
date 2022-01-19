@@ -8,7 +8,7 @@ type Props = {
 const SelectDir = ({ onClick }: Props): JSX.Element => {
   const [picDir, setPicDir] = useState('')
 
-  // 初回のみ取得
+  // 初回のみディレクトリパスを取得
   useEffect(() => {
     window.api.getPicDir().then((dir) => setPicDir(dir))
   }, [])

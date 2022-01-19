@@ -110,19 +110,19 @@ const openDownloadPage = (url: string | undefined) => {
 
 //---------------------------------------------------
 
-// 初期化できたらウィンドウを作成
 app.whenReady().then(() => {
+  // ウィンドウを作成
+  createWindow()
   // 更新を確認
   checkUpdate().then((url) => openDownloadPage(url))
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
-    }
-  })
 })
 
-// ウィンドウを閉じたら終了
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow()
+  }
+})
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()

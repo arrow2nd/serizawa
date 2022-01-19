@@ -11,6 +11,7 @@
     "<THIRD_PARTY_MODULES>",
     "compornents",
     "libs",
+    "types",
     "images",
     "^[./]"
   ],
