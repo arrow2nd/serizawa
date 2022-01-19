@@ -323,7 +323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@electron/get@npm:^1.0.1":
+"@electron/get@npm:^1.13.0":
   version: 1.13.1
   resolution: "@electron/get@npm:1.13.1"
   dependencies:
@@ -2571,7 +2571,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder@npm:^22.14.5":
+"electron-builder@npm:^22.14.13":
   version: 22.14.13
   resolution: "electron-builder@npm:22.14.13"
   dependencies:
@@ -2643,16 +2643,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:14.2.4":
-  version: 14.2.4
-  resolution: "electron@npm:14.2.4"
+"electron@npm:16.0.7":
+  version: 16.0.7
+  resolution: "electron@npm:16.0.7"
   dependencies:
-    "@electron/get": ^1.0.1
+    "@electron/get": ^1.13.0
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: fcae758150022181e6b9ac147460736c0e546b2141a4905b6fbe94c6bf5c1eb9e99aac31e98777937442767ddae5aaee10bd74889491d425b4b70643ae156577
+  checksum: 9ca82da3739ad737b736c9f5ff9d0e4883f69cb55128d65c39b559ad26b95502d7fb54899e01d744ee4d1d8d1414fe0a77750ed30ed187e90737562b823e1ee1
   languageName: node
   linkType: hard
 
@@ -5976,8 +5976,8 @@ __metadata:
     copy-webpack-plugin: ^10.2.0
     cross-env: ^7.0.3
     css-loader: ^6.5.1
-    electron: 14.2.4
-    electron-builder: ^22.14.5
+    electron: 16.0.7
+    electron-builder: ^22.14.13
     electron-store: ^8.0.1
     eslint: ^8.7.0
     eslint-config-prettier: ^8.3.0
