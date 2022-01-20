@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld('api', {
   // ビューを非表示
   hideView: () => ipcRenderer.send('hide-view'),
   // 閉じる
-  close: () => ipcRenderer.send('win-close'),
+  close: () => ipcRenderer.send('close'),
   // 最小化
   minimize: () => ipcRenderer.send('minimize'),
   // 再読み込み
