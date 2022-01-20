@@ -6,16 +6,16 @@ type Props = {
 }
 
 const SelectDir = ({ onClick }: Props): JSX.Element => {
-  const [picDir, setPicDir] = useState('')
+  const [pictureDir, setPictureDir] = useState('')
 
   // 初回のみディレクトリパスを取得
   useEffect(() => {
-    window.api.getPicDir().then((dir) => setPicDir(dir))
+    window.api.getPictureDir().then((dir) => setPictureDir(dir))
   }, [])
 
   const handleClick = async () => {
     onClick()
-    setPicDir(await window.api.getPicDir())
+    setPictureDir(await window.api.getPictureDir())
   }
 
   return (
@@ -24,7 +24,7 @@ const SelectDir = ({ onClick }: Props): JSX.Element => {
       <div
         className={`flex items-center justify-between w-full mt-2 px-4 py-1 text-center text-black border rounded-2xl shadow-md`}
       >
-        <span className="truncate">{picDir}</span>
+        <span className="truncate">{pictureDir}</span>
         <button onClick={handleClick}>
           <AiOutlineFolderOpen />
         </button>

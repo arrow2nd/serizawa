@@ -7,7 +7,6 @@ import {
   shell
 } from 'electron'
 import Store from 'electron-store'
-import { Rectangle } from 'electron/main'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import path from 'path'
 
@@ -52,6 +51,17 @@ const showUpdateDialog = (url: string | undefined) => {
   }
 }
 
+/**
+ * ウィンドウにフォーカスを当てる
+ *
+ * TODO: 動いてないかもなので後で対応する
+ */
+const focusWindow = () => {
+  console.log('[focus] ' + new Date().toTimeString())
+  browser.focus()
+  app.focus({ steal: true })
+}
+
 //----------------------------------------------------------------------
 
 app.whenReady().then(() => {
@@ -76,60 +86,59 @@ app.on('window-all-closed', () => {
 // フォーカスを失わないようにする
 app.on('browser-window-blur', () => {
   if (browser.isPinned()) {
-    browser.focus()
-    app.focus({ steal: true })
+    focusWindow()
   }
 })
 
 //----------------------------------------------------------------------
 
+// フォーカスを当てる
+ipcMain.on('focus', () => focusWindow())
+
 // アプリケーションを終了
-ipcMain.on('win-close', () => browser.close())
+ipcMain.on('close', () => browser.close())
 
 // ウィンドウを最小化
-ipcMain.on('win-minimize', () => browser.minimize())
-
-// ウィンドウの最大化状態を変更
-ipcMain.on('win-change-maximize', () => browser.maximize())
-
-// ウィンドウのピン留めを変更
-ipcMain.on('win-change-pinned', () => browser.pinned())
-
-// ミュート状態の変更
-ipcMain.on('win-change-mute', () => browser.muted())
+ipcMain.on('minimize', () => browser.minimize())
 
 // 再読み込み
-ipcMain.on('win-reload', () => browser.reload())
+ipcMain.on('reload', () => browser.reload())
+
+// ウィンドウの最大化状態を変更
+ipcMain.on('toggle-maximize', () => browser.maximize())
+
+// ウィンドウのピン留めを変更
+ipcMain.on('toggle-pinned', () => browser.pinned())
+
+// ミュート状態の変更
+ipcMain.on('toggle-mute', () => browser.muted())
 
 // スクリーンショット撮影
-ipcMain.on(
-  'capture-screen',
-  async (_ev: Electron.IpcMainEvent, rect: Rectangle) => {
-    const saveDir = getPicDir()
+ipcMain.on('capture', async () => {
+  const saveDir = getPicDir()
 
-    // ディレクトリが無い場合作成
-    if (!existsSync(saveDir)) {
-      mkdirSync(saveDir)
-    }
-
-    // 撮影
-    const pic = await browser.capture(rect)
-    if (!pic) return
-
-    // パスを作成
-    const dateStr = date2String(new Date())
-    const savePath = path.join(saveDir, `ScreenShot_${dateStr}.png`)
-
-    // 保存
-    clipboard.writeImage(pic)
-    writeFileSync(savePath, pic.toPNG())
+  // ディレクトリが無い場合作成
+  if (!existsSync(saveDir)) {
+    mkdirSync(saveDir)
   }
-)
+
+  // 撮影
+  const pic = await browser.capture()
+  if (!pic) return
+
+  // パスを作成
+  const dateStr = date2String(new Date())
+  const savePath = path.join(saveDir, `ScreenShot_${dateStr}.png`)
+
+  // 保存
+  clipboard.writeImage(pic)
+  writeFileSync(savePath, pic.toPNG())
+})
 
 //----------------------------------------------------------------------
 
 // スクリーンショット保存先選択
-ipcMain.on('open-select-dir', () => {
+ipcMain.on('show-select-dir-dialog', () => {
   const result = browser.showOpenDialog({
     properties: ['openDirectory']
   })
@@ -140,7 +149,7 @@ ipcMain.on('open-select-dir', () => {
 })
 
 // 保存先のパスを取得
-ipcMain.handle('get-pic-dir', (): string => getPicDir())
+ipcMain.handle('get-picture-dir', (): string => getPicDir())
 
 // キャッシュを削除
 ipcMain.on('remove-cache', async () => {

@@ -95,7 +95,7 @@ export class Browser {
   }
 
   /**
-   * 最小化切り替え
+   * 最小化
    */
   public minimize = () => {
     if (!this.window) return
@@ -148,7 +148,7 @@ export class Browser {
   public focus = () => {
     if (!this.window || !this.view) return
 
-    this.window.focus()
+    this.window.webContents.focus()
     this.view.webContents.focus()
   }
 
@@ -164,16 +164,11 @@ export class Browser {
   }
 
   /**
-   * 範囲を指定してスクリーンショットを撮影
-   * @param rect 取得範囲
+   * スクリーンショットを撮影
    * @returns 生の画像データ
    */
-  public capture = (
-    rect: Electron.Rectangle
-  ): Promise<Electron.NativeImage> | undefined => {
-    if (!this.window) return undefined
-
-    return this.window.capturePage(rect)
+  public capture = (): Promise<Electron.NativeImage> | undefined => {
+    return this.view?.webContents.capturePage()
   }
 
   /**

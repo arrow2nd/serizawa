@@ -7,21 +7,20 @@ import Section, { ConfigSection } from './section'
 import SelectDir from './selectDir'
 
 type Props = {
-  focusIframe: () => void
   onClickClose: () => void
 }
 
-const Config = ({ focusIframe, onClickClose }: Props): JSX.Element => {
+const Config = ({ onClickClose }: Props): JSX.Element => {
   // 設定ウィンドウを閉じる
   const handleClickClose = () => {
     onClickClose()
-    focusIframe()
+    window.api.focus()
   }
 
   // ディレクトリを選択
   const handleClickSelectDir = () => {
-    window.api.openSelectDir()
-    focusIframe()
+    window.api.showSelectDirDialog()
+    window.api.focus()
   }
 
   // 設定項目ボタン
@@ -33,7 +32,7 @@ const Config = ({ focusIframe, onClickClose }: Props): JSX.Element => {
       btnHoverBg: 'bg-red-600',
       onClick: () => {
         window.api.removeCache()
-        focusIframe()
+        window.api.focus()
       }
     },
     {
@@ -43,7 +42,7 @@ const Config = ({ focusIframe, onClickClose }: Props): JSX.Element => {
       btnHoverBg: 'bg-red-600',
       onClick: () => {
         window.api.removeCookie()
-        focusIframe()
+        window.api.focus()
       }
     },
     {
@@ -53,7 +52,7 @@ const Config = ({ focusIframe, onClickClose }: Props): JSX.Element => {
       btnHoverBg: 'bg-gray-800',
       onClick: () => {
         window.api.checkUpdate()
-        focusIframe()
+        window.api.focus()
       }
     }
   ]

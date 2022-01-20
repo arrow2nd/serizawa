@@ -1,41 +1,30 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { Rectangle } from 'electron/main'
 
 contextBridge.exposeInMainWorld('api', {
-  windowClose: () => {
-    ipcRenderer.send('win-close')
-  },
-  windowMinimize: () => {
-    ipcRenderer.send('win-minimize')
-  },
-  windowChangeMaximize: () => {
-    ipcRenderer.send('win-change-maximize')
-  },
-  windowChangePinned: () => {
-    ipcRenderer.send('win-change-pinned')
-  },
-  windowReload: () => {
-    ipcRenderer.send('win-reload')
-  },
-  captureScreen: (rect: Rectangle) => {
-    ipcRenderer.send('capture-screen', rect)
-  },
-  windowChangeMute: () => {
-    ipcRenderer.send('win-change-mute')
-  },
-  openSelectDir: () => {
-    ipcRenderer.send('open-select-dir')
-  },
-  getPicDir: (): Promise<string> => {
-    return ipcRenderer.invoke('get-pic-dir')
-  },
-  removeCache: () => {
-    ipcRenderer.send('remove-cache')
-  },
-  removeCookie: () => {
-    ipcRenderer.send('remove-cookie')
-  },
-  checkUpdate: () => {
-    ipcRenderer.send('check-update')
-  }
+  // フォーカスを当てる
+  focus: () => ipcRenderer.send('focus'),
+  // 閉じる
+  close: () => ipcRenderer.send('win-close'),
+  // 最小化
+  minimize: () => ipcRenderer.send('minimize'),
+  // 再読み込み
+  reload: () => ipcRenderer.send('reload'),
+  // 最大化切り替え
+  toggleMaximize: () => ipcRenderer.send('toggle-maximize'),
+  // 最前面に固定切り替え
+  togglePinned: () => ipcRenderer.send('toggle-pinned'),
+  // ミュート切り替え
+  toggleMute: () => ipcRenderer.send('toggle-mute'),
+  // スクリーンショットを撮影
+  capture: () => ipcRenderer.send('capture'),
+  // ディレクトリ選択ダイアログを開く
+  showSelectDirDialog: () => ipcRenderer.send('show-select-dir-dialog'),
+  // スクリーンショット保存ディレクトリを取得
+  getPictureDir: (): Promise<string> => ipcRenderer.invoke('get-picture-dir'),
+  // キャッシュを削除
+  removeCache: () => ipcRenderer.send('remove-cache'),
+  // Cookieを削除
+  removeCookie: () => ipcRenderer.send('remove-cookie'),
+  // 更新を確認
+  checkUpdate: () => ipcRenderer.send('check-update')
 })

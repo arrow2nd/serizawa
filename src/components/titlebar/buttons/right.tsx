@@ -1,4 +1,3 @@
-import { Rectangle } from 'electron/renderer'
 import React, { useReducer } from 'react'
 import {
   AiOutlineCamera,
@@ -18,12 +17,7 @@ import {
 
 import UIButton, { Button } from './button'
 
-type Props = {
-  focusIframe: () => void
-  getIframeRect: () => Rectangle
-}
-
-const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
+const RightButtons = (): JSX.Element => {
   const [isCaptured, toggleCaptured] = useReducer((prev) => !prev, false)
   const [isPinned, togglePinned] = useReducer((prev) => !prev, false)
   const [isMaximized, toggleMaximized] = useReducer((prev) => !prev, false)
@@ -34,7 +28,7 @@ const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
       title: 'スクリーンショットを撮影',
       children: isCaptured ? <RiCheckboxCircleFill /> : <AiOutlineCamera />,
       onClick: () => {
-        window.api.captureScreen(getIframeRect())
+        window.api.capture()
         toggleCaptured()
         setTimeout(() => toggleCaptured(), 1500)
       }
@@ -43,46 +37,46 @@ const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
       title: isMuted ? 'ミュート解除' : 'ミュート',
       children: isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpLine />,
       onClick: () => {
-        window.api.windowChangeMute()
+        window.api.toggleMute()
+        window.api.focus()
         toggleMuted()
-        focusIframe()
       }
     },
     {
       title: '再読み込み',
       children: <AiOutlineReload />,
       onClick: () => {
-        window.api.windowReload()
-        focusIframe()
+        window.api.reload()
+        window.api.focus()
       }
     },
     {
       title: isPinned ? '固定を解除' : '最前面に固定',
       children: isPinned ? <RiPushpin2Fill /> : <RiPushpin2Line />,
       onClick: async () => {
-        window.api.windowChangePinned()
+        window.api.togglePinned()
+        window.api.focus()
         togglePinned()
-        focusIframe()
       }
     },
     {
       title: '最小化',
       children: <AiOutlineMinus />,
-      onClick: () => window.api.windowMinimize()
+      onClick: () => window.api.minimize()
     },
     {
       title: isMaximized ? '最大化を解除' : '最大化',
       children: isMaximized ? <RiFullscreenExitLine /> : <RiFullscreenLine />,
       onClick: async () => {
-        window.api.windowChangeMaximize()
+        window.api.toggleMaximize()
+        window.api.focus()
         toggleMaximized()
-        focusIframe()
       }
     },
     {
       title: '終了',
       children: <RiCloseLine />,
-      onClick: () => window.api.windowClose()
+      onClick: () => window.api.close()
     }
   ]
 
