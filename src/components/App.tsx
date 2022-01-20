@@ -29,11 +29,6 @@ const App = (): JSX.Element => {
         getIframeRect={getIframeRect}
         onClickSetting={openConfigWindow}
       />
-      <iframe
-        className="flex-1 block w-screen p-0 border-0 border-none align-bottom"
-        src="https://shinycolors.enza.fun"
-        ref={iframeRef}
-      />
     </div>
   )
 }
