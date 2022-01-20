@@ -6,13 +6,23 @@ import TitleBar from './titlebar'
 const App = (): JSX.Element => {
   const [isShowConfig, setShowConfig] = useState(false)
 
-  const showConfigWindow = () => setShowConfig(true)
-  const hiddenConfigWindow = () => setShowConfig(false)
+  const showConfig = () => {
+    setShowConfig(true)
+    window.api.hideView()
+  }
+
+  const hideConfig = () => {
+    window.api.showView()
+    setShowConfig(false)
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
-      {isShowConfig && <Config onClickClose={hiddenConfigWindow} />}
-      <TitleBar onClickSetting={showConfigWindow} />
+      {isShowConfig ? (
+        <Config onClickClose={hideConfig} />
+      ) : (
+        <TitleBar onClickSetting={showConfig} />
+      )}
     </div>
   )
 }

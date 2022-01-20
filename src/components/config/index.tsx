@@ -11,7 +11,7 @@ type Props = {
 }
 
 const Config = ({ onClickClose }: Props): JSX.Element => {
-  // 設定ウィンドウを閉じる
+  // 設定画面を閉じる
   const handleClickClose = () => {
     onClickClose()
     window.api.focus()
@@ -23,7 +23,7 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
     window.api.focus()
   }
 
-  // 設定項目ボタン
+  // 項目ボタン
   const sections: ConfigSection[] = [
     {
       title: 'キャッシュを削除',
@@ -58,23 +58,25 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
   ]
 
   return (
-    <div className="flex flex-col items-center px-7 py-8 fixed top-1/2 left-1/2 -transform-50 w-96 bg-white border border-gray-200 rounded-xl shadow-2xl">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-neutral-50 drag">
       <button
-        className="fixed top-3 right-3 text-xl text-gray-800"
+        className="fixed top-0 right-0 p-4 text-xl text-neutral-900 cursor-pointer"
         onClick={handleClickClose}
       >
         <RiCloseLine />
       </button>
-      <img className="w-64 drag-none" src={LogoImg} alt="serizawa" />
-      <div className="w-full mt-6">
-        <SelectDir onClick={handleClickSelectDir} />
-        {sections.map((e) => (
-          <Section key={e.title} {...e} />
-        ))}
+      <div className="w-72 drag-none">
+        <img src={LogoImg} alt="serizawa" />
+        <div className="mt-6">
+          <SelectDir onClick={handleClickSelectDir} />
+          {sections.map((e) => (
+            <Section key={e.title} {...e} />
+          ))}
+        </div>
+        <span className="block mt-8 text-center text-xs text-gray-700">
+          {`Developed by arrow2nd - v${process.env.VERSION}`}
+        </span>
       </div>
-      <span className="block mt-8 text-xs text-gray-700">
-        {`Developed by arrow2nd - v${process.env.VERSION}`}
-      </span>
     </div>
   )
 }

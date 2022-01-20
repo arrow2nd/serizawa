@@ -25,10 +25,8 @@ module.exports = {
         },
         '.drag-none': {
           '-webkit-user-drag': 'none',
-          '-webkit-app-region': 'no-drag'
-        },
-        '.-transform-50': {
-          transform: 'translate(-50%, -50%)'
+          '-webkit-app-region': 'no-drag',
+          'user-select': 'none'
         }
       }
       addUtilities(newUtilities)

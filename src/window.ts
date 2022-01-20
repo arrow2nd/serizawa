@@ -34,7 +34,7 @@ export class Browser {
       title: 'serizawa',
       ...windowSize,
       minWidth: windowSize.width,
-      height: windowSize.height,
+      minHeight: windowSize.height,
       center: true,
       frame: false,
       show: false,
@@ -63,7 +63,7 @@ export class Browser {
 
     // ブラウザ画面の埋め込み
     this.view = new BrowserView()
-    this.window.setBrowserView(this.view)
+    this.showView()
 
     // ビューの設定
     this.view.webContents.loadURL('https://shinycolors.enza.fun')
@@ -84,6 +84,22 @@ export class Browser {
     if (!app.requestSingleInstanceLock()) {
       app.quit()
     }
+  }
+
+  /**
+   * ビューを表示
+   */
+  public showView = () => {
+    if (!this.window || !this.view) return
+    this.window.setBrowserView(this.view)
+  }
+
+  /**
+   * ビューを非表示
+   */
+  public hideView = () => {
+    if (!this.window || !this.view) return
+    this.window.removeBrowserView(this.view)
   }
 
   /**
@@ -128,7 +144,6 @@ export class Browser {
    */
   public isPinned = (): boolean => {
     if (!this.window) return false
-
     return this.window.isAlwaysOnTop()
   }
 
@@ -160,7 +175,8 @@ export class Browser {
 
     this.window.setFullScreen(false)
     this.window.setAlwaysOnTop(false)
-    this.view.webContents.reload()
+
+    this.view.webContents.loadURL('https://shinycolors.enza.fun')
   }
 
   /**
@@ -180,7 +196,6 @@ export class Browser {
     options: Electron.MessageBoxSyncOptions
   ): number => {
     if (!this.window) return -1
-
     return dialog.showMessageBoxSync(this.window, options)
   }
 
@@ -193,7 +208,6 @@ export class Browser {
     options: Electron.OpenDialogSyncOptions
   ): string[] | undefined => {
     if (!this.window) return undefined
-
     return dialog.showOpenDialogSync(this.window, options)
   }
 }

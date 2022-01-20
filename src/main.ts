@@ -95,6 +95,12 @@ app.on('browser-window-blur', () => {
 // フォーカスを当てる
 ipcMain.on('focus', () => focusWindow())
 
+// ビューを表示
+ipcMain.on('show-view', () => browser.showView())
+
+// ビューを非表示
+ipcMain.on('hide-view', () => browser.hideView())
+
 // アプリケーションを終了
 ipcMain.on('close', () => browser.close())
 
