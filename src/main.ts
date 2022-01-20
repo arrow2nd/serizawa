@@ -53,13 +53,13 @@ const showUpdateDialog = (url: string | undefined) => {
 
 /**
  * ウィンドウにフォーカスを当てる
- *
- * TODO: 動いてないかもなので後で対応する
  */
 const focusWindow = () => {
-  console.log('[focus] ' + new Date().toTimeString())
-  browser.focus()
   app.focus({ steal: true })
+
+  // アプリにフォーカスが当たるまで遅延があるっぽいので
+  // 少し間隔をあけてからビューにフォーカスを当てる
+  setTimeout(() => browser.focus(), 100)
 }
 
 //----------------------------------------------------------------------

@@ -165,8 +165,6 @@ export class Browser {
    */
   public focus = () => {
     if (!this.window || !this.view) return
-
-    this.window.webContents.focus()
     this.view.webContents.focus()
   }
 
@@ -174,11 +172,7 @@ export class Browser {
    * 再読み込み
    */
   public reload = () => {
-    if (!this.window || !this.view) return
-
-    this.window.setFullScreen(false)
-    this.window.setAlwaysOnTop(false)
-
+    if (!this.view) return
     this.view.webContents.loadURL('https://shinycolors.enza.fun')
   }
 

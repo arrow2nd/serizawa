@@ -18,11 +18,8 @@ const App = (): JSX.Element => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {isShowConfig ? (
-        <Config onClickClose={hideConfig} />
-      ) : (
-        <TitleBar onClickSetting={showConfig} />
-      )}
+      <TitleBar onClickSetting={showConfig} hidden={isShowConfig} />
+      {isShowConfig && <Config onClickClose={hideConfig} />}
     </div>
   )
 }
