@@ -6,14 +6,17 @@ import path from 'path'
  * ブラウザウィンドウ
  */
 export class Browser {
-  private window: BrowserWindow | undefined
-  private view: BrowserView | undefined
+  private window!: BrowserWindow
+  private view!: BrowserView
 
   // ゲームの標準解像度
   private gameWindowSize = {
     width: 1136,
     height: 640
   }
+
+  // タイトルバーの高さ
+  private titlebarHeight = 24
 
   /**
    * メインウィンドウ設定を取得
@@ -22,7 +25,7 @@ export class Browser {
   private getWindowOption = (): Electron.BrowserWindowConstructorOptions => {
     const windowSize = {
       ...this.gameWindowSize,
-      height: this.gameWindowSize.height + 24
+      height: this.gameWindowSize.height + this.titlebarHeight
     }
 
     // windows環境だと上下に1pxずつ隙間ができるので修正
@@ -35,15 +38,31 @@ export class Browser {
       ...windowSize,
       minWidth: windowSize.width,
       minHeight: windowSize.height,
-      resizable: false,
       center: true,
       frame: false,
       show: false,
       webPreferences: {
-        devTools: false,
+        // devTools: false,
         preload: path.join(__dirname, 'preload.js')
       }
     }
+  }
+
+  /**
+   * ビューをリサイズ
+   * @param param 画面サイズ
+   */
+  private resizeView = (bounds?: Electron.Rectangle) => {
+    // 指定なしの場合、現在のサイズを取得
+    const { width, height } = bounds || this.window.getBounds()
+
+    // タイトルバーの高さを考慮
+    this.view.setBounds({
+      x: 0,
+      y: this.titlebarHeight,
+      width,
+      height: height - this.titlebarHeight
+    })
   }
 
   /**
@@ -68,14 +87,17 @@ export class Browser {
 
     // ビューの設定
     this.view.webContents.loadURL('https://shinycolors.enza.fun')
-    this.view.setBounds({ x: 0, y: 24, ...this.gameWindowSize })
-    this.view.setAutoResize({ width: true, height: true })
 
-    // ウィンドウの設定
+    // 読み込みファイル指定
     this.window.loadFile('./build/index.html')
 
+    // リサイズ操作にビューのサイズを追従させる
+    this.window.on('will-resize', (_e, bounds) => {
+      this.resizeView(bounds)
+    })
+
     // 開発者ツール
-    // this.window.webContents.openDevTools()
+    this.window.webContents.openDevTools()
     // this.view.webContents.openDevTools()
 
     // メニューバーを無効
@@ -91,15 +113,14 @@ export class Browser {
    * ビューを表示
    */
   public showView = () => {
-    if (!this.window || !this.view) return
     this.window.setBrowserView(this.view)
+    this.resizeView()
   }
 
   /**
    * ビューを非表示
    */
   public hideView = () => {
-    if (!this.window || !this.view) return
     this.window.removeBrowserView(this.view)
   }
 
@@ -107,7 +128,6 @@ export class Browser {
    * 閉じる
    */
   public close = () => {
-    if (!this.window) return
     this.window.close()
   }
 
@@ -115,7 +135,6 @@ export class Browser {
    * 最小化
    */
   public minimize = () => {
-    if (!this.window) return
     this.window.minimize()
   }
 
@@ -123,24 +142,17 @@ export class Browser {
    * 最大化切り替え
    */
   public maximize = () => {
-    if (!this.window || !this.view) return
-
     const nextState = !this.window.isFullScreen()
-
-    // 切り替え
-    this.window.setResizable(true)
     this.window.setFullScreen(nextState)
 
-    // リサイズを無効に戻す
-    this.window.setResizable(false)
+    // ビューをリサイズ
+    setTimeout(() => this.resizeView(), 250)
   }
 
   /**
    * 最前面に固定切り替え
    */
   public pinned = () => {
-    if (!this.window) return
-
     const nextState = !this.isPinned()
     this.window.setAlwaysOnTop(nextState, 'screen-saver')
   }
@@ -150,7 +162,6 @@ export class Browser {
    * @returns
    */
   public isPinned = (): boolean => {
-    if (!this.window) return false
     return this.window.isAlwaysOnTop()
   }
 
@@ -158,8 +169,6 @@ export class Browser {
    * ミュート切り替え
    */
   public muted = () => {
-    if (!this.view) return
-
     const nextState = !this.view.webContents.isAudioMuted()
     this.view.webContents.setAudioMuted(nextState)
   }
@@ -168,7 +177,6 @@ export class Browser {
    * フォーカスを当てる
    */
   public focus = () => {
-    if (!this.window || !this.view) return
     this.view.webContents.focus()
   }
 
@@ -176,7 +184,6 @@ export class Browser {
    * 再読み込み
    */
   public reload = () => {
-    if (!this.view) return
     this.view.webContents.loadURL('https://shinycolors.enza.fun')
   }
 
@@ -196,7 +203,6 @@ export class Browser {
   public showMessageWindow = (
     options: Electron.MessageBoxSyncOptions
   ): number => {
-    if (!this.window) return -1
     return dialog.showMessageBoxSync(this.window, options)
   }
 
@@ -208,7 +214,6 @@ export class Browser {
   public showOpenDialog = (
     options: Electron.OpenDialogSyncOptions
   ): string[] | undefined => {
-    if (!this.window) return undefined
     return dialog.showOpenDialogSync(this.window, options)
   }
 }
