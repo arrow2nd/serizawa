@@ -30,16 +30,19 @@ export class Browser {
       windowSize.height -= 2
     }
 
+    // resizable: false にすると最大化の切り替えが上手くいかないので、minとmaxを同じ値にして対処
     return {
       title: 'serizawa',
       ...windowSize,
       minWidth: windowSize.width,
       minHeight: windowSize.height,
+      maxWidth: windowSize.width,
+      maxHeight: windowSize.height,
       center: true,
       frame: false,
       show: false,
       webPreferences: {
-        // devTools: false,
+        devTools: false,
         preload: path.join(__dirname, 'preload.js')
       }
     }
@@ -74,8 +77,8 @@ export class Browser {
     this.window.loadFile('./build/index.html')
 
     // 開発者ツール
-    this.window.webContents.openDevTools()
-    this.view.webContents.openDevTools()
+    // this.window.webContents.openDevTools()
+    // this.view.webContents.openDevTools()
 
     // メニューバーを無効
     Menu.setApplicationMenu(null)
