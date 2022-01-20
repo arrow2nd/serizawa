@@ -30,14 +30,12 @@ export class Browser {
       windowSize.height -= 2
     }
 
-    // resizable: false にすると最大化の切り替えが上手くいかないので、minとmaxを同じ値にして対処
     return {
       title: 'serizawa',
       ...windowSize,
       minWidth: windowSize.width,
       minHeight: windowSize.height,
-      maxWidth: windowSize.width,
-      maxHeight: windowSize.height,
+      resizable: false,
       center: true,
       frame: false,
       show: false,
@@ -125,10 +123,16 @@ export class Browser {
    * 最大化切り替え
    */
   public maximize = () => {
-    if (!this.window) return
+    if (!this.window || !this.view) return
 
     const nextState = !this.window.isFullScreen()
+
+    // 切り替え
+    this.window.setResizable(true)
     this.window.setFullScreen(nextState)
+
+    // リサイズを無効に戻す
+    this.window.setResizable(false)
   }
 
   /**
