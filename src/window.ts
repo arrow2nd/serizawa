@@ -126,11 +126,24 @@ export class Browser {
    */
   private setViewEventHandlers = () => {
     const handleUrlOpen = (e: Electron.Event, url: string) => {
-      e.preventDefault()
+      const safeList = [
+        /^https:\/\/(portal|shinycolors)\.enza\.fun/,
+        /^https:\/\/.*\.bandainamcoid\.com/,
+        /^https:\/\/.*\.line\.me/,
+        /^https:\/\/.*\.apple\.com/,
+        /^https:\/\/.*\.facebook\.com/,
+        /^https:\/\/.*\.twitter\.com/
+      ]
 
-      if (/^https/.test(url)) {
-        shell.openExternal(url)
+      // リスト内にマッチするもののみリンク先への遷移を許可
+      for (const patten of safeList) {
+        if (patten.test(url)) {
+          return
+        }
       }
+
+      e.preventDefault()
+      shell.openExternal(url)
     }
 
     // 外部リンクを標準ブラウザで開く
