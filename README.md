@@ -52,11 +52,11 @@
 ## 🖥 動作環境
 
 - Windows 10 / 11
-- macOS Monterey 12.1 (Intel)
+- macOS Monterey 12.1~ (Intel)
 
 ## 💾 ダウンロード
 
-**ダウンロードする前に 注意事項・免責事項 を必ずご確認ください。**
+> **ダウンロードする前に 注意事項・免責事項 を必ずご確認ください。**
 
 [Releases](https://github.com/arrow2nd/serizawa/releases/latest) からお使いの環境にあったファイルをダウンロードしてください。
 
