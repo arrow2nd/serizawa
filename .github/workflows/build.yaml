@@ -68,7 +68,9 @@ jobs:
         with:
           body: |
             ## ⚠️ 注意
-            ダウンロードされる前に **必ず** [免責事項](https://github.com/${{ github.repository }}/blob/main/README.md#%EF%B8%8F-%E5%85%8D%E8%B2%AC%E4%BA%8B%E9%A0%85) をお読みください。
+            ダウンロードされる前に **必ず** [注意事項](https://github.com/${{ github.repository }}/blob/main/README.md#%EF%B8%8F-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85)・[免責事項](https://github.com/${{ github.repository }}/blob/main/README.md#%EF%B8%8F-%E5%85%8D%E8%B2%AC%E4%BA%8B%E9%A0%85) をお読みください。
+            ## 更新履歴
+            [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md#change-log) をご確認ください。
             ## 🗂 ファイルについて
             |OS|ファイル名|
             |-|-|
