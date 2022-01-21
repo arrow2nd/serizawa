@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('api', {
   // フォーカスを当てる
-  focus: () => ipcRenderer.send('focus'),
+  focus: () => ipcRenderer.send('focus-view'),
   // ビューを表示
   showView: () => ipcRenderer.send('show-view'),
   // ビューを非表示

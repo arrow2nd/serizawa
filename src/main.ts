@@ -51,17 +51,6 @@ const showUpdateDialog = (url: string | undefined) => {
   }
 }
 
-/**
- * ウィンドウにフォーカスを当てる
- */
-const focusWindow = () => {
-  app.focus({ steal: true })
-
-  // アプリにフォーカスが当たるまで遅延があるっぽいので
-  // 少し間隔をあけてからビューにフォーカスを当てる
-  setTimeout(() => browser.focus(), 100)
-}
-
 //----------------------------------------------------------------------
 
 app.whenReady().then(() => {
@@ -85,15 +74,21 @@ app.on('window-all-closed', () => {
 
 // フォーカスを失わないようにする
 app.on('browser-window-blur', () => {
-  if (browser.isPinned()) {
-    focusWindow()
-  }
+  // ピン止めされていないなら何もしない
+  if (!browser.isPinned()) return
+
+  // フォーカスを奪う
+  app.focus({ steal: true })
+
+  // 実際にフォーカスが当たるまで遅延があるので
+  // 少し間隔をあけてからビューにフォーカスを当てる
+  setTimeout(() => browser.focus(), 100)
 })
 
 //----------------------------------------------------------------------
 
-// フォーカスを当てる
-ipcMain.on('focus', () => focusWindow())
+// ビューにフォーカスを当てる
+ipcMain.on('focus-view', () => browser.focus())
 
 // ビューを表示
 ipcMain.on('show-view', () => browser.showView())

@@ -78,12 +78,10 @@ export class Browser {
       }
     })
 
-    // ブラウザ画面の埋め込み
+    // ビューの設定
     this.view = new BrowserView()
     this.showView()
-
-    // ビューの設定
-    this.view.webContents.loadURL('https://shinycolors.enza.fun')
+    this.reload()
 
     // 読み込みファイル指定
     this.window.loadFile('./build/index.html')
