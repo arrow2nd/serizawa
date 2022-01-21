@@ -1,5 +1,5 @@
 import * as Splashscreen from '@trodi/electron-splashscreen'
-import { BrowserView, BrowserWindow, Menu, app, dialog } from 'electron'
+import { BrowserView, BrowserWindow, Menu, app, dialog, shell } from 'electron'
 import path from 'path'
 
 /**
@@ -82,10 +82,29 @@ export class Browser {
     this.view = new BrowserView()
     this.showView()
     this.reload()
+    this.setViewEventHandlers()
 
-    // 読み込みファイル指定
+    // ウィンドウの設定
     this.window.loadFile('./build/index.html')
+    this.setWindowEventHandlers()
 
+    // 開発者ツール
+    // this.window.webContents.openDevTools()
+    // this.view.webContents.openDevTools()
+
+    // メニューバーを無効
+    Menu.setApplicationMenu(null)
+
+    // 多重起動を防止
+    if (!app.requestSingleInstanceLock()) {
+      app.quit()
+    }
+  }
+
+  /**
+   * ウィンドウのイベントハンドラを設定
+   */
+  private setWindowEventHandlers = () => {
     // リサイズ操作にビューのサイズを追従させる
     this.window.on('will-resize', (_e, bounds) => {
       this.resizeView(bounds)
@@ -100,18 +119,23 @@ export class Browser {
     this.window.on('focus', () => {
       this.focusView()
     })
+  }
 
-    // 開発者ツール
-    // this.window.webContents.openDevTools()
-    // this.view.webContents.openDevTools()
+  /**
+   * ビューのイベントハンドラを設定
+   */
+  private setViewEventHandlers = () => {
+    const handleUrlOpen = (e: Electron.Event, url: string) => {
+      e.preventDefault()
 
-    // メニューバーを無効
-    Menu.setApplicationMenu(null)
-
-    // 多重起動を防止
-    if (!app.requestSingleInstanceLock()) {
-      app.quit()
+      if (/^https/.test(url)) {
+        shell.openExternal(url)
+      }
     }
+
+    // 外部リンクを標準ブラウザで開く
+    this.view.webContents.on('will-navigate', handleUrlOpen)
+    this.view.webContents.on('new-window', handleUrlOpen)
   }
 
   /**
