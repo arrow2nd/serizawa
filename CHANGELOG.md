@@ -2,24 +2,29 @@
 
 ## [Unreleased]
 
+## 2.0.0 - 2022-01-00 [YANKED]
+
 ### Added
 
 - ミュート機能を追加
 
 ### Changed
 
+- README を更新
 - UI アイコンを変更
 - 外部リンクを標準ブラウザで開くよう変更
+- 設定画面のレイアウトを変更
 
 ### Fixed
 
+- 新規ログインができない
 - スクリーンショット撮影後、1.5 秒間隔でアイコンが変更され続ける
 - enza 等のリンクを踏んだ際にウィンドウが操作不能になる
-- Windows 環境で上下にわずかな空白ができる
 
-### Removed
+### Security
 
-- 画面のリサイズを廃止
+- Electron を `v14` から `v16` へ更新
+- その他依存パッケージを更新
 
 ## [1.2.0] - 2022-01-16
 
@@ -73,6 +78,16 @@
 
 - セキュリティアップデート
 
-## [1.0.0] - 2021-08-23
+## 1.0.0 - 2021-08-23
 
 - リリース 🎉
+
+[unreleased]: https://github.com/arrow2nd/serizawa/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/arrow2nd/serizawa/compare/v1.1.2...v1.2.0
+[1.1.2]: https://github.com/arrow2nd/serizawa/compare/v1.1.1...v1.1.2
+[1.1.1]: https://github.com/arrow2nd/serizawa/compare/v1.1.0...v1.1.1
+[1.1.0]: https://github.com/arrow2nd/serizawa/compare/v1.0.5...v1.1.0
+[1.0.5]: https://github.com/arrow2nd/serizawa/compare/v1.0.4...v1.0.5
+[1.0.4]: https://github.com/arrow2nd/serizawa/compare/v1.0.3...v1.0.4
+[1.0.3]: https://github.com/arrow2nd/serizawa/compare/v1.0.2...v1.0.3
+[1.0.2]: https://github.com/arrow2nd/serizawa/compare/v1.0.0...v1.0.2
