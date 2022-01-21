@@ -1,27 +1,31 @@
-import { Rectangle } from 'electron/renderer'
 import React from 'react'
 
 import LeftButtons from './buttons/left'
 import RightButtons from './buttons/right'
 
 type Props = {
-  focusIframe: () => void
-  getIframeRect: () => Rectangle
+  hidden: boolean
   onClickSetting: () => void
 }
 
-const TitleBar = ({
-  focusIframe,
-  getIframeRect,
-  onClickSetting
-}: Props): JSX.Element => (
-  <div
-    className="flex justify-between min-w-full h-6 bg-shiny text-black drag"
-    onClick={focusIframe}
-  >
-    <LeftButtons onClick={onClickSetting} />
-    <RightButtons focusIframe={focusIframe} getIframeRect={getIframeRect} />
-  </div>
-)
+const TitleBar = ({ hidden, onClickSetting }: Props): JSX.Element => {
+  const handleClick = () => {
+    // タイトルバークリック時にウィンドウがフォーカスを奪ってしまうので
+    // ビューへフォーカスを返す
+    window.api.focusView()
+  }
+
+  return (
+    <div
+      className={`${
+        hidden ? 'hidden' : 'flex'
+      } justify-between fixed top-0 min-w-full h-6 bg-shiny text-neutral-900 drag`}
+      onClick={handleClick}
+    >
+      <LeftButtons onClick={onClickSetting} />
+      <RightButtons />
+    </div>
+  )
+}
 
 export default TitleBar

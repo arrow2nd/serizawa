@@ -5,14 +5,18 @@ declare global {
 }
 
 export type API = {
-  windowClose: () => void
-  windowMinimize: () => void
-  windowChangeMaximize: () => void
-  windowChangePinned: () => void
-  windowReload: () => void
-  captureScreen: (rect: Rectangle) => void
-  openSelectDir: () => void
-  getPicDir: () => Promise<string>
+  focusView: () => void
+  showView: () => void
+  hideView: () => void
+  close: () => void
+  minimize: () => void
+  reload: () => void
+  toggleMaximize: () => void
+  togglePinned: () => void
+  toggleMute: () => void
+  capture: () => void
+  showSelectDirDialog: () => void
+  getPictureDir: () => Promise<string>
   removeCache: () => void
   removeCookie: () => void
   checkUpdate: () => void

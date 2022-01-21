@@ -1,84 +1,42 @@
-import * as Splashscreen from '@trodi/electron-splashscreen'
 import {
   BrowserWindow,
-  Menu,
   app,
   clipboard,
-  dialog,
   ipcMain,
   session,
   shell
 } from 'electron'
 import Store from 'electron-store'
-import { Rectangle } from 'electron/main'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import path from 'path'
 
 import { checkUpdate } from './libs/checkUpdate'
 import { date2String } from './libs/util'
 
-const defaultSize = {
-  width: 1136,
-  height: 664
-}
+import { Browser } from './window'
 
 const store = new Store()
-let win: BrowserWindow
+const browser = new Browser()
 
-const createWindow = () => {
-  const mainOpts: Electron.BrowserWindowConstructorOptions = {
-    title: 'serizawa',
-    ...defaultSize,
-    minWidth: defaultSize.width,
-    minHeight: defaultSize.height,
-    center: true,
-    useContentSize: true,
-    frame: false,
-    show: false,
-    resizable: true, // electron #30788
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      nativeWindowOpen: true,
-      devTools: false,
-      preload: path.join(__dirname, 'preload.js')
-    }
-  }
+//----------------------------------------------------------------------
 
-  win = Splashscreen.initSplashScreen({
-    windowOpts: mainOpts,
-    templateUrl: `${__dirname}/images/splash.svg`,
-    splashScreenOpts: {
-      width: 520,
-      height: 264,
-      center: true,
-      transparent: true
-    }
-  })
-
-  Menu.setApplicationMenu(null)
-
-  win.loadFile('./build/index.html')
-  // win.webContents.openDevTools()
-
-  // 多重起動を防止
-  const doubleboot = app.requestSingleInstanceLock()
-  if (!doubleboot) {
-    app.quit()
-  }
-}
-
-//---------------------------------------------------
-
-const getPicDir = () => {
+/**
+ * スクリーンショットの保存ディレクトリを取得
+ * @returns ディレクトリパス
+ */
+const getPicDir = (): string => {
   const defaultPath = path.join(app.getPath('pictures'), 'serizawa')
   return String(store.get('picDir', defaultPath))
 }
 
-const openDownloadPage = (url: string | undefined) => {
+/**
+ * 更新通知ダイアログを表示
+ * @param url GitHubのURL
+ */
+const showUpdateDialog = (url: string | undefined) => {
   if (!url || !/^https:\/\/github\.com/.test(url)) return
 
-  const result = dialog.showMessageBoxSync(win, {
+  const result = browser.showMessageWindow({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 0,
@@ -89,23 +47,23 @@ const openDownloadPage = (url: string | undefined) => {
 
   if (result === 0) {
     shell.openExternal(url)
+    app.quit() // 終了
   }
 }
 
-//---------------------------------------------------
+//----------------------------------------------------------------------
 
-// 初期化できたらウィンドウを作成
 app.whenReady().then(() => {
-  createWindow()
-
+  // ウィンドウを作成
+  browser.create()
   // 更新を確認
-  checkUpdate().then((url) => openDownloadPage(url))
+  checkUpdate().then((url) => showUpdateDialog(url))
+})
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
-    }
-  })
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    browser.create()
+  }
 })
 
 app.on('window-all-closed', () => {
@@ -116,66 +74,73 @@ app.on('window-all-closed', () => {
 
 // フォーカスを失わないようにする
 app.on('browser-window-blur', () => {
-  if (win.isAlwaysOnTop()) {
-    app.focus({ steal: true })
-  }
+  // ピン止めされていないなら何もしない
+  if (!browser.isPinned()) return
+
+  // フォーカスを奪う
+  app.focus({ steal: true })
+
+  // 実際にフォーカスが当たるまで遅延があるので
+  // 少し間隔をあけてからビューにフォーカスを当てる
+  setTimeout(() => browser.focusView(), 100)
 })
 
-//---------------------------------------------------
+//----------------------------------------------------------------------
+
+// ビューにフォーカスを当てる
+ipcMain.on('focus-view', () => browser.focusView())
+
+// ビューを表示
+ipcMain.on('show-view', () => browser.showView())
+
+// ビューを非表示
+ipcMain.on('hide-view', () => browser.hideView())
 
 // アプリケーションを終了
-ipcMain.on('win-close', () => win.close())
+ipcMain.on('close', () => browser.close())
 
 // ウィンドウを最小化
-ipcMain.on('win-minimize', () => win.minimize())
-
-// ウィンドウの最大化状態を変更
-ipcMain.on('win-change-maximize', () => {
-  const isMaximized = !win.isFullScreen()
-  win.setFullScreen(isMaximized)
-})
-
-// ウィンドウのピン留めを変更
-ipcMain.on('win-change-pinned', () => {
-  const isPinned = !win.isAlwaysOnTop()
-
-  // 最前面に固定
-  if (isPinned) {
-    win.setAlwaysOnTop(true, 'screen-saver')
-  } else {
-    win.setAlwaysOnTop(false)
-  }
-})
+ipcMain.on('minimize', () => browser.minimize())
 
 // 再読み込み
-ipcMain.on('win-reload', () => win.reload())
+ipcMain.on('reload', () => browser.reload())
+
+// ウィンドウの最大化状態を変更
+ipcMain.on('toggle-maximize', () => browser.maximize())
+
+// ウィンドウのピン留めを変更
+ipcMain.on('toggle-pinned', () => browser.pinned())
+
+// ミュート状態の変更
+ipcMain.on('toggle-mute', () => browser.muted())
 
 // スクリーンショット撮影
-ipcMain.on(
-  'capture-screen',
-  async (_ev: Electron.IpcMainEvent, rect: Rectangle) => {
-    const saveDir = getPicDir()
+ipcMain.on('capture', async () => {
+  const saveDir = getPicDir()
 
-    // ディレクトリが無い場合作成
-    if (!existsSync(saveDir)) {
-      mkdirSync(saveDir)
-    }
-
-    const pic = await win.webContents.capturePage(rect)
-    const dateStr = date2String(new Date())
-    const savePath = path.join(saveDir, `ScreenShot_${dateStr}.png`)
-
-    // 保存
-    clipboard.writeImage(pic)
-    writeFileSync(savePath, pic.toPNG())
+  // ディレクトリが無い場合作成
+  if (!existsSync(saveDir)) {
+    mkdirSync(saveDir)
   }
-)
 
-//---------------------------------------------------
+  // 撮影
+  const pic = await browser.capture()
+  if (!pic) return
+
+  // パスを作成
+  const dateStr = date2String(new Date())
+  const savePath = path.join(saveDir, `ScreenShot_${dateStr}.png`)
+
+  // 保存
+  clipboard.writeImage(pic)
+  writeFileSync(savePath, pic.toPNG())
+})
+
+//----------------------------------------------------------------------
 
 // スクリーンショット保存先選択
-ipcMain.on('open-select-dir', () => {
-  const result = dialog.showOpenDialogSync(win, {
+ipcMain.on('show-select-dir-dialog', () => {
+  const result = browser.showOpenDialog({
     properties: ['openDirectory']
   })
 
@@ -185,11 +150,11 @@ ipcMain.on('open-select-dir', () => {
 })
 
 // 保存先のパスを取得
-ipcMain.handle('get-pic-dir', (): string => getPicDir())
+ipcMain.handle('get-picture-dir', (): string => getPicDir())
 
 // キャッシュを削除
 ipcMain.on('remove-cache', async () => {
-  const result = dialog.showMessageBoxSync(win, {
+  const result = browser.showMessageWindow({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 0,
@@ -201,7 +166,7 @@ ipcMain.on('remove-cache', async () => {
 
   await session.defaultSession.clearCache()
 
-  dialog.showMessageBoxSync(win, {
+  browser.showMessageWindow({
     type: 'info',
     title: '完了',
     message: '削除が完了しました'
@@ -210,7 +175,7 @@ ipcMain.on('remove-cache', async () => {
 
 // Cookieを削除
 ipcMain.on('remove-cookie', async () => {
-  const result = dialog.showMessageBoxSync(win, {
+  const result = browser.showMessageWindow({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 1,
@@ -223,18 +188,19 @@ ipcMain.on('remove-cookie', async () => {
 
   // 全てのCookieを削除
   const cookies = await session.defaultSession.cookies.get({})
-  cookies.forEach((cookie) => {
+  for (const cookie of cookies) {
     let url = cookie.secure ? 'https://' : 'http://'
+
     url += cookie.domain?.charAt(0) === '.' ? 'www' : ''
     url += `${cookie.domain || ''}${cookie.path || ''}`
 
     session.defaultSession.cookies.remove(url, cookie.name)
-  })
+  }
 
   // 設定を削除
   store.clear()
 
-  dialog.showMessageBoxSync(win, {
+  browser.showMessageWindow({
     type: 'info',
     title: '完了',
     message: '初期化が完了しました',
@@ -249,7 +215,7 @@ ipcMain.on('check-update', async () => {
   const url = await checkUpdate()
 
   if (!url) {
-    dialog.showMessageBoxSync(win, {
+    browser.showMessageWindow({
       type: 'info',
       title: '通知',
       message: '現在のバージョンは最新版です！'
@@ -257,5 +223,5 @@ ipcMain.on('check-update', async () => {
     return
   }
 
-  openDownloadPage(url)
+  showUpdateDialog(url)
 })

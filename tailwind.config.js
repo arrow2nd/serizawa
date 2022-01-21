@@ -4,6 +4,7 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: ['./src/components/**/*.{ts,tsx}'],
   safelist: [
+    'hidden',
     'bg-red-400',
     'bg-gray-600',
     'hover:bg-red-600',
@@ -25,10 +26,8 @@ module.exports = {
         },
         '.drag-none': {
           '-webkit-user-drag': 'none',
-          '-webkit-app-region': 'no-drag'
-        },
-        '.-transform-50': {
-          transform: 'translate(-50%, -50%)'
+          '-webkit-app-region': 'no-drag',
+          'user-select': 'none'
         }
       }
       addUtilities(newUtilities)

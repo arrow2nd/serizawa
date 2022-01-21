@@ -1,78 +1,88 @@
-import { Rectangle } from 'electron/renderer'
-import React, { useCallback, useState } from 'react'
+import React, { useReducer } from 'react'
 import {
   AiOutlineCamera,
-  AiOutlineCheck,
   AiOutlineMinus,
   AiOutlineReload
 } from 'react-icons/ai'
 import {
+  RiCheckboxCircleFill,
   RiCloseLine,
   RiFullscreenExitLine,
   RiFullscreenLine,
   RiPushpin2Fill,
-  RiPushpin2Line
+  RiPushpin2Line,
+  RiVolumeMuteFill,
+  RiVolumeUpLine
 } from 'react-icons/ri'
 
-import UIButton from '../button'
+import UIButton, { Button } from './button'
 
-type Props = {
-  focusIframe: () => void
-  getIframeRect: () => Rectangle
-}
+const RightButtons = (): JSX.Element => {
+  const [isCaptured, toggleCaptured] = useReducer((prev) => !prev, false)
+  const [isPinned, togglePinned] = useReducer((prev) => !prev, false)
+  const [isMaximized, toggleMaximized] = useReducer((prev) => !prev, false)
+  const [isMuted, toggleMuted] = useReducer((prev) => !prev, false)
 
-const RightButtons = ({ focusIframe, getIframeRect }: Props): JSX.Element => {
-  const [isCaptured, setCaptured] = useState(false)
-  const [isPinned, setPinned] = useState(false)
-  const [isMaximized, setMaximized] = useState(false)
-
-  const handleClickCapture = useCallback(() => {
-    const rect = getIframeRect()
-    window.api.captureScreen(rect)
-    setCaptured(true)
-    setInterval(() => setCaptured(false), 1500)
-  }, [getIframeRect])
-
-  const handleClickReload = () => {
-    window.api.windowReload()
-    focusIframe()
-  }
-
-  const handleClickPin = async () => {
-    window.api.windowChangePinned()
-    setPinned(!isPinned)
-    focusIframe()
-  }
-
-  const handleClickMaximize = async () => {
-    window.api.windowChangeMaximize()
-    setMaximized(!isMaximized)
-    focusIframe()
-  }
-
-  const handleClickMinimize = () => window.api.windowMinimize()
-  const handleClickClose = () => window.api.windowClose()
+  const buttons: Button[] = [
+    {
+      title: 'スクリーンショットを撮影',
+      children: isCaptured ? <RiCheckboxCircleFill /> : <AiOutlineCamera />,
+      onClick: () => {
+        window.api.capture()
+        toggleCaptured()
+        setTimeout(() => toggleCaptured(), 1500)
+      }
+    },
+    {
+      title: isMuted ? 'ミュート解除' : 'ミュート',
+      children: isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpLine />,
+      onClick: () => {
+        window.api.toggleMute()
+        toggleMuted()
+      }
+    },
+    {
+      title: '再読み込み',
+      children: <AiOutlineReload />,
+      onClick: () => {
+        window.api.reload()
+      }
+    },
+    {
+      title: isPinned ? '固定を解除' : '最前面に固定',
+      children: isPinned ? <RiPushpin2Fill /> : <RiPushpin2Line />,
+      onClick: async () => {
+        window.api.togglePinned()
+        togglePinned()
+      }
+    },
+    {
+      title: '最小化',
+      children: <AiOutlineMinus />,
+      onClick: () => window.api.minimize()
+    },
+    {
+      title: isMaximized ? '最大化を解除' : '最大化',
+      children: isMaximized ? <RiFullscreenExitLine /> : <RiFullscreenLine />,
+      onClick: async () => {
+        window.api.toggleMaximize()
+        toggleMaximized()
+      }
+    },
+    {
+      title: '終了',
+      children: <RiCloseLine />,
+      onClick: () => window.api.close()
+    }
+  ]
 
   return (
     <div className="flex items-center overflow-hidden">
-      <UIButton onClick={handleClickCapture}>
-        {isCaptured ? <AiOutlineCheck /> : <AiOutlineCamera />}
-      </UIButton>
-      <UIButton onClick={handleClickReload}>
-        <AiOutlineReload />
-      </UIButton>
-      <UIButton onClick={handleClickPin}>
-        {isPinned ? <RiPushpin2Fill /> : <RiPushpin2Line />}
-      </UIButton>
-      <UIButton onClick={handleClickMinimize}>
-        <AiOutlineMinus />
-      </UIButton>
-      <UIButton onClick={handleClickMaximize}>
-        {isMaximized ? <RiFullscreenExitLine /> : <RiFullscreenLine />}
-      </UIButton>
-      <UIButton onClick={handleClickClose}>
-        <RiCloseLine />
-      </UIButton>
+      {buttons.map((e) => (
+        <UIButton key={e.title} {...e}>
+          {e.children}
+        </UIButton>
+      ))}
     </div>
   )
 }
