@@ -28,7 +28,7 @@ export class Browser {
       height: this.gameWindowSize.height + this.titlebarHeight
     }
 
-    // NOTE: windows環境だとheightが指定した値より2px大きくなるっぽい
+    // NOTE: windows 10だとheightが指定した値より2px大きくなるっぽい？
 
     return {
       title: 'serizawa',

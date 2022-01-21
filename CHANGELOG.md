@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-## 2.0.0 - 2022-01-00 [YANKED]
+## [2.0.0] - 2022-01-21 [YANKED]
 
 ### Added
 
@@ -83,6 +83,7 @@
 - リリース 🎉
 
 [unreleased]: https://github.com/arrow2nd/serizawa/compare/v1.2.0...HEAD
+[2.0.0]: https://github.com/arrow2nd/serizawa/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/arrow2nd/serizawa/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/arrow2nd/serizawa/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/arrow2nd/serizawa/compare/v1.1.0...v1.1.1
