@@ -5,7 +5,7 @@ declare global {
 }
 
 export type API = {
-  focus: () => void
+  focusView: () => void
   showView: () => void
   hideView: () => void
   close: () => void

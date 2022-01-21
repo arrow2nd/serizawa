@@ -14,13 +14,12 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
   // 設定画面を閉じる
   const handleClickClose = () => {
     onClickClose()
-    window.api.focus()
+    window.api.focusView()
   }
 
   // ディレクトリを選択
   const handleClickSelectDir = () => {
     window.api.showSelectDirDialog()
-    window.api.focus()
   }
 
   // 項目ボタン
@@ -30,30 +29,21 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
       btnText: '削除',
       btnBg: 'bg-red-400',
       btnHoverBg: 'bg-red-600',
-      onClick: () => {
-        window.api.removeCache()
-        window.api.focus()
-      }
+      onClick: () => window.api.removeCache()
     },
     {
       title: '初期化（ログアウト）',
       btnText: '初期化',
       btnBg: 'bg-red-400',
       btnHoverBg: 'bg-red-600',
-      onClick: () => {
-        window.api.removeCookie()
-        window.api.focus()
-      }
+      onClick: () => window.api.removeCookie()
     },
     {
       title: '更新を確認',
       btnText: '確認',
       btnBg: 'bg-gray-600',
       btnHoverBg: 'bg-gray-800',
-      onClick: () => {
-        window.api.checkUpdate()
-        window.api.focus()
-      }
+      onClick: () => window.api.checkUpdate()
     }
   ]
 

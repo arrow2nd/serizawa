@@ -39,7 +39,7 @@ export class Browser {
       frame: false,
       show: false,
       webPreferences: {
-        // devTools: false,
+        devTools: false,
         preload: path.join(__dirname, 'preload.js')
       }
     }
@@ -91,8 +91,18 @@ export class Browser {
       this.resizeView(bounds)
     })
 
+    // 最小化解除時にビューにフォーカスを当てる
+    this.window.on('restore', () => {
+      this.focusView()
+    })
+
+    // ウィンドウにフォーカスが当たったらビューにフォーカスを当てる
+    this.window.on('focus', () => {
+      this.focusView()
+    })
+
     // 開発者ツール
-    this.window.webContents.openDevTools()
+    // this.window.webContents.openDevTools()
     // this.view.webContents.openDevTools()
 
     // メニューバーを無効
@@ -102,6 +112,13 @@ export class Browser {
     if (!app.requestSingleInstanceLock()) {
       app.quit()
     }
+  }
+
+  /**
+   * フォーカスを当てる
+   */
+  public focusView = () => {
+    this.view.webContents.focus()
   }
 
   /**
@@ -166,13 +183,6 @@ export class Browser {
   public muted = () => {
     const nextState = !this.view.webContents.isAudioMuted()
     this.view.webContents.setAudioMuted(nextState)
-  }
-
-  /**
-   * フォーカスを当てる
-   */
-  public focus = () => {
-    this.view.webContents.focus()
   }
 
   /**

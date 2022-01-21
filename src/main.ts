@@ -82,13 +82,13 @@ app.on('browser-window-blur', () => {
 
   // 実際にフォーカスが当たるまで遅延があるので
   // 少し間隔をあけてからビューにフォーカスを当てる
-  setTimeout(() => browser.focus(), 100)
+  setTimeout(() => browser.focusView(), 100)
 })
 
 //----------------------------------------------------------------------
 
 // ビューにフォーカスを当てる
-ipcMain.on('focus-view', () => browser.focus())
+ipcMain.on('focus-view', () => browser.focusView())
 
 // ビューを表示
 ipcMain.on('show-view', () => browser.showView())

@@ -38,7 +38,6 @@ const RightButtons = (): JSX.Element => {
       children: isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpLine />,
       onClick: () => {
         window.api.toggleMute()
-        window.api.focus()
         toggleMuted()
       }
     },
@@ -47,7 +46,6 @@ const RightButtons = (): JSX.Element => {
       children: <AiOutlineReload />,
       onClick: () => {
         window.api.reload()
-        window.api.focus()
       }
     },
     {
@@ -55,7 +53,6 @@ const RightButtons = (): JSX.Element => {
       children: isPinned ? <RiPushpin2Fill /> : <RiPushpin2Line />,
       onClick: async () => {
         window.api.togglePinned()
-        window.api.focus()
         togglePinned()
       }
     },
@@ -69,7 +66,6 @@ const RightButtons = (): JSX.Element => {
       children: isMaximized ? <RiFullscreenExitLine /> : <RiFullscreenLine />,
       onClick: async () => {
         window.api.toggleMaximize()
-        window.api.focus()
         toggleMaximized()
       }
     },
