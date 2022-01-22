@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [2.0.1] - 2022-01-22
+
+### Security
+
+- 依存パッケージを更新
+
 ## [2.0.0] - 2022-01-21 [YANKED]
 
 ### Added
@@ -82,7 +88,8 @@
 
 - リリース 🎉
 
-[unreleased]: https://github.com/arrow2nd/serizawa/compare/v2.0.0...HEAD
+[unreleased]: https://github.com/arrow2nd/serizawa/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/arrow2nd/serizawa/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/arrow2nd/serizawa/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/arrow2nd/serizawa/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/arrow2nd/serizawa/compare/v1.1.1...v1.1.2

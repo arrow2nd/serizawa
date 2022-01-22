@@ -74,7 +74,7 @@ jobs:
             ## 🗂 ファイルについて
             |OS|ファイル名|
             |-|-|
-            |Windows (インストーラー)|serizawa-${{ env.VERSION }}.exe|
+            |Windows|serizawa-${{ env.VERSION }}.exe|
             |macOS|serizawa-${{ env.VERSION }}.dmg|
             |Liunx|serizawa-${{ env.VERSION }}.AppImage|
         env:

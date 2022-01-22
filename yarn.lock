@@ -732,10 +732,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tailwindcss@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@types/tailwindcss@npm:3.0.2"
-  checksum: 2e5be8f465ee57407bda3b49d64bda3a801ef946a815ea9affbae506517968fc584996a17a3d9c8fb712e73e855e91375ad11ca17d0e099f6bab0013c246dce3
+"@types/tailwindcss@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "@types/tailwindcss@npm:3.0.3"
+  checksum: c49ad4f4fa0ac35403ce9fdef26107ce651af34b31941b5558960d7c5669a2d42db6c48623cc5511bcaf566cdf823bdcf4a88388c91d5d95b95dc7683ef54f34
   languageName: node
   linkType: hard
 
@@ -2569,7 +2569,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-builder@npm:^22.14.5":
+"electron-builder@npm:^22.14.13":
   version: 22.14.13
   resolution: "electron-builder@npm:22.14.13"
   dependencies:
@@ -4715,11 +4715,11 @@ __metadata:
   linkType: hard
 
 "nanoid@npm:^3.1.30":
-  version: 3.1.32
-  resolution: "nanoid@npm:3.1.32"
+  version: 3.2.0
+  resolution: "nanoid@npm:3.2.0"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 7389375c7d9819609366cc7b2bd446c854762617a626d345e5dcdc6629f6571e071c7ba412920148065dbd939dbc5589f9e2734b244c3cb49bbddc96082adcc1
+  checksum: 3d1d5a69fea84e538057cf64106e713931c4ef32af344068ecff153ff91252f39b0f2b472e09b0dfff43ac3cf520c92938d90e6455121fe93976e23660f4fccc
   languageName: node
   linkType: hard
 
@@ -5966,7 +5966,7 @@ __metadata:
     "@types/node": ^17.0.10
     "@types/react": ^17.0.38
     "@types/react-dom": ^17.0.11
-    "@types/tailwindcss": ^3.0.2
+    "@types/tailwindcss": ^3.0.3
     "@typescript-eslint/eslint-plugin": ^5.10.0
     "@typescript-eslint/parser": ^5.10.0
     autoprefixer: ^10.4.2
@@ -5975,7 +5975,7 @@ __metadata:
     cross-env: ^7.0.3
     css-loader: ^6.5.1
     electron: 16.0.7
-    electron-builder: ^22.14.5
+    electron-builder: ^22.14.13
     electron-store: ^8.0.1
     eslint: ^8.7.0
     eslint-config-prettier: ^8.3.0
@@ -5995,7 +5995,7 @@ __metadata:
     ts-loader: ^9.2.6
     ts-node: ^10.4.0
     typescript: ^4.5.5
-    webpack: ^5.66.0
+    webpack: ^5.67.0
     webpack-cli: ^4.9.1
   languageName: unknown
   linkType: soft
@@ -6883,16 +6883,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-sources@npm:^3.2.2":
+"webpack-sources@npm:^3.2.3":
   version: 3.2.3
   resolution: "webpack-sources@npm:3.2.3"
   checksum: 989e401b9fe3536529e2a99dac8c1bdc50e3a0a2c8669cbafad31271eadd994bc9405f88a3039cd2e29db5e6d9d0926ceb7a1a4e7409ece021fe79c37d9c4607
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.66.0":
-  version: 5.66.0
-  resolution: "webpack@npm:5.66.0"
+"webpack@npm:^5.67.0":
+  version: 5.67.0
+  resolution: "webpack@npm:5.67.0"
   dependencies:
     "@types/eslint-scope": ^3.7.0
     "@types/estree": ^0.0.50
@@ -6917,13 +6917,13 @@ __metadata:
     tapable: ^2.1.1
     terser-webpack-plugin: ^5.1.3
     watchpack: ^2.3.1
-    webpack-sources: ^3.2.2
+    webpack-sources: ^3.2.3
   peerDependenciesMeta:
     webpack-cli:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 5a44664a840fd64c5383aa78847b205ae0b42b607f85ee1d6a568617a210c1b9caab1822bce40a89a3b5eb0f626a83fb5fe2055c638aa230897bf224030d28e8
+  checksum: a7f810a5e1d4d78b533ca0caf42fa889839326073cedd3ac8e59e5c4890ca864ab0265fa5b2608715746ff3e34cbfaf4f15d56a92bc3f717a2f5c13202d58b6c
   languageName: node
   linkType: hard
 
