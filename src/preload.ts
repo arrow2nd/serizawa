@@ -30,5 +30,7 @@ contextBridge.exposeInMainWorld('api', {
   // Cookieを削除
   removeCookie: () => ipcRenderer.send('remove-cookie'),
   // 更新を確認
-  checkUpdate: () => ipcRenderer.send('check-update')
+  checkUpdate: () => ipcRenderer.send('check-update'),
+  // プライバシーポリシー
+  openPrivacyPolicy: () => ipcRenderer.send('open-privacy-policy')
 })

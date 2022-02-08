@@ -225,3 +225,8 @@ ipcMain.on('check-update', async () => {
 
   showUpdateDialog(url)
 })
+
+// プライバシーポリシー
+ipcMain.on('open-privacy-policy', () => {
+  shell.openExternal('https://arrow2nd.github.io/serizawa/')
+})

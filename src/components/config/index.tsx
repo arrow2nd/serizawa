@@ -22,6 +22,11 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
     window.api.showSelectDirDialog()
   }
 
+  // プライバシーポリシーを開く
+  const handleClickPrivacyPolicy = () => {
+    window.api.openPrivacyPolicy()
+  }
+
   // 項目ボタン
   const sections: ConfigSection[] = [
     {
@@ -65,6 +70,12 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
         </div>
         <span className="block mt-8 text-center text-xs text-gray-700">
           {`Developed by arrow2nd - v${process.env.VERSION}`}
+        </span>
+        <span
+          className="block mt-4 text-center text-xs text-gray-700 hover:text-neutral-900 underline cursor-pointer"
+          onClick={handleClickPrivacyPolicy}
+        >
+          プライバシーポリシー
         </span>
       </div>
     </div>

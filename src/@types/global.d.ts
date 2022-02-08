@@ -20,4 +20,5 @@ export type API = {
   removeCache: () => void
   removeCookie: () => void
   checkUpdate: () => void
+  openPrivacyPolicy: () => void
 }
