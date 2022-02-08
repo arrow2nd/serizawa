@@ -3,10 +3,10 @@
   "description": "アイドルマスターシャイニーカラーズの非公式専用ブラウザ",
   "author": {
     "name": "arrow2nd",
-    "email": "arrow2nd_workspace@zohomail.com"
+    "email": "dev@arrow2nd.com"
   },
   "license": "MIT",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "./build/main.js",
   "private": true,
   "scripts": {
