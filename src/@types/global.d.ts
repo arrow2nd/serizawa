@@ -17,8 +17,8 @@ export type API = {
   capture: () => void
   showSelectDirDialog: () => void
   getPictureDir: () => Promise<string>
-  removeCache: () => void
-  removeCookie: () => void
-  checkUpdate: () => void
+  removeCache: () => Promise<void>
+  removeCookie: () => Promise<void>
+  checkUpdate: () => Promise<void>
   openPrivacyPolicy: () => void
 }

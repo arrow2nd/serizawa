@@ -26,11 +26,11 @@ contextBridge.exposeInMainWorld('api', {
   // スクリーンショット保存ディレクトリを取得
   getPictureDir: (): Promise<string> => ipcRenderer.invoke('get-picture-dir'),
   // キャッシュを削除
-  removeCache: () => ipcRenderer.send('remove-cache'),
+  removeCache: (): Promise<void> => ipcRenderer.invoke('remove-cache'),
   // Cookieを削除
-  removeCookie: () => ipcRenderer.send('remove-cookie'),
+  removeCookie: (): Promise<void> => ipcRenderer.invoke('remove-cookie'),
   // 更新を確認
-  checkUpdate: () => ipcRenderer.send('check-update'),
+  checkUpdate: (): Promise<void> => ipcRenderer.invoke('check-update'),
   // プライバシーポリシー
   openPrivacyPolicy: () => ipcRenderer.send('open-privacy-policy')
 })

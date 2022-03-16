@@ -56,8 +56,11 @@ const showUpdateDialog = (url: string | undefined) => {
 app.whenReady().then(() => {
   // ウィンドウを作成
   browser.create()
+
   // 更新を確認
-  checkUpdate().then((url) => showUpdateDialog(url))
+  checkUpdate()
+    .then((url) => showUpdateDialog(url))
+    .catch((err) => console.error(err))
 })
 
 app.on('activate', () => {
@@ -123,17 +126,17 @@ ipcMain.on('capture', async () => {
     mkdirSync(saveDir)
   }
 
-  // 撮影
-  const pic = await browser.capture()
-  if (!pic) return
+  // スクリーンショットを取得
+  const rowPicture = await browser.capture()
+  if (!rowPicture) return
 
-  // パスを作成
+  // 保存先のパスを作成
   const dateStr = date2String(new Date())
   const savePath = path.join(saveDir, `ScreenShot_${dateStr}.png`)
 
-  // 保存
-  clipboard.writeImage(pic)
-  writeFileSync(savePath, pic.toPNG())
+  // 保存 & クリップボードへ書き込み
+  clipboard.writeImage(rowPicture)
+  writeFileSync(savePath, rowPicture.toPNG())
 })
 
 //----------------------------------------------------------------------
@@ -153,7 +156,7 @@ ipcMain.on('show-select-dir-dialog', () => {
 ipcMain.handle('get-picture-dir', (): string => getPicDir())
 
 // キャッシュを削除
-ipcMain.on('remove-cache', async () => {
+ipcMain.handle('remove-cache', async (): Promise<void> => {
   const result = browser.showMessageDialog({
     type: 'question',
     buttons: ['はい', 'いいえ'],
@@ -174,7 +177,7 @@ ipcMain.on('remove-cache', async () => {
 })
 
 // Cookieを削除
-ipcMain.on('remove-cookie', async () => {
+ipcMain.handle('remove-cookie', async (): Promise<void> => {
   const result = browser.showMessageDialog({
     type: 'question',
     buttons: ['はい', 'いいえ'],
@@ -186,8 +189,9 @@ ipcMain.on('remove-cookie', async () => {
 
   if (result !== 0) return
 
-  // 全てのCookieを削除
   const cookies = await session.defaultSession.cookies.get({})
+
+  // 全てのCookieを削除
   for (const cookie of cookies) {
     let url = cookie.secure ? 'https://' : 'http://'
 
@@ -211,22 +215,30 @@ ipcMain.on('remove-cookie', async () => {
 })
 
 // 更新確認
-ipcMain.on('check-update', async () => {
-  const url = await checkUpdate()
+ipcMain.handle('check-update', async (): Promise<void> => {
+  try {
+    const url = await checkUpdate()
 
-  if (!url) {
+    if (!url) {
+      browser.showMessageDialog({
+        type: 'info',
+        title: '通知',
+        message: '現在のバージョンは最新版です！'
+      })
+      return
+    }
+
+    showUpdateDialog(url)
+  } catch (_e) {
     browser.showMessageDialog({
-      type: 'info',
-      title: '通知',
-      message: '現在のバージョンは最新版です！'
+      type: 'error',
+      title: '接続エラー',
+      message: '更新の確認に失敗しました'
     })
-    return
   }
-
-  showUpdateDialog(url)
 })
 
-// プライバシーポリシー
+// プライバシーポリシーを開く
 ipcMain.on('open-privacy-policy', () => {
   shell.openExternal('https://arrow2nd.github.io/serizawa/')
 })

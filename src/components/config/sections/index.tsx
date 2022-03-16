@@ -3,7 +3,11 @@ import React from 'react'
 import Section, { ConfigSection } from './section'
 import SelectDir from './selectDir'
 
-const Sections = (): JSX.Element => {
+type Props = {
+  toggleProgress: () => void
+}
+
+const Sections = ({ toggleProgress }: Props): JSX.Element => {
   // ディレクトリを選択
   const handleClickSelectDir = () => {
     window.api.showSelectDirDialog()
@@ -16,21 +20,30 @@ const Sections = (): JSX.Element => {
       btnText: '削除',
       btnBg: 'bg-red-400',
       btnHoverBg: 'bg-red-600',
-      onClick: () => window.api.removeCache()
+      onClick: () => {
+        toggleProgress()
+        window.api.removeCache().then(toggleProgress)
+      }
     },
     {
       title: '初期化（ログアウト）',
       btnText: '初期化',
       btnBg: 'bg-red-400',
       btnHoverBg: 'bg-red-600',
-      onClick: () => window.api.removeCookie()
+      onClick: () => {
+        toggleProgress()
+        window.api.removeCookie().then(toggleProgress)
+      }
     },
     {
       title: '更新を確認',
       btnText: '確認',
       btnBg: 'bg-gray-600',
       btnHoverBg: 'bg-gray-800',
-      onClick: () => window.api.checkUpdate()
+      onClick: () => {
+        toggleProgress()
+        window.api.checkUpdate().then(toggleProgress)
+      }
     }
   ]
 
