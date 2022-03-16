@@ -12,7 +12,7 @@ const TitleBar = ({ hidden, onClickSetting }: Props): JSX.Element => (
   <div
     className={`${
       hidden ? 'hidden' : 'flex'
-    } justify-between fixed top-0 min-w-full h-6 bg-shiny text-neutral-900 drag`}
+    } justify-between fixed top-0 min-w-full h-6 bg-rinze text-luca drag`}
   >
     <LeftButtons onClick={onClickSetting} />
     <RightButtons />

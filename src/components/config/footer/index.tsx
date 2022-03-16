@@ -8,11 +8,11 @@ const Footer = (): JSX.Element => {
 
   return (
     <>
-      <span className="block mt-8 text-center text-xs text-gray-700">
+      <span className="block mt-8 text-center text-xs text-luca">
         {`Developed by arrow2nd - v${process.env.VERSION}`}
       </span>
       <span
-        className="block mt-4 text-center text-xs text-gray-700 hover:text-neutral-900 underline cursor-pointer"
+        className="block mt-4 text-center text-xs text-luca hover:text-rinze underline cursor-pointer"
         onClick={handleClickPrivacyPolicy}
       >
         プライバシーポリシー

@@ -14,7 +14,7 @@ const UIButton = ({ title, children, onClick }: Button): JSX.Element => {
 
   return (
     <button
-      className="inline-flex px-3 p-6 border-0 rounded-none bg-transparent drag-none focus:outline-none hover:bg-shiny-dark transition-colors"
+      className="inline-flex px-3 p-6 border-0 rounded-none bg-transparent drag-none focus:outline-none hover:bg-yuika transition-colors"
       title={title}
       onClick={handleClick}
     >

@@ -18,9 +18,9 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-neutral-50 drag">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-chiyuki drag">
       <button
-        className="fixed top-0 right-0 p-4 text-xl text-neutral-900 drag-none"
+        className="fixed top-0 right-0 p-4 text-xl text-luca drag-none"
         onClick={handleClickClose}
       >
         <RiCloseLine />
