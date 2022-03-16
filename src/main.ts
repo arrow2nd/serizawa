@@ -242,3 +242,8 @@ ipcMain.handle('check-update', async (): Promise<void> => {
 ipcMain.on('open-privacy-policy', () => {
   shell.openExternal('https://arrow2nd.github.io/serizawa/')
 })
+
+// GitHubを開く
+ipcMain.on('open-github', () => {
+  shell.openExternal('https://github.com/arrow2nd/serizawa/')
+})

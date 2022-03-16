@@ -33,7 +33,7 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
         <Progress />
       ) : (
         <div className="w-72 drag-none">
-          <img src={LogoImg} alt="serizawa" />
+          <img className="drag-none" src={LogoImg} alt="serizawa" />
           <Sections toggleProgress={toggleProgress} />
           <Footer />
         </div>

@@ -1,9 +1,14 @@
 import React from 'react'
 
 const Footer = (): JSX.Element => {
-  // プライバシーポリシーを開く
+  const linkClassName = 'hover:text-rinze underline cursor-pointer'
+
   const handleClickPrivacyPolicy = () => {
     window.api.openPrivacyPolicy()
+  }
+
+  const handleClickGitHub = () => {
+    window.api.openGitHub()
   }
 
   return (
@@ -11,12 +16,15 @@ const Footer = (): JSX.Element => {
       <span className="block mt-8 text-center text-xs text-luca">
         {`Developed by arrow2nd - v${process.env.VERSION}`}
       </span>
-      <span
-        className="block mt-4 text-center text-xs text-luca hover:text-rinze underline cursor-pointer"
-        onClick={handleClickPrivacyPolicy}
-      >
-        プライバシーポリシー
-      </span>
+      <div className="mt-4 text-center text-xs text-luca">
+        <span className={linkClassName} onClick={handleClickPrivacyPolicy}>
+          プライバシーポリシー
+        </span>
+        {' / '}
+        <span className={linkClassName} onClick={handleClickGitHub}>
+          {'配布ページ (GitHub)'}
+        </span>
+      </div>
     </>
   )
 }

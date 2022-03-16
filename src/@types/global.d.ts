@@ -21,4 +21,5 @@ export type API = {
   removeCookie: () => Promise<void>
   checkUpdate: () => Promise<void>
   openPrivacyPolicy: () => void
+  openGitHub: () => void
 }

@@ -31,6 +31,8 @@ contextBridge.exposeInMainWorld('api', {
   removeCookie: (): Promise<void> => ipcRenderer.invoke('remove-cookie'),
   // 更新を確認
   checkUpdate: (): Promise<void> => ipcRenderer.invoke('check-update'),
-  // プライバシーポリシー
-  openPrivacyPolicy: () => ipcRenderer.send('open-privacy-policy')
+  // プライバシーポリシーを開く
+  openPrivacyPolicy: () => ipcRenderer.send('open-privacy-policy'),
+  // GitHubを開く
+  openGitHub: () => ipcRenderer.send('open-github')
 })
