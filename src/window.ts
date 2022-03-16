@@ -38,10 +38,13 @@ export class Browser {
       center: true,
       frame: false,
       show: false,
-      // Windows環境で異なるDPIのディスプレイ間を移動させた際、ウィンドウが拡大され元に戻らない為、リサイズ可能にしている
+
+      /**
+       * NOTE: Windows環境で異なるDPIのディスプレイ間を移動させた際に
+       * ウィンドウが拡大され元に戻らない為、リサイズ可能にしている
+       */
       resizable: true,
-      // ウィンドウのスナップが検知できず、自動でビューのリサイズを行えない為、無効にしている
-      thickFrame: false,
+
       webPreferences: {
         devTools: false,
         preload: path.join(__dirname, 'preload.js')
@@ -88,6 +91,8 @@ export class Browser {
     this.reload()
     this.setViewEventHandlers()
 
+    // NOTE: this.view.setAutoResize() を使わなかった理由があったはずだけど忘れた...
+
     // ウィンドウの設定
     this.window.loadFile('./build/index.html')
     this.setWindowEventHandlers()
@@ -109,9 +114,6 @@ export class Browser {
    * ウィンドウのイベントハンドラを設定
    */
   private setWindowEventHandlers = () => {
-    // NOTE: this.view.setAutoResize() だとフルスクリーン解除時にウィンドウが元のサイズに戻らないので
-    //       ウィンドウのリサイズをイベントで検知し、this.resizeView() でビューのリサイズを行っている
-
     // リサイズ操作にビューのサイズを追従させる
     this.window.on('will-resize', (_e, bounds) => {
       this.resizeView(bounds)
@@ -125,7 +127,6 @@ export class Browser {
     // ウィンドウにフォーカスが当たったらビューにフォーカスを当てる
     this.window.on('focus', () => {
       this.focusView()
-      this.window.flashFrame(false)
     })
   }
 
@@ -152,11 +153,11 @@ export class Browser {
     }
 
     // 許可されているリンクなら遷移を許可、それ以外は標準ブラウザで表示
-    this.view.webContents.on('will-navigate', (e, url) => {
+    this.view.webContents.on('will-navigate', ({ preventDefault }, url) => {
       if (isAllowedUrl(url)) return
 
       openUrl(url)
-      e.preventDefault()
+      preventDefault()
     })
 
     this.view.webContents.setWindowOpenHandler(({ url }) => {
@@ -172,9 +173,13 @@ export class Browser {
    */
   public focusView = () => {
     this.view.webContents.focus()
-
-    // タスクバーの点滅をオフ
     this.window.flashFrame(false)
+
+    /**
+     * NOTE: ここでリサイズし直すことで、Windows環境でのスナップ操作時に
+     * ウィンドウとビューのサイズが合わなくなることを防止
+     */
+    this.resizeView()
   }
 
   /**
@@ -214,6 +219,7 @@ export class Browser {
     this.window.setFullScreen(nextState)
 
     // ビューをリサイズ
+    // NOTE: 反映までに遅延があるので少し遅れて実行する
     setTimeout(() => this.resizeView(), 250)
   }
 
