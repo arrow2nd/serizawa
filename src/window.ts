@@ -9,13 +9,13 @@ export class Browser {
   private window!: BrowserWindow
   private view!: BrowserView
 
-  // ゲームの標準解像度
+  /** ゲームの標準解像度 */
   private gameWindowSize = {
     width: 1136,
     height: 640
   }
 
-  // タイトルバーの高さ
+  /** タイトルバーの高さ */
   private titlebarHeight = 24
 
   /**
@@ -28,7 +28,11 @@ export class Browser {
       height: this.gameWindowSize.height + this.titlebarHeight
     }
 
-    // NOTE: windows 10だとheightが指定した値より2px大きくなるっぽい？
+    /**
+     * NOTE:
+     * windows環境で異なるDPIのディスプレイ間を移動させた際に
+     * ウィンドウのサイズが拡大され元のサイズに戻らない為、リサイズ可能にしてる
+     */
 
     return {
       title: 'serizawa',
@@ -38,6 +42,7 @@ export class Browser {
       center: true,
       frame: false,
       show: false,
+      thickFrame: false,
       webPreferences: {
         devTools: false,
         preload: path.join(__dirname, 'preload.js')
@@ -47,7 +52,7 @@ export class Browser {
 
   /**
    * ビューをリサイズ
-   * @param param 画面サイズ
+   * @param bounds 画面サイズ
    */
   private resizeView = (bounds?: Electron.Rectangle) => {
     // 指定なしの場合、現在のサイズを取得
@@ -118,44 +123,58 @@ export class Browser {
     // ウィンドウにフォーカスが当たったらビューにフォーカスを当てる
     this.window.on('focus', () => {
       this.focusView()
+      this.window.flashFrame(false)
     })
+  }
+
+  /**
+   * 許可されたURLかどうか
+   * @param url URL
+   * @return 状態
+   */
+  private isAllowedURL = (url: string): boolean => {
+    const safeList = [
+      /^https:\/\/(portal|shinycolors)\.enza\.fun/,
+      /^https:\/\/.*\.bandainamcoid\.com/,
+      /^https:\/\/.*\.line\.me/,
+      /^https:\/\/.*\.apple\.com/,
+      /^https:\/\/.*\.facebook\.com/,
+      /^https:\/\/.*\.twitter\.com/
+    ]
+
+    const result = safeList.find((patten) => patten.test(url))
+
+    return typeof result !== 'undefined'
   }
 
   /**
    * ビューのイベントハンドラを設定
    */
   private setViewEventHandlers = () => {
-    const handleUrlOpen = (e: Electron.Event, url: string) => {
-      const safeList = [
-        /^https:\/\/(portal|shinycolors)\.enza\.fun/,
-        /^https:\/\/.*\.bandainamcoid\.com/,
-        /^https:\/\/.*\.line\.me/,
-        /^https:\/\/.*\.apple\.com/,
-        /^https:\/\/.*\.facebook\.com/,
-        /^https:\/\/.*\.twitter\.com/
-      ]
+    // 許可されてないリンクなら標準ブラウザで開く
+    this.view.webContents.on('will-navigate', (e, url) => {
+      if (this.isAllowedURL(url)) return
 
-      // リスト内にマッチするもののみリンク先への遷移を許可
-      for (const patten of safeList) {
-        if (patten.test(url)) {
-          return
-        }
-      }
-
-      e.preventDefault()
       shell.openExternal(url)
-    }
+      e.preventDefault()
+    })
 
-    // 外部リンクを標準ブラウザで開く
-    this.view.webContents.on('will-navigate', handleUrlOpen)
-    this.view.webContents.on('new-window', handleUrlOpen)
+    this.view.webContents.setWindowOpenHandler(({ url }) => {
+      if (this.isAllowedURL(url)) return { action: 'allow' }
+
+      shell.openExternal(url)
+      return { action: 'deny' }
+    })
   }
 
   /**
-   * フォーカスを当てる
+   * ビューにフォーカスを当てる
    */
   public focusView = () => {
     this.view.webContents.focus()
+
+    // タスクバーの点滅をオフ
+    this.window.flashFrame(false)
   }
 
   /**
@@ -208,7 +227,7 @@ export class Browser {
 
   /**
    * 最前面に固定されているか
-   * @returns
+   * @returns 状態
    */
   public isPinned = (): boolean => {
     return this.window.isAlwaysOnTop()
