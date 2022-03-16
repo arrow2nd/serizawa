@@ -36,7 +36,7 @@ const getPicDir = (): string => {
 const showUpdateDialog = (url: string | undefined) => {
   if (!url || !/^https:\/\/github\.com/.test(url)) return
 
-  const result = browser.showMessageWindow({
+  const result = browser.showMessageDialog({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 0,
@@ -140,7 +140,7 @@ ipcMain.on('capture', async () => {
 
 // スクリーンショット保存先選択
 ipcMain.on('show-select-dir-dialog', () => {
-  const result = browser.showOpenDialog({
+  const result = browser.showFileDialog({
     properties: ['openDirectory']
   })
 
@@ -154,7 +154,7 @@ ipcMain.handle('get-picture-dir', (): string => getPicDir())
 
 // キャッシュを削除
 ipcMain.on('remove-cache', async () => {
-  const result = browser.showMessageWindow({
+  const result = browser.showMessageDialog({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 0,
@@ -166,7 +166,7 @@ ipcMain.on('remove-cache', async () => {
 
   await session.defaultSession.clearCache()
 
-  browser.showMessageWindow({
+  browser.showMessageDialog({
     type: 'info',
     title: '完了',
     message: '削除が完了しました'
@@ -175,7 +175,7 @@ ipcMain.on('remove-cache', async () => {
 
 // Cookieを削除
 ipcMain.on('remove-cookie', async () => {
-  const result = browser.showMessageWindow({
+  const result = browser.showMessageDialog({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 1,
@@ -200,7 +200,7 @@ ipcMain.on('remove-cookie', async () => {
   // 設定を削除
   store.clear()
 
-  browser.showMessageWindow({
+  browser.showMessageDialog({
     type: 'info',
     title: '完了',
     message: '初期化が完了しました',
@@ -215,7 +215,7 @@ ipcMain.on('check-update', async () => {
   const url = await checkUpdate()
 
   if (!url) {
-    browser.showMessageWindow({
+    browser.showMessageDialog({
       type: 'info',
       title: '通知',
       message: '現在のバージョンは最新版です！'

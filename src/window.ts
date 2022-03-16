@@ -2,6 +2,8 @@ import * as Splashscreen from '@trodi/electron-splashscreen'
 import { BrowserView, BrowserWindow, Menu, app, dialog, shell } from 'electron'
 import path from 'path'
 
+import { isAllowedUrl, isUrl } from './libs/url'
+
 /**
  * ブラウザウィンドウ
  */
@@ -28,12 +30,6 @@ export class Browser {
       height: this.gameWindowSize.height + this.titlebarHeight
     }
 
-    /**
-     * NOTE:
-     * windows環境で異なるDPIのディスプレイ間を移動させた際に
-     * ウィンドウのサイズが拡大され元のサイズに戻らない為、リサイズ可能にしてる
-     */
-
     return {
       title: 'serizawa',
       ...windowSize,
@@ -42,6 +38,9 @@ export class Browser {
       center: true,
       frame: false,
       show: false,
+      // Windows環境で異なるDPIのディスプレイ間を移動させた際、ウィンドウが拡大され元に戻らない為、リサイズ可能にしている
+      resizable: true,
+      // ウィンドウのスナップが検知できず、自動でビューのリサイズを行えない為、無効にしている
       thickFrame: false,
       webPreferences: {
         devTools: false,
@@ -110,6 +109,9 @@ export class Browser {
    * ウィンドウのイベントハンドラを設定
    */
   private setWindowEventHandlers = () => {
+    // NOTE: this.view.setAutoResize() だとフルスクリーン解除時にウィンドウが元のサイズに戻らないので
+    //       ウィンドウのリサイズをイベントで検知し、this.resizeView() でビューのリサイズを行っている
+
     // リサイズ操作にビューのサイズを追従させる
     this.window.on('will-resize', (_e, bounds) => {
       this.resizeView(bounds)
@@ -128,41 +130,39 @@ export class Browser {
   }
 
   /**
-   * 許可されたURLかどうか
-   * @param url URL
-   * @return 状態
-   */
-  private isAllowedURL = (url: string): boolean => {
-    const safeList = [
-      /^https:\/\/(portal|shinycolors)\.enza\.fun/,
-      /^https:\/\/.*\.bandainamcoid\.com/,
-      /^https:\/\/.*\.line\.me/,
-      /^https:\/\/.*\.apple\.com/,
-      /^https:\/\/.*\.facebook\.com/,
-      /^https:\/\/.*\.twitter\.com/
-    ]
-
-    const result = safeList.find((patten) => patten.test(url))
-
-    return typeof result !== 'undefined'
-  }
-
-  /**
    * ビューのイベントハンドラを設定
    */
   private setViewEventHandlers = () => {
-    // 許可されてないリンクなら標準ブラウザで開く
-    this.view.webContents.on('will-navigate', (e, url) => {
-      if (this.isAllowedURL(url)) return
+    const openUrl = (url: string) => {
+      // 正しいURLなら標準ブラウザで表示
+      if (isUrl(url)) {
+        shell.openExternal(url)
+        return
+      }
 
-      shell.openExternal(url)
+      this.showMessageDialog({
+        type: 'error',
+        buttons: ['了解'],
+        defaultId: 0,
+        title: 'エラー',
+        message: 'ポップアップをブロックしました',
+        detail:
+          '画面が変わらない場合、上部のリロードボタンから再読み込みを行ってください'
+      })
+    }
+
+    // 許可されているリンクなら遷移を許可、それ以外は標準ブラウザで表示
+    this.view.webContents.on('will-navigate', (e, url) => {
+      if (isAllowedUrl(url)) return
+
+      openUrl(url)
       e.preventDefault()
     })
 
     this.view.webContents.setWindowOpenHandler(({ url }) => {
-      if (this.isAllowedURL(url)) return { action: 'allow' }
+      if (isAllowedUrl(url)) return { action: 'allow' }
 
-      shell.openExternal(url)
+      openUrl(url)
       return { action: 'deny' }
     })
   }
@@ -261,18 +261,18 @@ export class Browser {
    * @param options オプション
    * @returns 結果
    */
-  public showMessageWindow = (
+  public showMessageDialog = (
     options: Electron.MessageBoxSyncOptions
   ): number => {
     return dialog.showMessageBoxSync(this.window, options)
   }
 
   /**
-   * ダイアログを表示
+   * ファイルダイアログを表示
    * @param options オプション
    * @returns 結果
    */
-  public showOpenDialog = (
+  public showFileDialog = (
     options: Electron.OpenDialogSyncOptions
   ): string[] | undefined => {
     return dialog.showOpenDialogSync(this.window, options)
