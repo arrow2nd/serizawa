@@ -6,7 +6,7 @@
     "email": "dev@arrow2nd.com"
   },
   "license": "MIT",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": "./build/main.js",
   "private": true,
   "scripts": {
