@@ -38,13 +38,7 @@ export class Browser {
       center: true,
       frame: false,
       show: false,
-
-      /**
-       * NOTE: Windows環境で異なるDPIのディスプレイ間を移動させた際に
-       * ウィンドウが拡大され元に戻らない為、リサイズ可能にしている
-       */
       resizable: true,
-
       webPreferences: {
         devTools: false,
         preload: path.join(__dirname, 'preload.js')
@@ -177,7 +171,9 @@ export class Browser {
 
     /**
      * NOTE: ここでリサイズし直すことで、Windows環境でのスナップ操作時に
-     * ウィンドウとビューのサイズが合わなくなることを防止
+     * ウィンドウとビューのサイズが合わなくなることを暫定的に防止。
+     * もし、スナップ操作時に何らかのイベントが発生するようになったらこんなことしなくていい…
+     * （また、ダブルクリックでの拡縮には無力）
      */
     this.resizeView()
   }
@@ -220,7 +216,7 @@ export class Browser {
 
     // ビューをリサイズ
     // NOTE: 反映までに遅延があるので少し遅れて実行する
-    setTimeout(() => this.resizeView(), 250)
+    setTimeout(() => this.resizeView(), 50)
   }
 
   /**
