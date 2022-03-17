@@ -2,6 +2,8 @@ import * as Splashscreen from '@trodi/electron-splashscreen'
 import { BrowserView, BrowserWindow, Menu, app, dialog, shell } from 'electron'
 import path from 'path'
 
+import { isAllowedUrl, isUrl } from './libs/url'
+
 /**
  * ブラウザウィンドウ
  */
@@ -9,13 +11,13 @@ export class Browser {
   private window!: BrowserWindow
   private view!: BrowserView
 
-  // ゲームの標準解像度
+  /** ゲームの標準解像度 */
   private gameWindowSize = {
     width: 1136,
     height: 640
   }
 
-  // タイトルバーの高さ
+  /** タイトルバーの高さ */
   private titlebarHeight = 24
 
   /**
@@ -28,8 +30,6 @@ export class Browser {
       height: this.gameWindowSize.height + this.titlebarHeight
     }
 
-    // NOTE: windows 10だとheightが指定した値より2px大きくなるっぽい？
-
     return {
       title: 'serizawa',
       ...windowSize,
@@ -38,6 +38,7 @@ export class Browser {
       center: true,
       frame: false,
       show: false,
+      resizable: true,
       webPreferences: {
         devTools: false,
         preload: path.join(__dirname, 'preload.js')
@@ -47,7 +48,7 @@ export class Browser {
 
   /**
    * ビューをリサイズ
-   * @param param 画面サイズ
+   * @param bounds 画面サイズ
    */
   private resizeView = (bounds?: Electron.Rectangle) => {
     // 指定なしの場合、現在のサイズを取得
@@ -81,8 +82,10 @@ export class Browser {
     // ビューの設定
     this.view = new BrowserView()
     this.showView()
-    this.reload()
+    this.reloadView()
     this.setViewEventHandlers()
+
+    // NOTE: this.view.setAutoResize() を使わなかった理由があったはずだけど忘れた...
 
     // ウィンドウの設定
     this.window.loadFile('./build/index.html')
@@ -125,37 +128,54 @@ export class Browser {
    * ビューのイベントハンドラを設定
    */
   private setViewEventHandlers = () => {
-    const handleUrlOpen = (e: Electron.Event, url: string) => {
-      const safeList = [
-        /^https:\/\/(portal|shinycolors)\.enza\.fun/,
-        /^https:\/\/.*\.bandainamcoid\.com/,
-        /^https:\/\/.*\.line\.me/,
-        /^https:\/\/.*\.apple\.com/,
-        /^https:\/\/.*\.facebook\.com/,
-        /^https:\/\/.*\.twitter\.com/
-      ]
-
-      // リスト内にマッチするもののみリンク先への遷移を許可
-      for (const patten of safeList) {
-        if (patten.test(url)) {
-          return
-        }
+    const openUrl = (url: string) => {
+      // 正しいURLなら標準ブラウザで表示
+      if (isUrl(url)) {
+        shell.openExternal(url)
+        return
       }
 
-      e.preventDefault()
-      shell.openExternal(url)
+      this.showMessageDialog({
+        type: 'error',
+        buttons: ['了解'],
+        defaultId: 0,
+        title: 'エラー',
+        message: 'ポップアップをブロックしました',
+        detail:
+          '画面が変わらない場合、上部のリロードボタンから再読み込みを行ってください'
+      })
     }
 
-    // 外部リンクを標準ブラウザで開く
-    this.view.webContents.on('will-navigate', handleUrlOpen)
-    this.view.webContents.on('new-window', handleUrlOpen)
+    // 許可されているリンクなら遷移を許可、それ以外は標準ブラウザで表示
+    this.view.webContents.on('will-navigate', ({ preventDefault }, url) => {
+      if (isAllowedUrl(url)) return
+
+      openUrl(url)
+      preventDefault()
+    })
+
+    this.view.webContents.setWindowOpenHandler(({ url }) => {
+      if (isAllowedUrl(url)) return { action: 'allow' }
+
+      openUrl(url)
+      return { action: 'deny' }
+    })
   }
 
   /**
-   * フォーカスを当てる
+   * ビューにフォーカスを当てる
    */
   public focusView = () => {
     this.view.webContents.focus()
+    this.window.flashFrame(false)
+
+    /**
+     * NOTE: ここでリサイズし直すことで、Windows環境でのスナップ操作時に
+     * ウィンドウとビューのサイズが合わなくなることを暫定的に防止。
+     * もし、スナップ操作時に何らかのイベントが発生するようになったらこんなことしなくていい…
+     * （また、ダブルクリックでの拡縮には無力）
+     */
+    this.resizeView()
   }
 
   /**
@@ -195,7 +215,8 @@ export class Browser {
     this.window.setFullScreen(nextState)
 
     // ビューをリサイズ
-    setTimeout(() => this.resizeView(), 250)
+    // NOTE: 反映までに遅延があるので少し遅れて実行する
+    setTimeout(() => this.resizeView(), 50)
   }
 
   /**
@@ -208,7 +229,7 @@ export class Browser {
 
   /**
    * 最前面に固定されているか
-   * @returns
+   * @returns 状態
    */
   public isPinned = (): boolean => {
     return this.window.isAlwaysOnTop()
@@ -225,7 +246,7 @@ export class Browser {
   /**
    * 再読み込み
    */
-  public reload = () => {
+  public reloadView = () => {
     this.view.webContents.loadURL('https://shinycolors.enza.fun')
   }
 
@@ -242,18 +263,18 @@ export class Browser {
    * @param options オプション
    * @returns 結果
    */
-  public showMessageWindow = (
+  public showMessageDialog = (
     options: Electron.MessageBoxSyncOptions
   ): number => {
     return dialog.showMessageBoxSync(this.window, options)
   }
 
   /**
-   * ダイアログを表示
+   * ファイルダイアログを表示
    * @param options オプション
    * @returns 結果
    */
-  public showOpenDialog = (
+  public showFileDialog = (
     options: Electron.OpenDialogSyncOptions
   ): string[] | undefined => {
     return dialog.showOpenDialogSync(this.window, options)

@@ -6,12 +6,13 @@ export type Button = {
   onClick: () => void
 }
 
-const UIButton = (props: Button): JSX.Element => (
+const UIButton = ({ title, children, onClick }: Button): JSX.Element => (
   <button
-    className="inline-flex px-3 p-6 border-0 rounded-none bg-transparent drag-none focus:outline-none hover:bg-shiny-dark transition-colors"
-    {...props}
+    className="inline-flex px-3 p-6 border-0 rounded-none bg-transparent drag-none focus:outline-none hover:bg-yuika transition-colors"
+    title={title}
+    onClick={onClick}
   >
-    {props.children}
+    {children}
   </button>
 )
 

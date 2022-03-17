@@ -36,7 +36,7 @@ const getPicDir = (): string => {
 const showUpdateDialog = (url: string | undefined) => {
   if (!url || !/^https:\/\/github\.com/.test(url)) return
 
-  const result = browser.showMessageWindow({
+  const result = browser.showMessageDialog({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 0,
@@ -56,8 +56,11 @@ const showUpdateDialog = (url: string | undefined) => {
 app.whenReady().then(() => {
   // ウィンドウを作成
   browser.create()
+
   // 更新を確認
-  checkUpdate().then((url) => showUpdateDialog(url))
+  checkUpdate()
+    .then((url) => showUpdateDialog(url))
+    .catch((err) => console.error(err))
 })
 
 app.on('activate', () => {
@@ -96,14 +99,14 @@ ipcMain.on('show-view', () => browser.showView())
 // ビューを非表示
 ipcMain.on('hide-view', () => browser.hideView())
 
-// アプリケーションを終了
+// 再読み込み
+ipcMain.on('reload-view', () => browser.reloadView())
+
+// ウィンドウを閉じる
 ipcMain.on('close', () => browser.close())
 
 // ウィンドウを最小化
 ipcMain.on('minimize', () => browser.minimize())
-
-// 再読み込み
-ipcMain.on('reload', () => browser.reload())
 
 // ウィンドウの最大化状態を変更
 ipcMain.on('toggle-maximize', () => browser.maximize())
@@ -123,24 +126,24 @@ ipcMain.on('capture', async () => {
     mkdirSync(saveDir)
   }
 
-  // 撮影
-  const pic = await browser.capture()
-  if (!pic) return
+  // スクリーンショットを取得
+  const rowPicture = await browser.capture()
+  if (!rowPicture) return
 
-  // パスを作成
+  // 保存先のパスを作成
   const dateStr = date2String(new Date())
   const savePath = path.join(saveDir, `ScreenShot_${dateStr}.png`)
 
-  // 保存
-  clipboard.writeImage(pic)
-  writeFileSync(savePath, pic.toPNG())
+  // 保存 & クリップボードへ書き込み
+  clipboard.writeImage(rowPicture)
+  writeFileSync(savePath, rowPicture.toPNG())
 })
 
 //----------------------------------------------------------------------
 
 // スクリーンショット保存先選択
 ipcMain.on('show-select-dir-dialog', () => {
-  const result = browser.showOpenDialog({
+  const result = browser.showFileDialog({
     properties: ['openDirectory']
   })
 
@@ -153,8 +156,8 @@ ipcMain.on('show-select-dir-dialog', () => {
 ipcMain.handle('get-picture-dir', (): string => getPicDir())
 
 // キャッシュを削除
-ipcMain.on('remove-cache', async () => {
-  const result = browser.showMessageWindow({
+ipcMain.handle('remove-cache', async (): Promise<void> => {
+  const result = browser.showMessageDialog({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 0,
@@ -166,7 +169,7 @@ ipcMain.on('remove-cache', async () => {
 
   await session.defaultSession.clearCache()
 
-  browser.showMessageWindow({
+  browser.showMessageDialog({
     type: 'info',
     title: '完了',
     message: '削除が完了しました'
@@ -174,8 +177,8 @@ ipcMain.on('remove-cache', async () => {
 })
 
 // Cookieを削除
-ipcMain.on('remove-cookie', async () => {
-  const result = browser.showMessageWindow({
+ipcMain.handle('remove-cookie', async (): Promise<void> => {
+  const result = browser.showMessageDialog({
     type: 'question',
     buttons: ['はい', 'いいえ'],
     defaultId: 1,
@@ -186,8 +189,9 @@ ipcMain.on('remove-cookie', async () => {
 
   if (result !== 0) return
 
-  // 全てのCookieを削除
   const cookies = await session.defaultSession.cookies.get({})
+
+  // 全てのCookieを削除
   for (const cookie of cookies) {
     let url = cookie.secure ? 'https://' : 'http://'
 
@@ -200,7 +204,7 @@ ipcMain.on('remove-cookie', async () => {
   // 設定を削除
   store.clear()
 
-  browser.showMessageWindow({
+  browser.showMessageDialog({
     type: 'info',
     title: '完了',
     message: '初期化が完了しました',
@@ -211,22 +215,35 @@ ipcMain.on('remove-cookie', async () => {
 })
 
 // 更新確認
-ipcMain.on('check-update', async () => {
-  const url = await checkUpdate()
+ipcMain.handle('check-update', async (): Promise<void> => {
+  try {
+    const url = await checkUpdate()
 
-  if (!url) {
-    browser.showMessageWindow({
-      type: 'info',
-      title: '通知',
-      message: '現在のバージョンは最新版です！'
+    if (!url) {
+      browser.showMessageDialog({
+        type: 'info',
+        title: '通知',
+        message: '現在のバージョンは最新版です！'
+      })
+      return
+    }
+
+    showUpdateDialog(url)
+  } catch (_e) {
+    browser.showMessageDialog({
+      type: 'error',
+      title: '接続エラー',
+      message: '更新の確認に失敗しました'
     })
-    return
   }
-
-  showUpdateDialog(url)
 })
 
-// プライバシーポリシー
+// プライバシーポリシーを開く
 ipcMain.on('open-privacy-policy', () => {
   shell.openExternal('https://arrow2nd.github.io/serizawa/')
+})
+
+// GitHubを開く
+ipcMain.on('open-github', () => {
+  shell.openExternal('https://github.com/arrow2nd/serizawa/')
 })

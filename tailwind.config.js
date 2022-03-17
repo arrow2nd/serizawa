@@ -13,8 +13,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        shiny: '#8dbbff',
-        'shiny-dark': '#749bd6'
+        chiyuki: '#FBFAFA',
+        luca: '#1E140E',
+        rinze: '#89C3EB',
+        yuika: '#3B91C4'
       }
     }
   },

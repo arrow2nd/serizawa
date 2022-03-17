@@ -9,9 +9,8 @@ type Props = {
 }
 
 const TitleBar = ({ hidden, onClickSetting }: Props): JSX.Element => {
-  const handleClick = () => {
-    // タイトルバークリック時にウィンドウがフォーカスを奪ってしまうので
-    // ビューへフォーカスを返す
+  // NOTE: タイトルバークリック時にビューがフォーカスを失うのを防止（主に macOS）
+  const handleMouseDown = () => {
     window.api.focusView()
   }
 
@@ -19,8 +18,8 @@ const TitleBar = ({ hidden, onClickSetting }: Props): JSX.Element => {
     <div
       className={`${
         hidden ? 'hidden' : 'flex'
-      } justify-between fixed top-0 min-w-full h-6 bg-shiny text-neutral-900 drag`}
-      onClick={handleClick}
+      } justify-between fixed top-0 min-w-full h-6 bg-rinze text-luca drag`}
+      onMouseDown={handleMouseDown}
     >
       <LeftButtons onClick={onClickSetting} />
       <RightButtons />

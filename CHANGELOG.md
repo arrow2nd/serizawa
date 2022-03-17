@@ -2,6 +2,32 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2022-03-17
+
+### Security
+
+- 依存パッケージを更新
+- Electron を `v16` から `v17` に更新
+
+## Added
+
+- 設定画面にリポジトリへのリンクを追加
+- 更新確認がタイムアウトした際の処理を追加
+
+## Changed
+
+- README のデモ画像を更新
+- テーマカラーを変更
+- 全画面表示時のゲーム画面のリサイズにかかる時間を短縮
+
+## Fixed
+
+- ウィンドウをピン止めしている間、タスクバーのアイコンが点滅し続ける（Windows）
+- ウィンドウをスナップした際にゲーム画面がリサイズされない（Windows）
+- タイトルバークリック時に一瞬音声が途切れる（macOS）
+- 特定の操作でブラウザウィンドウがポップアップし、任意のページが表示できる
+- 未知の形式の URL を開こうとすると `Loading...` の表示が消えず、操作不能になる
+
 ## [2.0.3] - 2022-02-28
 
 ### Security
@@ -104,7 +130,8 @@
 
 - リリース 🎉
 
-[unreleased]: https://github.com/arrow2nd/serizawa/compare/v2.0.3...HEAD
+[unreleased]: https://github.com/arrow2nd/serizawa/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/arrow2nd/serizawa/compare/v2.0.3...v2.1.0
 [2.0.3]: https://github.com/arrow2nd/serizawa/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/arrow2nd/serizawa/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/arrow2nd/serizawa/compare/v2.0.0...v2.0.1

@@ -45,7 +45,7 @@ const RightButtons = (): JSX.Element => {
       title: '再読み込み',
       children: <AiOutlineReload />,
       onClick: () => {
-        window.api.reload()
+        window.api.reloadView()
       }
     },
     {

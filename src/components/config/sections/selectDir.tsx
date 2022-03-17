@@ -22,7 +22,7 @@ const SelectDir = ({ onClick }: Props): JSX.Element => {
     <div className="text-sm">
       <span className="block text-left">スクリーンショットの保存先</span>
       <div
-        className={`flex items-center justify-between w-full mt-2 px-4 py-1 text-center text-black border rounded-2xl shadow-md`}
+        className={`flex items-center justify-between w-full mt-2 px-4 py-1 text-center text-luca border rounded-2xl shadow-md`}
       >
         <span className="truncate">{pictureDir}</span>
         <button onClick={handleClick}>
