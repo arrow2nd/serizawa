@@ -99,14 +99,14 @@ ipcMain.on('show-view', () => browser.showView())
 // ビューを非表示
 ipcMain.on('hide-view', () => browser.hideView())
 
-// アプリケーションを終了
+// 再読み込み
+ipcMain.on('reload-view', () => browser.reloadView())
+
+// ウィンドウを閉じる
 ipcMain.on('close', () => browser.close())
 
 // ウィンドウを最小化
 ipcMain.on('minimize', () => browser.minimize())
-
-// 再読み込み
-ipcMain.on('reload', () => browser.reload())
 
 // ウィンドウの最大化状態を変更
 ipcMain.on('toggle-maximize', () => browser.maximize())

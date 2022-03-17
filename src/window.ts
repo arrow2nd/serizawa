@@ -82,7 +82,7 @@ export class Browser {
     // ビューの設定
     this.view = new BrowserView()
     this.showView()
-    this.reload()
+    this.reloadView()
     this.setViewEventHandlers()
 
     // NOTE: this.view.setAutoResize() を使わなかった理由があったはずだけど忘れた...
@@ -246,7 +246,7 @@ export class Browser {
   /**
    * 再読み込み
    */
-  public reload = () => {
+  public reloadView = () => {
     this.view.webContents.loadURL('https://shinycolors.enza.fun')
   }
 
