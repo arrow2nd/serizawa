@@ -147,11 +147,11 @@ export class Browser {
     }
 
     // 許可されているリンクなら遷移を許可、それ以外は標準ブラウザで表示
-    this.view.webContents.on('will-navigate', ({ preventDefault }, url) => {
+    this.view.webContents.on('will-navigate', (e, url) => {
       if (isAllowedUrl(url)) return
 
       openUrl(url)
-      preventDefault()
+      e.preventDefault()
     })
 
     this.view.webContents.setWindowOpenHandler(({ url }) => {
