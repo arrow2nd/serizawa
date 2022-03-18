@@ -1478,9 +1478,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "autoprefixer@npm:10.4.3"
+"autoprefixer@npm:^10.4.4":
+  version: 10.4.4
+  resolution: "autoprefixer@npm:10.4.4"
   dependencies:
     browserslist: ^4.20.2
     caniuse-lite: ^1.0.30001317
@@ -1492,7 +1492,7 @@ __metadata:
     postcss: ^8.1.0
   bin:
     autoprefixer: bin/autoprefixer
-  checksum: 8a168792bafa5a8d760b235a183565b091fe0501fbf5923889431673c9f373ca430b9a96d279bae7c3a78be1526660d0c26ca7ae551f01fa3473aa782ad24dd6
+  checksum: bd42e23d71af0228b6b0b27d0d0b33c95e67562e55eb4ca0e221cf795a06482c90d565d6544a5f4090d8e303b09b200845fa2bcaaa707d1e8777974250dffe1f
   languageName: node
   linkType: hard
 
@@ -5468,14 +5468,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.11":
-  version: 8.4.11
-  resolution: "postcss@npm:8.4.11"
+"postcss@npm:^8.4.12":
+  version: 8.4.12
+  resolution: "postcss@npm:8.4.12"
   dependencies:
     nanoid: ^3.3.1
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
-  checksum: 4943e0d647c21300c30807457cbc5f3b010cad985d5feea74c1ae55215ea370af92ea0ad8c7a299507a14e5288777e15225bca7523a38c5c44820e94ef86b882
+  checksum: 248e3d0f9bbb8efaafcfda7f91627a29bdc9a19f456896886330beb28c5abea0e14c7901b35191928602e2eccbed496b1e94097d27a0b2a980854cd00c7a835f
   languageName: node
   linkType: hard
 
@@ -5515,12 +5515,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.5.1":
-  version: 2.5.1
-  resolution: "prettier@npm:2.5.1"
+"prettier@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "prettier@npm:2.6.0"
   bin:
     prettier: bin-prettier.js
-  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
+  checksum: 3e527ad62279676778a8404d18174d7ca2365ada4caba6eebbcdd9907d1187afd3bc6ade5b4e5f5d4549bb9fb71e45ca8930d71500017635524f8fc05bc52e93
   languageName: node
   linkType: hard
 
@@ -6120,7 +6120,7 @@ __metadata:
     "@types/tailwindcss": ^3.0.9
     "@typescript-eslint/eslint-plugin": ^5.15.0
     "@typescript-eslint/parser": ^5.15.0
-    autoprefixer: ^10.4.3
+    autoprefixer: ^10.4.4
     axios: ^0.26.1
     copy-webpack-plugin: ^10.2.4
     cross-env: ^7.0.3
@@ -6135,9 +6135,9 @@ __metadata:
     html-webpack-plugin: ^5.5.0
     mini-css-extract-plugin: ^2.6.0
     npm-run-all: ^4.1.5
-    postcss: ^8.4.11
+    postcss: ^8.4.12
     postcss-loader: ^6.2.1
-    prettier: ^2.5.1
+    prettier: ^2.6.0
     react: ^17.0.2
     react-dom: ^17.0.2
     react-icons: ^4.3.1
