@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer } from 'react'
 import { RiCloseLine } from 'react-icons/ri'
 
 import LogoImg from '../../images/logo.png'
