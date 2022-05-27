@@ -160,7 +160,8 @@
 
 - リリース 🎉
 
-[unreleased]: https://github.com/arrow2nd/serizawa/compare/v2.1.4...HEAD
+[unreleased]: https://github.com/arrow2nd/serizawa/compare/v2.1.5...HEAD
+[2.1.5]: https://github.com/arrow2nd/serizawa/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/arrow2nd/serizawa/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/arrow2nd/serizawa/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/arrow2nd/serizawa/compare/v2.1.1...v2.1.2
