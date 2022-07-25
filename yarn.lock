@@ -769,10 +769,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tailwindcss@npm:^3.0.11":
-  version: 3.0.11
-  resolution: "@types/tailwindcss@npm:3.0.11"
-  checksum: 837017795192aebb83232f6670bd180e0cfb55b82cc4a9c6ff5de934ed00ff6fbcc3576f3067c3194e0f471326b282f7d838d6e0f3e11c99e7611d552928a05e
+"@types/tailwindcss@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@types/tailwindcss@npm:3.1.0"
+  dependencies:
+    tailwindcss: "*"
+  checksum: de91e6e6a33fe3e7ef00e323db4f1cbbc4802f2b667e416755c754dae1e86d5be2916654462db47d40ce0fbeb23ef546ecd52c653ff438c8ad918b370135c6ef
   languageName: node
   linkType: hard
 
@@ -6302,7 +6304,7 @@ __metadata:
     "@types/node": ^17.0.45
     "@types/react": ^18.0.15
     "@types/react-dom": ^18.0.6
-    "@types/tailwindcss": ^3.0.11
+    "@types/tailwindcss": ^3.1.0
     "@typescript-eslint/eslint-plugin": ^5.30.5
     "@typescript-eslint/parser": ^5.30.5
     autoprefixer: ^10.4.7
@@ -6728,7 +6730,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.1.6":
+"tailwindcss@npm:*, tailwindcss@npm:^3.1.6":
   version: 3.1.6
   resolution: "tailwindcss@npm:3.1.6"
   dependencies:
