@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [2.1.11] - 2022-12-05
+
+### Security
+
+- 依存パッケージを更新
+- Electron を `v21` から `v22` に更新
+
 ## [2.1.10] - 2022-10-12
 
 ### Security
@@ -191,7 +198,8 @@
 
 - リリース 🎉
 
-[unreleased]: https://github.com/arrow2nd/serizawa/compare/v2.1.10...HEAD
+[unreleased]: https://github.com/arrow2nd/serizawa/compare/v2.1.11...HEAD
+[2.1.11]: https://github.com/arrow2nd/serizawa/compare/v2.1.10...v2.1.11
 [2.1.10]: https://github.com/arrow2nd/serizawa/compare/v2.1.9...v2.1.10
 [2.1.9]: https://github.com/arrow2nd/serizawa/compare/v2.1.8...v2.1.9
 [2.1.8]: https://github.com/arrow2nd/serizawa/compare/v2.1.7...v2.1.8
