@@ -1,5 +1,5 @@
-import React from 'react'
-import { CgSpinner } from 'react-icons/cg'
+import React from "react";
+import { CgSpinner } from "react-icons/cg";
 
 const Progress = (): JSX.Element => {
   return (
@@ -7,7 +7,7 @@ const Progress = (): JSX.Element => {
       <CgSpinner className="animate-spin" />
       <span className="ml-4 tracking-wide">Please wait...</span>
     </div>
-  )
-}
+  );
+};
 
-export default Progress
+export default Progress;

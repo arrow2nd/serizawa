@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react";
 
 export type ConfigSection = {
-  title: string
-  btnText: string
-  btnBg: string
-  btnHoverBg: string
-  onClick: () => void
-}
+  title: string;
+  btnText: string;
+  btnBg: string;
+  btnHoverBg: string;
+  onClick: () => void;
+};
 
 const Section = ({
   title,
@@ -24,6 +24,6 @@ const Section = ({
       {btnText}
     </button>
   </div>
-)
+);
 
-export default Section
+export default Section;

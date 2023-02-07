@@ -11,11 +11,11 @@ export function isAllowedUrl(url: string): boolean {
     /^https:\/\/.*\.apple\.com/,
     /^https:\/\/.*\.facebook\.com/,
     /^https:\/\/.*\.twitter\.com/
-  ]
+  ];
 
-  const result = safeList.find((patten) => patten.test(url))
+  const result = safeList.find((patten) => patten.test(url));
 
-  return typeof result !== 'undefined'
+  return typeof result !== "undefined";
 }
 
 /**
@@ -24,5 +24,5 @@ export function isAllowedUrl(url: string): boolean {
  * @returns 結果
  */
 export function isUrl(url: string): boolean {
-  return /^https?:\/\//.test(url)
+  return /^https?:\/\//.test(url);
 }

@@ -1,6 +1,6 @@
 declare global {
   interface Window {
-    api: API
+    api: API;
   }
 }
 
@@ -8,86 +8,86 @@ export type API = {
   /**
    * ビューにフォーカスを当てる
    */
-  focusView: () => void
+  focusView: () => void;
 
   /**
    * ビューを表示
    */
-  showView: () => void
+  showView: () => void;
 
   /**
    * ビューを非表示
    */
-  hideView: () => void
+  hideView: () => void;
 
   /**
    * ビューを再読み込み
    */
-  reloadView: () => void
+  reloadView: () => void;
 
   /**
    * ウィンドウを閉じる
    */
-  close: () => void
+  close: () => void;
 
   /**
    * ウィンドウを最小化
    */
-  minimize: () => void
+  minimize: () => void;
 
   /**
    * ウィンドウの最大化切り替え
    */
-  toggleMaximize: () => void
+  toggleMaximize: () => void;
 
   /**
    * ウィンドウのピン止め切り替え
    */
-  togglePinned: () => void
+  togglePinned: () => void;
 
   /**
    * ミュート切り替え
    */
-  toggleMute: () => void
+  toggleMute: () => void;
 
   /**
    * スクリーンショットを撮影
    */
-  capture: () => void
+  capture: () => void;
 
   /**
    * ディレクトリ選択ダイアログを開く
    */
-  showSelectDirDialog: () => void
+  showSelectDirDialog: () => void;
 
   /**
    * スクリーンショット保存ディレクトリを取得
    * @returns パス
    */
-  getPictureDir: () => Promise<string>
+  getPictureDir: () => Promise<string>;
 
   /**
    * キャッシュを削除
    */
-  removeCache: () => Promise<void>
+  removeCache: () => Promise<void>;
 
   /**
    * Cookieを削除
    */
-  removeCookie: () => Promise<void>
+  removeCookie: () => Promise<void>;
 
   /**
    * 更新を確認
    */
-  checkUpdate: () => Promise<void>
+  checkUpdate: () => Promise<void>;
 
   /**
    * プライバシーポリシーを開く
    */
-  openPrivacyPolicy: () => void
+  openPrivacyPolicy: () => void;
 
   /**
    * GitHubを開く
    */
-  openGitHub: () => void
-}
+  openGitHub: () => void;
+};
