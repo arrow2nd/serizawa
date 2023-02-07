@@ -1,24 +1,24 @@
-import React, { useReducer } from 'react'
-import { RiCloseLine } from 'react-icons/ri'
+import React, { useReducer } from "react";
+import { RiCloseLine } from "react-icons/ri";
 
-import LogoImg from '../../images/logo.png'
+import LogoImg from "../../images/logo.png";
 
-import Footer from './footer'
-import Progress from './progress'
-import Sections from './sections'
+import Footer from "./footer";
+import Progress from "./progress";
+import Sections from "./sections";
 
 type Props = {
-  onClickClose: () => void
-}
+  onClickClose: () => void;
+};
 
 const Config = ({ onClickClose }: Props): JSX.Element => {
-  const [isProgress, toggleProgress] = useReducer((prev) => !prev, false)
+  const [isProgress, toggleProgress] = useReducer((prev) => !prev, false);
 
   // 設定画面を閉じる
   const handleClickClose = () => {
-    onClickClose()
-    window.api.focusView()
-  }
+    onClickClose();
+    window.api.focusView();
+  };
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-chiyuki drag">
@@ -39,7 +39,7 @@ const Config = ({ onClickClose }: Props): JSX.Element => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Config
+export default Config;

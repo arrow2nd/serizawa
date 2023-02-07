@@ -1,15 +1,15 @@
-import React from 'react'
+import React from "react";
 
 const Footer = (): JSX.Element => {
-  const linkClassName = 'hover:text-rinze underline cursor-pointer'
+  const linkClassName = "hover:text-rinze underline cursor-pointer";
 
   const handleClickPrivacyPolicy = () => {
-    window.api.openPrivacyPolicy()
-  }
+    window.api.openPrivacyPolicy();
+  };
 
   const handleClickGitHub = () => {
-    window.api.openGitHub()
-  }
+    window.api.openGitHub();
+  };
 
   return (
     <>
@@ -20,13 +20,13 @@ const Footer = (): JSX.Element => {
         <span className={linkClassName} onClick={handleClickPrivacyPolicy}>
           プライバシーポリシー
         </span>
-        {' / '}
+        {" / "}
         <span className={linkClassName} onClick={handleClickGitHub}>
-          {'配布ページ (GitHub)'}
+          {"配布ページ (GitHub)"}
         </span>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

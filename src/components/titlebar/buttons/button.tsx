@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 
 export type Button = {
-  title: string
-  children: React.ReactNode
-  onClick: () => void
-}
+  title: string;
+  children: React.ReactNode;
+  onClick: () => void;
+};
 
 const UIButton = ({ title, children, onClick }: Button): JSX.Element => (
   <button
@@ -14,6 +14,6 @@ const UIButton = ({ title, children, onClick }: Button): JSX.Element => (
   >
     {children}
   </button>
-)
+);
 
-export default UIButton
+export default UIButton;

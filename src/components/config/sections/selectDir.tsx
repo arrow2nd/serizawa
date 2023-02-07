@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { AiOutlineFolderOpen } from 'react-icons/ai'
+import React, { useEffect, useState } from "react";
+import { AiOutlineFolderOpen } from "react-icons/ai";
 
 type Props = {
-  onClick: () => void
-}
+  onClick: () => void;
+};
 
 const SelectDir = ({ onClick }: Props): JSX.Element => {
-  const [pictureDir, setPictureDir] = useState('')
+  const [pictureDir, setPictureDir] = useState("");
 
   // 初回のみディレクトリパスを取得
   useEffect(() => {
-    window.api.getPictureDir().then((dir) => setPictureDir(dir))
-  }, [])
+    window.api.getPictureDir().then((dir) => setPictureDir(dir));
+  }, []);
 
   const handleClick = async () => {
-    onClick()
-    setPictureDir(await window.api.getPictureDir())
-  }
+    onClick();
+    setPictureDir(await window.api.getPictureDir());
+  };
 
   return (
     <div className="text-sm">
@@ -30,7 +30,7 @@ const SelectDir = ({ onClick }: Props): JSX.Element => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SelectDir
+export default SelectDir;

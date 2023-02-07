@@ -3,7 +3,7 @@ name: release
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 jobs:
   release:
@@ -20,7 +20,7 @@ jobs:
       - name: Install Node.js, npm and Yarn
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: yarn install
